@@ -387,6 +387,204 @@ function ping() {
   };
 }
 
+function mapDbBooking(row) {
+  if (!row) {
+    return null;
+  }
+
+  return {
+    id: row.id,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    persisted: true,
+    name: row.name,
+    email: row.email,
+    phone: row.phone,
+    eventType: row.event_type,
+    eventDate: row.event_date,
+    eventEndDate: null,
+    eventTimeZone: DEFAULT_TIMEZONE,
+    packageId: row.package_id,
+    message: row.message
+  };
+}
+
+async function fetchBookingById(id) {
+  if (!db.isConfigured()) {
+    return null;
+  }
+
+  try {
+    const result = await db.runQuery(
+      `SELECT id, name, email, phone, event_type, event_date, package_id, message, status, created_at, updated_at
+       FROM bookings
+       WHERE id = $1
+       LIMIT 1`,
+      [id]
+    );
+
+    if (result?.rows?.length) {
+      return mapDbBooking(result.rows[0]);
+    }
+  } catch (error) {
+    console.error('[bookingService] Failed to fetch booking by id:', error.message);
+  }
+
+  return null;
+}
+
+async function updateBooking(id, updates = {}) {
+  if (!id) {
+    return null;
+  }
+
+  const hasEventDateUpdate = Object.prototype.hasOwnProperty.call(updates, 'eventDate');
+  const normalizedEventDate = hasEventDateUpdate ? normalizeEventDate(updates.eventDate) : null;
+  const eventDateValue = normalizedEventDate ? normalizedEventDate.start : undefined;
+
+  let record = null;
+  const dbColumnMap = {
+    name: 'name',
+    email: 'email',
+    phone: 'phone',
+    eventType: 'event_type',
+    message: 'message',
+    packageId: 'package_id',
+    status: 'status'
+  };
+
+  const dbUpdates = {};
+  for (const [field, column] of Object.entries(dbColumnMap)) {
+    if (Object.prototype.hasOwnProperty.call(updates, field) && typeof updates[field] !== 'undefined') {
+      dbUpdates[column] = updates[field];
+    }
+  }
+
+  if (hasEventDateUpdate) {
+    dbUpdates.event_date = eventDateValue;
+  }
+
+  if (db.isConfigured() && Object.keys(dbUpdates).length) {
+    const setClauses = [];
+    const values = [];
+    let index = 1;
+
+    for (const [column, value] of Object.entries(dbUpdates)) {
+      setClauses.push(`${column} = $${index}`);
+      values.push(value);
+      index += 1;
+    }
+
+    setClauses.push(`updated_at = NOW()`);
+    values.push(id);
+
+    try {
+      const result = await db.runQuery(
+        `UPDATE bookings
+         SET ${setClauses.join(', ')}
+         WHERE id = $${index}
+         RETURNING id, name, email, phone, event_type, event_date, package_id, message, status, created_at, updated_at`,
+        values
+      );
+
+      if (result?.rows?.length) {
+        record = mapDbBooking(result.rows[0]);
+      }
+    } catch (error) {
+      console.error('[bookingService] Failed to update booking:', error.message);
+    }
+  } else if (db.isConfigured()) {
+    record = await fetchBookingById(id);
+  }
+
+  if (!record && inMemoryBookings.has(id)) {
+    record = {
+      ...inMemoryBookings.get(id)
+    };
+  }
+
+  if (!record) {
+    return null;
+  }
+
+  const updatedRecord = {
+    ...record,
+    name: Object.prototype.hasOwnProperty.call(updates, 'name') ? updates.name : record.name,
+    email: Object.prototype.hasOwnProperty.call(updates, 'email') ? updates.email : record.email,
+    phone: Object.prototype.hasOwnProperty.call(updates, 'phone') ? updates.phone : record.phone,
+    eventType: Object.prototype.hasOwnProperty.call(updates, 'eventType') ? updates.eventType : record.eventType,
+    packageId: Object.prototype.hasOwnProperty.call(updates, 'packageId') ? updates.packageId : record.packageId,
+    message: Object.prototype.hasOwnProperty.call(updates, 'message') ? updates.message : record.message,
+    status: Object.prototype.hasOwnProperty.call(updates, 'status') ? updates.status : record.status,
+    eventDate:
+      normalizedEventDate && normalizedEventDate.start ? normalizedEventDate.start : record.eventDate || null,
+    eventEndDate:
+      normalizedEventDate && normalizedEventDate.end !== null
+        ? normalizedEventDate.end
+        : record.eventEndDate || null,
+    eventTimeZone:
+      normalizedEventDate && normalizedEventDate.timeZone
+        ? normalizedEventDate.timeZone
+        : record.eventTimeZone || DEFAULT_TIMEZONE,
+    updatedAt: new Date()
+  };
+
+  if (!updatedRecord.persisted) {
+    inMemoryBookings.set(id, updatedRecord);
+  }
+
+  try {
+    await rentGuyService.syncBooking(
+      {
+        id: updatedRecord.id,
+        status: updatedRecord.status,
+        createdAt: updatedRecord.createdAt,
+        updatedAt: updatedRecord.updatedAt,
+        persisted: updatedRecord.persisted,
+        name: updatedRecord.name,
+        email: updatedRecord.email,
+        phone: updatedRecord.phone,
+        eventType: updatedRecord.eventType,
+        eventDate: updatedRecord.eventDate,
+        eventEndDate: updatedRecord.eventEndDate,
+        eventTimeZone: updatedRecord.eventTimeZone,
+        packageId: updatedRecord.packageId,
+        message: updatedRecord.message
+      },
+      { source: 'booking-update' }
+    );
+  } catch (error) {
+    console.error('[bookingService] Failed to sync updated booking:', error.message);
+  }
+
+  return updatedRecord;
+}
+
+async function deleteBooking(id) {
+  if (!id) {
+    return false;
+  }
+
+  let removed = false;
+
+  if (db.isConfigured()) {
+    try {
+      const result = await db.runQuery('DELETE FROM bookings WHERE id = $1 RETURNING id', [id]);
+      removed = result?.rowCount > 0;
+    } catch (error) {
+      console.error('[bookingService] Failed to delete booking:', error.message);
+    }
+  }
+
+  if (!removed && inMemoryBookings.has(id)) {
+    inMemoryBookings.delete(id);
+    removed = true;
+  }
+
+  return removed;
+}
+
 module.exports = {
   createBooking,
   getRecentBookings,

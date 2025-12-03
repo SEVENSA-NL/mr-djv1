@@ -609,6 +609,143 @@ function resetInMemoryStore() {
   flushInProgress = false;
 }
 
+async function persistFallbackRecord(record) {
+  const eventDate = normalizeEventDate(record.eventDate);
+  await db.runQuery(
+    `INSERT INTO contacts (id, name, email, phone, message, event_type, event_date, package_id, status, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+     ON CONFLICT (id) DO NOTHING`,
+    [
+      record.id,
+      record.name,
+      record.email,
+      record.phone,
+      record.message || null,
+      record.eventType || null,
+      eventDate,
+      record.packageId || null,
+      record.status || 'new',
+      record.createdAt || new Date()
+    ]
+  );
+}
+
+async function flushQueuedContacts({ force = false } = {}) {
+  if (inMemoryContacts.size === 0) {
+    return { flushed: 0, queueSize: 0, skipped: true, reason: 'empty' };
+  }
+
+  if (!db.isConfigured()) {
+    return {
+      flushed: 0,
+      queueSize: inMemoryContacts.size,
+      skipped: true,
+      reason: 'database-not-configured'
+    };
+  }
+
+  const status = db.getStatus();
+  if (!status.connected && !force) {
+    return {
+      flushed: 0,
+      queueSize: inMemoryContacts.size,
+      skipped: true,
+      reason: 'database-offline'
+    };
+  }
+
+  if (flushInProgress && !force) {
+    return {
+      flushed: 0,
+      queueSize: inMemoryContacts.size,
+      skipped: true,
+      reason: 'in-progress'
+    };
+  }
+
+  flushInProgress = true;
+  const startTime = Date.now();
+  queueMetrics.lastFlushAttemptAt = new Date();
+
+  let flushed = 0;
+  let errorMessage = null;
+
+  try {
+    for (const [id, record] of inMemoryContacts.entries()) {
+      try {
+        await persistFallbackRecord(record);
+        inMemoryContacts.delete(id);
+        flushed += 1;
+      } catch (error) {
+        errorMessage = error.message;
+        logger.error(
+          {
+            event: 'contact.queue.flush-error',
+            err: error,
+            contactId: id
+          },
+          'Failed to persist queued contact'
+        );
+        break;
+      }
+    }
+  } finally {
+    flushInProgress = false;
+    queueMetrics.lastFlushDurationMs = Date.now() - startTime;
+    queueMetrics.lastFlushCount = flushed;
+    queueMetrics.queueSize = inMemoryContacts.size;
+
+    if (errorMessage) {
+      queueMetrics.lastFlushError = errorMessage;
+      queueMetrics.consecutiveFailures += 1;
+    } else {
+      queueMetrics.lastFlushError = null;
+      queueMetrics.consecutiveFailures = 0;
+      queueMetrics.lastFlushSuccessAt = new Date();
+      queueMetrics.totalFlushed += flushed;
+    }
+  }
+
+  return {
+    flushed,
+    queueSize: inMemoryContacts.size,
+    error: errorMessage || null
+  };
+}
+
+function getFallbackQueueSnapshot(limit = 25) {
+  const entries = Array.from(inMemoryContacts.values())
+    .sort((a, b) => {
+      const aTime = new Date(a.queuedAt || a.createdAt || 0).getTime();
+      const bTime = new Date(b.queuedAt || b.createdAt || 0).getTime();
+      return aTime - bTime;
+    })
+    .slice(0, limit)
+    .map((record) => ({
+      id: record.id,
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      eventType: record.eventType,
+      queuedAt: record.queuedAt || record.createdAt,
+      queueReason: record.queueReason || 'fallback'
+    }));
+
+  return {
+    queueSize: inMemoryContacts.size,
+    sampleSize: entries.length,
+    entries
+  };
+}
+
+function getQueueMetrics() {
+  return {
+    ...queueMetrics,
+    queueSize: inMemoryContacts.size,
+    flushInProgress
+  };
+}
+
 module.exports = {
   saveContact,
   getContactServiceStatus,

@@ -744,6 +744,75 @@ async function notifyAutomation(payload) {
   return results.some(Boolean);
 }
 
+function getAutomationRetryState(limit) {
+  const entries = Array.from(automationRetryStore.values()).sort((a, b) =>
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
+  if (typeof limit === 'number' && limit > 0) {
+    return entries.slice(0, limit).map((entry) => ({
+      ...entry,
+      payload: clonePayload(entry.payload)
+    }));
+  }
+
+  return entries.map((entry) => ({
+    ...entry,
+    payload: clonePayload(entry.payload)
+  }));
+}
+
+async function flushAutomationQueue({ limit = 25 } = {}) {
+  const pending = getAutomationRetryState()
+    .filter((entry) => entry.status !== 'delivered')
+    .slice(0, limit);
+
+  if (!pending.length) {
+    return { processed: 0, remaining: getAutomationRetryState() };
+  }
+
+  let processed = 0;
+
+  for (const entry of pending) {
+    try {
+      await deliverAutomationWebhook(entry.payload);
+      await markAutomationRetrySuccess(entry.id, entry.attempts + 1);
+      processed += 1;
+    } catch (error) {
+      await markAutomationRetryFailure(entry.id, entry.attempts + 1, error);
+    }
+  }
+
+  if (process.env.NODE_ENV === 'test' && automationQueue?.queue?.drain) {
+    await automationQueue.queue.drain();
+  }
+
+  return {
+    processed,
+    remaining: getAutomationRetryState()
+  };
+}
+
+async function resetAutomationQueue() {
+  automationRetryStore.clear();
+
+  if (automationQueue?.queue?.drain) {
+    await automationQueue.queue.drain();
+  }
+
+  if (automationQueue?.deadLetterQueue?.drain) {
+    await automationQueue.deadLetterQueue.drain();
+  }
+
+  if (typeof db?.isConfigured === 'function' && db.isConfigured()) {
+    try {
+      await db.runQuery('TRUNCATE personalization_automation_retries');
+    } catch (error) {
+      logger.warn({ err: error }, 'Failed to truncate automation retry table');
+    }
+  }
+}
+
 /**
  * Selects the best-fit personalization variant for an incoming request.
  *
