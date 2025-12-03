@@ -3,6 +3,7 @@
 import RegionLinks from "@/components/RegionLinks";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import AnimatedSection from "@/components/AnimatedSection";
+import ComprehensiveFAQ from "@/components/ComprehensiveFAQ";
 import { motion } from "framer-motion";
 
 export default function MarketingHomePage() {
@@ -141,19 +142,7 @@ export default function MarketingHomePage() {
       </AnimatedSection>
 
       <AnimatedSection variant="slide-up" delay={0.1}>
-        <section className="space-y-6" id="faq">
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900">Veelgestelde vragen</h2>
-          <div className="space-y-4">
-            <details className="group rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:border-slate-300 hover:shadow-md">
-              <summary className="cursor-pointer font-medium transition-colors duration-200 group-hover:text-amber-600">Hoe snel kunnen we een offerte verwachten?</summary>
-              <p className="mt-2 text-sm text-slate-600">Binnen 24 uur ontvang je een voorstel op maat voor jouw event.</p>
-            </details>
-            <details className="group rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:border-slate-300 hover:shadow-md">
-              <summary className="cursor-pointer font-medium transition-colors duration-200 group-hover:text-amber-600">Kunnen jullie afstemmen met de locatie?</summary>
-              <p className="mt-2 text-sm text-slate-600">Ja, we nemen direct contact op met de locatie voor techniek en planning.</p>
-            </details>
-          </div>
-        </section>
+        <ComprehensiveFAQ showCategories={true} />
       </AnimatedSection>
 
       <AnimatedSection variant="slide-up" delay={0.1}>
