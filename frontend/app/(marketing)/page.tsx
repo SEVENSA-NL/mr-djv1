@@ -1,4 +1,5 @@
 import RegionLinks from "@/components/RegionLinks";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function MarketingHomePage() {
   return (
@@ -6,19 +7,67 @@ export default function MarketingHomePage() {
       <section className="space-y-6" id="hero">
         <p className="text-sm font-semibold uppercase tracking-wide text-amber-500">Dé feestspecialist van het zuiden</p>
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Mister DJ verzorgt bruiloften, bedrijfsfeesten en events met 100% dansgarantie
+          Professionele DJ + Live Saxofoon voor bruiloften en bedrijfsfeesten
         </h1>
+        <p className="max-w-2xl text-lg font-medium text-slate-700">
+          100% Dansgarantie | 15+ jaar ervaring | 500+ geslaagde events
+        </p>
         <p className="max-w-2xl text-lg text-slate-600">
-          Met meer dan 15 jaar ervaring en een clubwaardig licht- en geluidsplan creëren we voor ieder event een onvergetelijke
-          avond. Kies uit maatwerk pakketten, combineer met live saxofonist of laat ons een compleet feestconcept samenstellen.
+          Van intieme bruiloften tot grote bedrijfsfeesten: wij creëren een onvergetelijke avond met professioneel geluid, sfeervolle verlichting en optioneel live saxofoon. Transparante pakketten, persoonlijke aandacht en volledige ontzorging.
         </p>
         <div className="flex flex-wrap gap-3">
           <a className="btn btn-primary" href="#pakketten">
             Bekijk pakketten
           </a>
+          <WhatsAppButton variant="primary" messageType="general" label="Chat via WhatsApp" />
           <a className="btn btn-outline" href="/contact">
             Vraag een offerte aan
           </a>
+        </div>
+      </section>
+
+      <section className="space-y-6" id="usps">
+        <h2 className="sr-only">Waarom kiezen voor Mister DJ</h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 text-3xl">🎷</div>
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">DJ + Live Saxofoon</h3>
+            <p className="text-sm text-slate-600">
+              Het verschil tussen leuk en legendarisch. Live muziek tilt je eerste dans en party naar een hoger niveau.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 text-3xl">💯</div>
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">100% Dansgarantie</h3>
+            <p className="text-sm text-slate-600">
+              Volle dansvloer of je geld terug. In 500+ events hebben we deze belofte altijd waargemaakt.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 text-3xl">⭐</div>
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">15+ Jaar Ervaring</h3>
+            <p className="text-sm text-slate-600">
+              500+ geslaagde events voor bruiloften, bedrijven (Philips, ASML, VDL) en privé feesten.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 text-3xl">📍</div>
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">Lokale Expert</h3>
+            <p className="text-sm text-slate-600">
+              Dé feestspecialist van Brabant & Limburg. We kennen alle venues en geen reiskosten binnen de regio.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 text-3xl">💰</div>
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">Transparante Prijzen</h3>
+            <p className="text-sm text-slate-600">
+              All-in pakketten zonder verborgen kosten. Budget zekerheid en offerte binnen 24 uur.
+            </p>
+          </div>
         </div>
       </section>
 

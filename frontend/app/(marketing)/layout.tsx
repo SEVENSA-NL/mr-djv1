@@ -1,10 +1,14 @@
 import type { ReactNode } from "react";
 import RegionLinks from "@/components/RegionLinks";
+import MobileCTABar from "@/components/MobileCTABar";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <div className="bg-white text-slate-900">
       {children}
+      <MobileCTABar />
+      <WhatsAppButton variant="floating" messageType="general" />
       <footer className="mt-16 border-t border-slate-200 bg-slate-950 py-10 text-slate-200">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 lg:flex-row lg:items-start lg:justify-between lg:px-0">
           <div className="space-y-3">

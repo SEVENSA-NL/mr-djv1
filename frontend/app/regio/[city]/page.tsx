@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import regions from "@/content/regions.json";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 type RegionCity = {
   slug: string;
@@ -88,9 +89,12 @@ export default function CityPage({ params }: { params: { city: string } }) {
         <li>Lokale betrokkenheid en persoonlijke aanpak</li>
         <li>Professionele setup, licht & geluid</li>
       </ul>
-      <a className="btn btn-primary mt-6" href="/contact">
-        Vraag offerte aan
-      </a>
+      <div className="not-prose mt-6 flex flex-wrap gap-3">
+        <WhatsAppButton variant="primary" messageType="general" label="Chat via WhatsApp" />
+        <a className="btn btn-primary" href="/contact">
+          Vraag offerte aan
+        </a>
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </main>
   );
