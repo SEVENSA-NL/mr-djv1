@@ -13,6 +13,10 @@ function forbidden(res) {
   res.status(403).json({ error: 'Forbidden' });
 }
 
+function unauthorized(res) {
+  res.status(401).json({ error: 'Unauthorized' });
+}
+
 function dashboardAuth(req, res, next) {
   const requestLogger = logger.child({
     middleware: 'dashboardAuth',
@@ -72,6 +76,7 @@ function dashboardAuth(req, res, next) {
       forbidden(res);
       return;
     }
+  }
 
   requestLogger.debug('Dashboard authentication succeeded');
   next();

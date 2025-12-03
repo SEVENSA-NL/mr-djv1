@@ -1,8 +1,36 @@
 const express = require('express');
-const { createBooking, getRecentBookings } = require('../services/bookingService');
+const { body, param, validationResult } = require('express-validator');
+const { createBooking, getRecentBookings, updateBooking, deleteBooking } = require('../services/bookingService');
 const { validateBooking } = require('../lib/validation/bookingSchema');
 
 const router = express.Router();
+
+const updateValidations = [
+  param('id').isString().notEmpty().withMessage('Boeking ID ontbreekt'),
+  body('email').optional().isEmail().withMessage('Ongeldig e-mailadres'),
+  body('phone').optional().isLength({ min: 3 }).withMessage('Ongeldig telefoonnummer'),
+  body('status')
+    .optional()
+    .isIn(['pending', 'confirmed', 'cancelled', 'completed'])
+    .withMessage('Ongeldige status'),
+  body('eventDate')
+    .optional()
+    .custom((value) => {
+      if (!value) {
+        return true;
+      }
+      return (
+        typeof value === 'string' ||
+        value instanceof Date ||
+        typeof value === 'number' ||
+        (typeof value === 'object' &&
+          (value.start || value.end || value.date || value.from || value.to || value.timezone || value.timeZone))
+      );
+    })
+    .withMessage('Ongeldige datum')
+];
+
+const deleteValidations = [param('id').isString().notEmpty().withMessage('Boeking ID ontbreekt')];
 
 router.get('/', async (_req, res, next) => {
   try {
