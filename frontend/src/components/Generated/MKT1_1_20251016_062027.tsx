@@ -38,7 +38,7 @@ const GoogleReviews = () => {
             <div key={review.id} className="review-card">
               <div className="reviewer-info">
                 {review.profile_photo_url ? (
-                  <img src={review.profile_photo_url} alt={review.author_name} />
+                  <img src={review.profile_photo_url} alt={`Profielfoto van ${review.author_name}`} />
                 ) : null}
                 <h3>{review.author_name}</h3>
               </div>

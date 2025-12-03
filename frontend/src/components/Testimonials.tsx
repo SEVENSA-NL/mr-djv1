@@ -51,11 +51,12 @@ function StarIcon({ className, ...props }: IconBaseProps) {
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex">
+    <div className="flex" role="img" aria-label={`Beoordeling: ${rating} van de 5 sterren`}>
       {Array.from({ length: 5 }).map((_, index) => (
         <StarIcon
           key={index}
           className={index < rating ? "text-secondary" : "text-neutral-gray-500"}
+          aria-hidden="true"
         />
       ))}
     </div>
