@@ -1,22 +1,23 @@
-FROM python:3.11-slim
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+FROM node:20.19.0-alpine AS base
 
 WORKDIR /app
+ENV NODE_ENV=production \
+    HOST=0.0.0.0 \
+    PORT=3000
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential curl \
-    && rm -rf /var/lib/apt/lists/*
+# Install runtime dependencies
+RUN apk add --no-cache curl
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Install npm dependencies with a clean lockfile install
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
+# Copy application source
 COPY . .
 
-EXPOSE 8000
+EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
+  CMD curl -f http://localhost:${PORT}/health || exit 1
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["node", "src/server.js"]

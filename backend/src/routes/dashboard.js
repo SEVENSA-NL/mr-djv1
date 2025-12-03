@@ -1,5 +1,6 @@
 const express = require('express');
 const { body, validationResult, matchedData } = require('express-validator');
+const config = require('../config');
 const dashboardAuth = require('../middleware/dashboardAuth');
 const configDashboardService = require('../services/configDashboardService');
 const rentGuyService = require('../services/rentGuyService');

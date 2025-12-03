@@ -1,21 +1,56 @@
-FROM nginx:1.25-alpine
+# syntax=docker/dockerfile:1.7
 
-# Copy custom nginx config
+FROM node:20.19.0-alpine AS builder
+WORKDIR /app
+
+# Install build prerequisites
+RUN apk add --no-cache libc6-compat
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Build-time environment
+ARG VITE_API_BASE_URL=https://mr-dj.rentguy.nl/api
+ARG VITE_CONTACT_PHONE_NUMBER=+31-40-8422594
+ARG VITE_WHATSAPP_DEFAULT_MESSAGE="Hoi! Ik wil graag meer informatie over jullie DJ services."
+ARG VITE_GTM_ID=GTM-NST23HJX
+ARG VITE_GA4_MEASUREMENT_ID=G-TXJLD3H2C8
+ARG VITE_META_PIXEL_ID=987654321012345
+ARG VITE_GOOGLE_TAG_ID=GTM-NST23HJX
+ARG VITE_GOOGLE_ADS_CONVERSION_ID=
+ARG VITE_LINKEDIN_PIXEL_ID=
+ARG VITE_POSTHOG_API_KEY=phc_mrdj_live_a7b8c9d0e1f2g3h4i5j6k7l8
+ARG VITE_POSTHOG_API_HOST=https://app.posthog.com
+ARG VITE_CMS_BLOG_ENDPOINT=/api/cms/blog/posts
+ARG VITE_COMPLIANZ_SITE_ID=cmplz_a7f3b2c1d4e5
+
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL} \
+    VITE_CONTACT_PHONE_NUMBER=${VITE_CONTACT_PHONE_NUMBER} \
+    VITE_WHATSAPP_DEFAULT_MESSAGE=${VITE_WHATSAPP_DEFAULT_MESSAGE} \
+    VITE_GTM_ID=${VITE_GTM_ID} \
+    VITE_GA4_MEASUREMENT_ID=${VITE_GA4_MEASUREMENT_ID} \
+    VITE_META_PIXEL_ID=${VITE_META_PIXEL_ID} \
+    VITE_GOOGLE_TAG_ID=${VITE_GOOGLE_TAG_ID} \
+    VITE_GOOGLE_ADS_CONVERSION_ID=${VITE_GOOGLE_ADS_CONVERSION_ID} \
+    VITE_LINKEDIN_PIXEL_ID=${VITE_LINKEDIN_PIXEL_ID} \
+    VITE_POSTHOG_API_KEY=${VITE_POSTHOG_API_KEY} \
+    VITE_POSTHOG_API_HOST=${VITE_POSTHOG_API_HOST} \
+    VITE_CMS_BLOG_ENDPOINT=${VITE_CMS_BLOG_ENDPOINT} \
+    VITE_COMPLIANZ_SITE_ID=${VITE_COMPLIANZ_SITE_ID}
+
+COPY . .
+RUN npm run build
+
+FROM docker.io/library/nginx:1.27-alpine AS runner
+
+WORKDIR /usr/share/nginx/html
+
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy website files
-COPY public/ /usr/share/nginx/html/
-
-# Fix permissions (nginx user already exists in base image)
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid
-
-USER nginx
+COPY --from=builder /app/dist ./
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://127.0.0.1/ || exit 1
 
+CMD ["nginx", "-g", "daemon off;"]
