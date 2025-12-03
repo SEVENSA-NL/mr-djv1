@@ -2,6 +2,19 @@ const rateLimit = require('express-rate-limit');
 const config = require('../config');
 const { logger } = require('../lib/logger');
 
+const requests = new Map();
+
+function cleanup() {
+  const now = Date.now();
+  const windowMs = config.rateLimit.windowMs;
+
+  for (const [identifier, entry] of requests.entries()) {
+    if (now - entry.startTime > windowMs) {
+      requests.delete(identifier);
+    }
+  }
+}
+
 function createRateLimiter(options = {}) {
   const windowMs = options.windowMs ?? config.rateLimit.windowMs;
   const limit = options.limit ?? options.max ?? config.rateLimit.max;
@@ -34,7 +47,12 @@ function createRateLimiter(options = {}) {
 setInterval(cleanup, config.rateLimit.windowMs).unref();
 
 function rateLimiter(req, res, next) {
-  const identifier = req.ip || req.connection.remoteAddress || 'unknown';
+  const identifier =
+    req.ip ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
+    req.headers['x-forwarded-for'] ||
+    'unknown';
   const now = Date.now();
   const windowMs = config.rateLimit.windowMs;
   const max = config.rateLimit.max;

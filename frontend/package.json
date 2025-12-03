@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production next build",
+    "build": "NODE_ENV=production vite build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test -g \"hydrate\"",
-    "start": "next start -p ${PORT:-3000}",
-    "postbuild": "node scripts/verify_next_build.js",
+    "start": "vite preview --host 0.0.0.0 --port ${PORT:-4173}",
+    "postbuild": "node scripts/verify_static_build.js",
     "lhci": "CHROME_PATH=./scripts/chrome-with-flags.sh lhci autorun --config=./scripts/lhci.config.json",
     "preexport": "echo \"❌ next export is disabled\"; exit 2"
   },

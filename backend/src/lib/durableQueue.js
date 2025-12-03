@@ -7,9 +7,17 @@ const { reportQueueMetrics, notifyQueueDeadLetter } = require('./alerts');
 const useInMemoryQueue = process.env.NODE_ENV === 'test';
 const registries = new Set();
 
+function sanitizeSegment(segment) {
+  return String(segment || '')
+    .replace(/[^a-zA-Z0-9-_]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 function buildQueueName(name) {
-  const prefix = config.redis.namespace || 'mr-dj';
-  return `${prefix}:${name}`;
+  const prefix = sanitizeSegment(config.redis.namespace || 'mr-dj');
+  const segment = sanitizeSegment(name);
+  return [prefix, segment].filter(Boolean).join('-');
 }
 
 function createInMemoryQueue(name, processor, { defaultJobOptions = {} } = {}) {
@@ -217,7 +225,7 @@ function createDurableQueue(name, processor, { concurrency = 5, defaultJobOption
     return createInMemoryQueue(name, processor, { defaultJobOptions });
   }
 
-  const { Queue, Worker, QueueScheduler, QueueEvents } = require('bullmq');
+  const { Queue, Worker, QueueEvents } = require('bullmq');
 
   const queueName = buildQueueName(name);
   const deadQueueName = buildQueueName(`${name}:dead`);
@@ -242,12 +250,10 @@ function createDurableQueue(name, processor, { concurrency = 5, defaultJobOption
     }
   });
 
-  const scheduler = new QueueScheduler(queueName, {
-    connection: connectionFactory()
-  });
-  scheduler.waitUntilReady().catch((error) => {
-    logger.error({ err: error, queue: queueName }, 'Queue scheduler failed to initialize');
-  });
+  const scheduler = {
+    async waitUntilReady() {},
+    async close() {}
+  };
 
   const queueEvents = new QueueEvents(queueName, {
     connection: connectionFactory()
