@@ -57,9 +57,19 @@ export default function FeestDJPage() {
           <h2 className="mb-4 text-3xl font-bold">Klaar voor een onvergetelijk feest?</h2>
           <p className="mb-8 text-lg text-amber-50">Ontvang binnen 24 uur een offerte op maat voor jouw feest. Vrijblijvend kennismaken en sparren over je wensen.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="/pakketten" className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold text-amber-600 shadow-lg transition hover:bg-amber-50">Bekijk feest pakketten</a>
+            <a
+              href={`/${params.locale}/pakketten`}
+              className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold text-amber-600 shadow-lg transition hover:bg-amber-50"
+            >
+              Bekijk feest pakketten
+            </a>
             <WhatsAppButton variant="secondary" messageType="party" label="Chat via WhatsApp" />
-            <a href="/contact" className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-8 py-4 text-sm font-semibold text-white transition hover:bg-white hover:text-amber-600">Vraag offerte aan</a>
+            <a
+              href={`/${params.locale}/contact`}
+              className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-8 py-4 text-sm font-semibold text-white transition hover:bg-white hover:text-amber-600"
+            >
+              Vraag offerte aan
+            </a>
           </div>
         </div>
       </section>

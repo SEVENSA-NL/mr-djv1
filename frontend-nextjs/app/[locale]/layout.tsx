@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { getMessages } from 'next-intl/server';
 import { locales, defaultLocale, localeMetadata } from '@/i18n.config';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Generate static parameters for all supported locales
  * This enables static generation for locale-specific pages

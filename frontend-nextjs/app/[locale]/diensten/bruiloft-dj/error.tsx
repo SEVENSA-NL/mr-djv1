@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function BruiloftDJError({
   error,
@@ -10,6 +11,9 @@ export default function BruiloftDJError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const params = useParams<{ locale?: string }>();
+  const locale = (params?.locale as string) || 'nl';
+
   useEffect(() => {
     console.error('Bruiloft DJ page error:', error);
   }, [error]);
@@ -23,10 +27,16 @@ export default function BruiloftDJError({
           We konden de bruiloft DJ pagina niet laden. Probeer het opnieuw.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button onClick={reset} className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-amber-500">
+          <button
+            onClick={reset}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-amber-500"
+          >
             Probeer opnieuw
           </button>
-          <Link href="/diensten" className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-transparent px-6 py-3 text-base font-semibold text-slate-900 transition-all hover:bg-slate-50">
+          <Link
+            href={`/${locale}/diensten`}
+            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-transparent px-6 py-3 text-base font-semibold text-slate-900 transition-all hover:bg-slate-50"
+          >
             Alle diensten
           </Link>
         </div>

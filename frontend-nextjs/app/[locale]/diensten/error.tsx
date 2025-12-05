@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function DienstenError({
   error,
@@ -10,6 +11,9 @@ export default function DienstenError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const params = useParams<{ locale?: string }>();
+  const locale = (params?.locale as string) || 'nl';
+
   useEffect(() => {
     console.error('Diensten page error:', error);
   }, [error]);
@@ -33,7 +37,7 @@ export default function DienstenError({
             Probeer opnieuw
           </button>
           <Link
-            href="/"
+            href={`/${locale}`}
             className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-transparent px-6 py-3 text-base font-semibold text-slate-900 transition-all hover:bg-slate-50"
           >
             Ga naar homepage
@@ -43,7 +47,7 @@ export default function DienstenError({
         <div className="mt-8 text-sm text-slate-500">
           <p>
             Of neem contact op via{' '}
-            <a href="/contact" className="text-amber-600 hover:underline">
+            <a href={`/${locale}/contact`} className="text-amber-600 hover:underline">
               ons contactformulier
             </a>
           </p>

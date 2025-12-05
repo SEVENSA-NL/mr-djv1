@@ -17,7 +17,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DienstenPage() {
+interface Props {
+  params: {
+    locale: string;
+  };
+}
+
+export default function DienstenPage({ params: { locale } }: Props) {
   const structuredData = createServiceStructuredData(
     'DJ & Entertainment Diensten',
     'Professionele DJ diensten voor bruiloften, bedrijfsfeesten en private events met volledige ontzorging',
@@ -125,14 +131,14 @@ export default function DienstenPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="/pakketten"
+              href={`/${locale}/pakketten`}
               className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold text-amber-600 shadow-lg transition hover:bg-amber-50"
             >
               Bekijk pakketten & prijzen
             </a>
             <WhatsAppButton variant="secondary" messageType="general" label="Chat via WhatsApp" />
             <a
-              href="/contact"
+              href={`/${locale}/contact`}
               className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-8 py-4 text-sm font-semibold text-white transition hover:bg-white hover:text-amber-600"
             >
               Vraag offerte aan
@@ -152,7 +158,7 @@ export default function DienstenPage() {
               <p className="mt-3 text-sm text-slate-600">
                 Onze pakketten starten vanaf €495 voor 4 uur (pakket Brons), tot €1295 voor een complete
                 8-uur show met live saxofonist (pakket Goud). Bekijk de volledige prijslijst op onze{' '}
-                <a href="/pakketten" className="text-amber-600 underline">
+                <a href={`/${locale}/pakketten`} className="text-amber-600 underline">
                   pakketten pagina
                 </a>
                 .

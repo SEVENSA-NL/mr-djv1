@@ -8,7 +8,7 @@ import { ServiceStructuredData } from '@/lib/types/service';
 export function createServiceStructuredData(
   serviceName: string,
   serviceDescription: string,
-  eventType: string
+  _eventType: string
 ): ServiceStructuredData {
   return {
     '@context': 'https://schema.org',
@@ -40,6 +40,7 @@ export function createServiceStructuredData(
       '@type': 'Offer',
       availability: 'https://schema.org/InStock',
       priceRange: '€495 - €1295',
+      // eventType reserved for future extensions
     },
   };
 }

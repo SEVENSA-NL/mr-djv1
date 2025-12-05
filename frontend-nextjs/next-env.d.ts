@@ -1,11 +1,6 @@
 /// <reference types="next" />
 /// <reference types="next/image-types/global" />
+/// <reference path="./.next/types/routes.d.ts" />
 
-declare namespace NodeJS {
-  interface ProcessEnv {
-    NEXT_PUBLIC_APP_NAME?: string;
-    NEXT_PUBLIC_APP_URL?: string;
-    NEXT_PUBLIC_API_URL?: string;
-    NODE_ENV: 'development' | 'production' | 'test';
-  }
-}
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.

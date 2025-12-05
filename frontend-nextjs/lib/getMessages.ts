@@ -1,5 +1,4 @@
 import { getMessages as getMessagesBase } from 'next-intl/server';
-import { Locale } from '@/i18n.config';
 
 /**
  * Get messages for the current locale

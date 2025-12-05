@@ -17,7 +17,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BruiloftDJPage() {
+interface Props {
+  params: {
+    locale: string;
+  };
+}
+
+export default function BruiloftDJPage({ params: { locale } }: Props) {
   const structuredData = createServiceStructuredData(
     'Bruiloft DJ',
     'Professionele bruiloft DJ voor je trouwfeest. Van ceremonie tot afterparty met DJ, live saxofoon, geluid en verlichting.',
@@ -179,14 +185,14 @@ export default function BruiloftDJPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="/pakketten"
+              href={`/${locale}/pakketten`}
               className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold text-amber-600 shadow-lg transition hover:bg-amber-50"
             >
               Bekijk bruiloft pakketten
             </a>
             <WhatsAppButton variant="secondary" messageType="wedding" label="Chat via WhatsApp" />
             <a
-              href="/contact"
+              href={`/${locale}/contact`}
               className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-8 py-4 text-sm font-semibold text-white transition hover:bg-white hover:text-amber-600"
             >
               Vraag offerte aan

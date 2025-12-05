@@ -1,0 +1,8 @@
+:root {
+  --primary-amber: #f59e0b;
+  --primary-amber-dark: #d97706;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+}

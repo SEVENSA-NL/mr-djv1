@@ -42,6 +42,8 @@ interface Props {
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export default function PakkettenPage({ params: { locale } }: Props) {
   // Generate structured data
   const aggregateOfferData = generateAggregateOfferStructuredData(PACKAGES, locale);

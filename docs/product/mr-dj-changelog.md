@@ -4,6 +4,29 @@ All notable changes to the Mr. DJ platform.
 
 ---
 
+## [Next.js Migration – Phase A Consolidation] - 2025-12-05
+
+**Release Date**: 2025-12-05  
+**Version**: Next.js Migration – Phase A  
+**Type**: Architecture & Roadmap Alignment  
+**Status**: ✅ CONSOLIDATED (PRE-DEPLOY)  
+
+### Summary
+
+- Confirmed **`frontend-nextjs/` (Next.js 15, App Router)** as the **canonical production frontend** for mr-dj.sevensa.nl.
+- Marked the legacy **Vite `frontend/` app as obsolete** and removed it from future deployment plans.
+- Completed Phase A consolidation of B01–B20 reports and R01 docs into a single master view:
+  - Created `reports/qa/mrdj/R_MASTER_20251205T191617Z.md` with strategic gaps and priorities.
+  - Added `docs/roadmap/mrdj-roadmap.md` as the Next.js-focused roadmap, aligned with Phases A–F.
+
+### Impact
+
+- Prevents regressions like deploying the minimal Vite MVP instead of the full Next.js site.
+- Provides a clear, documented path for Phases B–F (Premium Excellence, Testing, QA, Deployment, Live QA).
+- Aligns product, QA and infrastructure teams on the **Next.js-only** deployment strategy for Mr. DJ.
+
+---
+
 ## [R01 Premium Excellence Sprint] - 2025-12-03
 
 **Release Date**: 2025-12-03

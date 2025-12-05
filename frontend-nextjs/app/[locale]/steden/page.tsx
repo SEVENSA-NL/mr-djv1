@@ -8,6 +8,8 @@ interface CitiesOverviewProps {
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: CitiesOverviewProps): Promise<Metadata> {
   const isNL = params.locale === 'nl';
   const title = isNL
