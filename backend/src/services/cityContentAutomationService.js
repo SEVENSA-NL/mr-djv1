@@ -4,6 +4,8 @@ const { spawn } = require('child_process');
 const { Mutex } = require('async-mutex');
 const { runQuery } = require('../lib/db');
 
+const workflowMutex = new Mutex();
+
 /**
  * @typedef {Object} CityAutomationContext
  * @property {string} repoRoot

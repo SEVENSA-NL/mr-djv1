@@ -1,0 +1,274 @@
+/* Video Testimonial Component Styles */
+
+.container {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a2c4b;
+  margin: 0 0 12px 0;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.videoContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.mainVideo {
+  position: relative;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #00aeef 0%, #0095d4 100%);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 174, 239, 0.4);
+}
+
+.playButton:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 12px 32px rgba(0, 174, 239, 0.5);
+}
+
+.playIcon {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.videoInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.customerInfo {
+  flex: 1;
+}
+
+.customerName {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.customerRole {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.rating {
+  display: flex;
+  gap: 4px;
+}
+
+.starFilled,
+.starEmpty {
+  font-size: 18px;
+}
+
+.starEmpty {
+  opacity: 0.3;
+}
+
+/* Thumbnails */
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.thumbnail {
+  position: relative;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.thumbnail:hover {
+  border-color: #00aeef;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnailActive {
+  border-color: #00aeef;
+  box-shadow: 0 4px 12px rgba(0, 174, 239, 0.2);
+}
+
+.thumbnailImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.thumbnailOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.thumbnail:hover .thumbnailOverlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.thumbnailPlayIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.thumbnailInfo {
+  padding: 12px;
+  text-align: left;
+}
+
+.thumbnailName {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a2c4b;
+  margin-bottom: 4px;
+}
+
+.thumbnailRole {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Quote Container */
+.quoteContainer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid #00aeef;
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 32px;
+}
+
+.quote {
+  margin: 0;
+}
+
+.quoteText {
+  font-size: 18px;
+  font-style: italic;
+  color: #1a2c4b;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+.quoteAuthor {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .playButton {
+    width: 60px;
+    height: 60px;
+  }
+
+  .playIcon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .customerName {
+    font-size: 16px;
+  }
+
+  .customerRole {
+    font-size: 12px;
+  }
+
+  .videoInfo {
+    padding: 16px;
+  }
+
+  .thumbnails {
+    grid-template-columns: 1fr;
+  }
+
+  .quoteContainer {
+    padding: 24px;
+  }
+
+  .quoteText {
+    font-size: 16px;
+  }
+}

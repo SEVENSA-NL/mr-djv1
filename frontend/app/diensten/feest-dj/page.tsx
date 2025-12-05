@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PricingTables from "@/src/components/PricingTables";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AvailabilityChecker from "@/components/booking/AvailabilityChecker";
+import VideoTestimonial from "@/components/video/VideoTestimonial";
+import { partyTestimonials } from "@/data/testimonials";
 
 export const metadata: Metadata = {
   title: "Feest DJ - Professionele DJ voor elk feest",
@@ -18,23 +21,38 @@ export const metadata: Metadata = {
 export default function FeestDJPage() {
   return (
     <main className="bg-white">
+      {/* Hero Image Section */}
+      <section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+        <Image
+          src="/assets/marketing-images/partyDJ/partyDJ-01.webp"
+          alt="Energieke DJ op feest met dansende menigte"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="mx-auto max-w-4xl px-4 text-center text-white">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-400">
+              Private Party Entertainment
+            </p>
+            <h1 className="mb-4 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+              Professionele Feest DJ
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-white/90 sm:text-xl">
+              Maak je verjaardag, jubileum of themafeest onvergetelijk met de perfecte party vibe. Wij zorgen voor muziek, sfeer en een volle dansvloer.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-5xl px-4 py-12 lg:px-0">
         <Breadcrumbs
           customLabels={{
             "feest-dj": "Feest DJ"
           }}
         />
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-500">
-            Private Party Entertainment
-          </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Professionele Feest DJ
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Maak je verjaardag, jubileum of themafeest onvergetelijk met de perfecte party vibe. Wij zorgen voor muziek, sfeer en een volle dansvloer van start tot finish. Van 30 tot 300+ gasten.
-          </p>
-        </div>
 
         <div className="mb-16 grid gap-8 sm:grid-cols-3">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
@@ -179,32 +197,73 @@ export default function FeestDJPage() {
         </div>
       </section>
 
-      <section className="bg-slate-900 py-16 text-white">
-        <div className="mx-auto max-w-5xl px-4 lg:px-0">
-          <h2 className="mb-8 text-center text-3xl font-bold">
-            Wat mensen zeggen over hun feest
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-lg border border-slate-700 bg-slate-800 p-6">
-              <div className="mb-3 text-amber-400">⭐⭐⭐⭐⭐</div>
-              <p className="mb-4 text-sm text-slate-300">
-                "Mijn 50e verjaardag werd perfect! De DJ speelde precies de goede mix van oude hits en nieuwe tracks. Iedereen heeft gedanst tot het einde."
-              </p>
-              <p className="text-xs font-medium text-white">- Peter, 50e verjaardag Eindhoven</p>
+      <VideoTestimonial testimonials={partyTestimonials} showControls={true} />
+
+      {/* Image Gallery Section */}
+      <section className="bg-slate-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 lg:px-0">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-slate-900">
+              Onze feesten in beeld
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              Van verjaardagen tot themafeesten - bekijk hoe wij jullie feest onvergetelijk maken
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-02.webp"
+                alt="Verjaardagsfeest met DJ setup en ballondecoraties"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
-            <div className="rounded-lg border border-slate-700 bg-slate-800 p-6">
-              <div className="mb-3 text-amber-400">⭐⭐⭐⭐⭐</div>
-              <p className="mb-4 text-sm text-slate-300">
-                "Themafeest 80s/90s was geweldig! De DJ kwam zelfs in outfit en heeft de hele avond spot-on gedraaid. Mega succesvol feest!"
-              </p>
-              <p className="text-xs font-medium text-white">- Linda, 80s party Tilburg</p>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-03.webp"
+                alt="DJ op outdoor festival bij zonsondergang"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
-            <div className="rounded-lg border border-slate-700 bg-slate-800 p-6">
-              <div className="mb-3 text-amber-400">⭐⭐⭐⭐⭐</div>
-              <p className="mb-4 text-sm text-slate-300">
-                "Tuinfeest voor mijn verjaardag was super! Van chille middag muziek tot knallende avond. De DJ voelde perfect aan wanneer de vibe kon omhoog."
-              </p>
-              <p className="text-xs font-medium text-white">- Mark, Tuinfeest Helmond</p>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-04.webp"
+                alt="House party met DJ en kleurrijke LED verlichting"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-06.webp"
+                alt="Jubileumfeest met DJ en dansende gasten"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-08.webp"
+                alt="Pool party DJ setup met zomerse sfeer"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/partyDJ/partyDJ-10.webp"
+                alt="Rooftop party met DJ en skyline achtergrond"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
           </div>
         </div>

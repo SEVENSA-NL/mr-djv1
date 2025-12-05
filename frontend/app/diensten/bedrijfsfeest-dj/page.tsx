@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PricingTables from "@/src/components/PricingTables";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AvailabilityChecker from "@/components/booking/AvailabilityChecker";
+import VideoTestimonial from "@/components/video/VideoTestimonial";
+import { corporateTestimonials } from "@/data/testimonials";
 
 export const metadata: Metadata = {
   title: "Bedrijfsfeest DJ - Professionele DJ voor corporate events",
@@ -18,23 +21,38 @@ export const metadata: Metadata = {
 export default function BedrijfsfeestDJPage() {
   return (
     <main className="bg-white">
+      {/* Hero Image Section */}
+      <section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+        <Image
+          src="/assets/marketing-images/corporateEvent/corporateEvent-01.webp"
+          alt="Professionele DJ op bedrijfsfeest met zakelijke sfeer"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="mx-auto max-w-4xl px-4 text-center text-white">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-400">
+              Corporate Entertainment
+            </p>
+            <h1 className="mb-4 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+              Professionele Bedrijfsfeest DJ
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-white/90 sm:text-xl">
+              Maak je bedrijfsfeest of teamuitje onvergetelijk met professionele entertainment. Van netwerkborrel tot gala-avond - wij zorgen voor de perfecte sfeer.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-5xl px-4 py-12 lg:px-0">
         <Breadcrumbs
           customLabels={{
             "bedrijfsfeest-dj": "Bedrijfsfeest DJ"
           }}
         />
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-500">
-            Corporate Entertainment
-          </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Professionele Bedrijfsfeest DJ
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Maak je bedrijfsfeest of teamuitje onvergetelijk met professionele entertainment. Van netwerkborrel tot gala-avond - wij zorgen voor de perfecte sfeer en energie. Inclusief branding en volledige ontzorging.
-          </p>
-        </div>
 
         <div className="mb-16 grid gap-8 sm:grid-cols-3">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
@@ -105,6 +123,78 @@ export default function BedrijfsfeestDJPage() {
       <PricingTables />
 
       <AvailabilityChecker defaultEventType="bedrijfsfeest" />
+
+      <VideoTestimonial testimonials={corporateTestimonials} showControls={true} />
+
+      {/* Image Gallery Section */}
+      <section className="bg-slate-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 lg:px-0">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-slate-900">
+              Onze corporate events in beeld
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              Van teamuitjes tot gala-avonden - bekijk hoe wij jullie bedrijfsfeest professioneel verzorgen
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-02.webp"
+                alt="DJ booth op bedrijfsfeest met dansende medewerkers"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-03.webp"
+                alt="Corporate awards ceremony met DJ en verlichting"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-04.webp"
+                alt="Business conference after-party met DJ"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-06.webp"
+                alt="Product launch party met corporate branding"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-08.webp"
+                alt="Corporate gala dinner met DJ booth"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="group relative h-64 overflow-hidden rounded-lg">
+              <Image
+                src="/assets/marketing-images/corporateEvent/corporateEvent-10.webp"
+                alt="Corporate holiday party met feestelijke verlichting"
+                fill
+                className="object-cover transition duration-300 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-0">

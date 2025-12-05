@@ -6,11 +6,13 @@ const { migrateToLatest } = require('./lib/migrations');
 const { closeAllQueues } = require('./lib/durableQueue');
 const { closeAllRedisConnections } = require('./lib/redis');
 const { startContactQueueWorker, stopContactQueueWorker } = require('./workers/contactQueueWorker');
+const { startABTestingWorker, stopABTestingWorker } = require('./workers/abTestingWorker');
 
 async function bootstrap() {
   await startTelemetry();
   await migrateToLatest();
   startContactQueueWorker();
+  startABTestingWorker();
 
   return new Promise((resolve) => {
     const httpServer = app.listen(config.port, config.host, () => {
@@ -31,6 +33,7 @@ async function shutdown(server) {
     }),
     (async () => {
       stopContactQueueWorker();
+      stopABTestingWorker();
     })(),
     closeAllQueues(),
     closeAllRedisConnections(),
