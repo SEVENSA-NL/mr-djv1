@@ -2,6 +2,8 @@ const { randomUUID } = require('crypto');
 const db = require('../lib/db');
 const rentGuyService = require('./rentGuyService');
 const sevensaService = require('./sevensaService');
+const postmarkEmailService = require('./postmarkEmailService');
+const { logger } = require('../lib/logger');
 
 const inMemoryContacts = new Map();
 
@@ -78,6 +80,37 @@ async function saveContact(payload) {
     });
 
     result = record;
+  }
+
+  // Send email notification to customer
+  try {
+    await postmarkEmailService.sendContactConfirmation({
+      to: result.email,
+      customerName: result.name,
+      eventType: result.eventType,
+      eventDate: result.eventDate,
+      message: result.message
+    });
+    logger.info(`[contactService] Confirmation email sent to ${result.email}`);
+  } catch (emailError) {
+    logger.error('[contactService] Failed to send confirmation email:', emailError);
+  }
+
+  // Send internal notification to info@mr-dj.nl
+  try {
+    await postmarkEmailService.sendInternalContactNotification({
+      contactId: result.id,
+      name: result.name,
+      email: result.email,
+      phone: result.phone,
+      message: result.message,
+      eventType: result.eventType,
+      eventDate: result.eventDate,
+      packageId: result.packageId
+    });
+    logger.info('[contactService] Internal notification sent to info@mr-dj.nl');
+  } catch (emailError) {
+    logger.error('[contactService] Failed to send internal notification:', emailError);
   }
 
   const rentGuySync = await rentGuyService.syncLead(
