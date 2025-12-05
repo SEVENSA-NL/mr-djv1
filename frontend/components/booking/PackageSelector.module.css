@@ -1,0 +1,393 @@
+/* PackageSelector Component Styles */
+
+.packageSelector {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #1a1a1a);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary, #666);
+  margin: 0;
+}
+
+.packagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.packageCard {
+  position: relative;
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: var(--color-background, #fff);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.packageCard:hover {
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+  transform: translateY(-4px);
+}
+
+.packageCard.selected {
+  border-color: var(--color-primary, #3b82f6);
+  background: linear-gradient(135deg, #dbeafe 0%, #fff 100%);
+  box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+}
+
+.packageCard.popular {
+  border-width: 3px;
+  border-color: var(--color-accent, #f59e0b);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  right: 1rem;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 0.375rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.packageHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.packageName {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0 0 0.5rem 0;
+}
+
+.packageDescription {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #666);
+  margin: 0 0 1rem 0;
+}
+
+.packagePrice {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary, #3b82f6);
+  margin: 0;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary, #1a1a1a);
+  line-height: 1.5;
+}
+
+.checkmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--color-success, #10b981);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.selectButton {
+  padding: 0.875rem;
+  text-align: center;
+  background: var(--color-primary, #3b82f6);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.packageCard:hover .selectButton {
+  background: var(--color-primary-dark, #2563eb);
+}
+
+.packageCard.selected .selectButton {
+  background: var(--color-success, #10b981);
+}
+
+.error {
+  color: var(--color-error, #dc2626);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Addons Section */
+.addonsSection {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--color-background-alt, #f9fafb);
+  border-radius: 1rem;
+}
+
+.addonsToggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--color-background, #fff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addonsToggle:hover {
+  border-color: var(--color-primary, #3b82f6);
+  background: var(--color-primary-light, #dbeafe);
+}
+
+.toggleIcon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+}
+
+.addonsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.addonCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-background, #fff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addonCard:hover {
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.addonCard.selectedAddon {
+  border-color: var(--color-primary, #3b82f6);
+  background: var(--color-primary-light, #dbeafe);
+}
+
+.addonCheckbox {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.selectedAddon .addonCheckbox {
+  background: var(--color-primary, #3b82f6);
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.addonCheckbox .checkmark {
+  background: transparent;
+  color: white;
+  font-size: 1rem;
+}
+
+.addonInfo {
+  flex-grow: 1;
+}
+
+.addonName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0 0 0.25rem 0;
+}
+
+.addonDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #666);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.addonPrice {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+  flex-shrink: 0;
+}
+
+.addonsSummary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--color-primary-light, #dbeafe);
+  border-radius: 0.75rem;
+  border-left: 4px solid var(--color-primary, #3b82f6);
+}
+
+.summaryText {
+  font-size: 1rem;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0;
+}
+
+.summaryText strong {
+  color: var(--color-primary, #3b82f6);
+}
+
+.summaryPrice {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary, #3b82f6);
+  margin: 0;
+}
+
+.customNote {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--color-info-light, #e0f2fe);
+  border-left: 4px solid var(--color-info, #0284c7);
+  border-radius: 0.5rem;
+}
+
+.customNote p {
+  font-size: 0.9375rem;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .packagesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .addonsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .addonsSummary {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .packageCard {
+    padding: 1.25rem;
+  }
+
+  .packageName {
+    font-size: 1.5rem;
+  }
+
+  .packagePrice {
+    font-size: 1.25rem;
+  }
+
+  .addonsToggle {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: var(--color-text-primary-dark, #f5f5f5);
+  }
+
+  .subtitle {
+    color: var(--color-text-secondary-dark, #a1a1a1);
+  }
+
+  .packageCard {
+    background: var(--color-background-dark, #1f2937);
+    border-color: var(--color-border-dark, #374151);
+  }
+
+  .packageCard.selected {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1f2937 100%);
+  }
+
+  .addonsSection {
+    background: var(--color-background-dark-alt, #111827);
+  }
+
+  .addonsToggle,
+  .addonCard {
+    background: var(--color-background-dark, #1f2937);
+    border-color: var(--color-border-dark, #374151);
+    color: var(--color-text-primary-dark, #f5f5f5);
+  }
+
+  .addonCard.selectedAddon {
+    background: var(--color-primary-dark, #1e40af);
+  }
+}

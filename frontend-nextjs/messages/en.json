@@ -1,0 +1,212 @@
+{
+  "app": {
+    "title": "Mr. DJ booking hub",
+    "subtitle": "Schedule your intake, personalise the experience, and monitor your request in real time.",
+    "bookingSectionLabel": "Booking flow and status"
+  },
+  "eventTypes": {
+    "title": "Choose your event type",
+    "subtitle": "Personalise your quote. We tune the music, follow-up, and CRM workflows to match your event.",
+    "selectedBadge": "Selected",
+    "options": {
+      "bruiloft": {
+        "label": "Wedding",
+        "description": "A romantic evening with live sax and seamless DJ transitions."
+      },
+      "bedrijfsfeest": {
+        "label": "Corporate event",
+        "description": "Polished sets tailored to product launches and team celebrations."
+      },
+      "verjaardag": {
+        "label": "Birthday",
+        "description": "Feel-good classics and surprising mash-ups for every age."
+      },
+      "festival": {
+        "label": "Festival",
+        "description": "High-energy sets with MC and light show for big stages."
+      }
+    }
+  },
+  "hero": {
+    "badge": "✨ 4.9/5 from 180+ reviews",
+    "title": "DJ + Sax that packs your dance floor in two tracks",
+    "subtitle": "Live mashups, a saxophonist on the dance floor, and realtime playlists tuned to your crowd.",
+    "supportingCopy": "120+ events each year, a 4.9/5 rating across 180+ reviews, and a dedicated event manager preparing your intake.",
+    "ctaPrimaryText": "Schedule your intake",
+    "ctaSecondaryText": "Request a mix demo",
+    "stats": [
+      {
+        "label": "Average rating",
+        "value": "4.9/5"
+      },
+      {
+        "label": "Events per year",
+        "value": "120+"
+      },
+      {
+        "label": "Dance floor activation",
+        "value": "98%"
+      }
+    ],
+    "testimonial": {
+      "quote": "Within ten minutes our wedding dance floor was full and they kept the energy going all night.",
+      "author": "Lisa & Robert – Wedding Utrecht"
+    }
+  },
+  "testimonials": {
+    "title": "What Clients Say",
+    "items": [
+      {
+        "quote": "The DJ and saxophonist duo was the highlight of our wedding. The atmosphere was unforgettable!",
+        "author": "John & Mary",
+        "source": "Wedding, Amsterdam",
+        "rating": 5
+      },
+      {
+        "quote": "Professional, energetic, and they knew exactly how to keep the crowd engaged. Perfect for any corporate event.",
+        "author": "Susan van Dijk",
+        "source": "Corporate Party, Utrecht",
+        "rating": 5
+      },
+      {
+        "quote": "The music was perfectly tailored to our guests. The saxophonist took it to the next level!",
+        "author": "Mark de Vries",
+        "source": "Birthday Celebration, Eindhoven",
+        "rating": 5
+      }
+    ]
+  },
+  "language": {
+    "label": "Language",
+    "options": {
+      "en": "English",
+      "nl": "Dutch"
+    }
+  },
+  "pricing": {
+    "hero": {
+      "badge": "Pricing & Packages",
+      "title": "Transparent DJ Packages",
+      "subtitle": "Choose the package that perfectly fits your event. From intimate parties to large weddings - we have the right offer for every occasion. Including professional sound, atmospheric lighting and optional live saxophone."
+    },
+    "features": {
+      "allIn": {
+        "icon": "✨",
+        "title": "All-inclusive packages",
+        "description": "No hidden costs. All prices include arrival, setup, performance and breakdown."
+      },
+      "liveSax": {
+        "icon": "🎷",
+        "title": "Live Saxophone option",
+        "description": "Upgrade any package with a live saxophonist. The difference between fun and legendary."
+      },
+      "guarantee": {
+        "icon": "💯",
+        "title": "100% Dance Guarantee",
+        "description": "Full dance floor or your money back. We've kept this promise in 500+ events."
+      }
+    },
+    "stats": {
+      "rating": "4.9/5 stars",
+      "events": "500+ successful events",
+      "guarantee": "100% dance guarantee",
+      "experience": "15+ years experience"
+    },
+    "packages": {
+      "title": "Our Packages",
+      "brons": {
+        "name": "Bronze Package",
+        "subtitle": "Perfect for intimate parties",
+        "description": "Ideal for small parties and events up to 100 guests"
+      },
+      "zilver": {
+        "name": "Silver Package",
+        "subtitle": "Favorite of 300+ couples",
+        "description": "Most chosen for weddings and medium-sized events"
+      },
+      "goud": {
+        "name": "Gold Package",
+        "subtitle": "Premium All-Inclusive - Stress-free party",
+        "description": "Premium package for large events and weddings"
+      }
+    },
+    "calculator": {
+      "title": "Price Calculator",
+      "subtitle": "Calculate directly what your party will cost",
+      "guestCount": "Number of Guests",
+      "choosePackage": "Choose your package",
+      "addExtras": "Add extras",
+      "total": "Total",
+      "getQuote": "Request Quote for",
+      "disclaimer": "* Prices are indicative and exclude VAT. Exact price will be confirmed in your quote.",
+      "recommendation": "💡 Tip: For {count} guests we recommend the {package}",
+      "popularBadge": "⭐ POPULAR",
+      "popularAddon": "🔥 POPULAR"
+    },
+    "comparison": {
+      "title": "Compare Packages",
+      "subtitle": "See at a glance what each package contains and make the best choice for your event.",
+      "features": "Features",
+      "choosePackage": "Choose {package}",
+      "showMore": "View all features ({count} more) ↓",
+      "question": "Still have questions about the differences between packages?",
+      "cta": "Request personal advice"
+    },
+    "includes": {
+      "title": "What's included in each package?",
+      "sound": {
+        "icon": "🎵",
+        "title": "Professional sound & music",
+        "items": [
+          "Club-quality sound system (suitable for your venue)",
+          "Wireless microphones for speeches & ceremonies",
+          "Extensive music library (all genres & decades)",
+          "Personal music preferences intake beforehand"
+        ]
+      },
+      "lighting": {
+        "icon": "💡",
+        "title": "Atmospheric lighting",
+        "items": [
+          "Moving heads & LED spots (from Silver package onwards)",
+          "Atmospheric lighting tailored to your theme & venue",
+          "Light show synchronized with the music",
+          "Dimmable lighting for intimate moments"
+        ]
+      },
+      "service": {
+        "icon": "🎯",
+        "title": "Complete peace of mind",
+        "items": [
+          "Coordination with your venue (technical planning)",
+          "Setup well before the start (no stress)",
+          "Experienced DJ who reads the vibe & fills the dance floor",
+          "Backup equipment standard"
+        ]
+      },
+      "notSure": {
+        "title": "💡 Not sure which package fits?",
+        "description": "Tell us about your event and we'll be happy to advise you on the perfect package for your needs and budget.",
+        "askAdvice": "Request personal advice",
+        "callDirect": "Call directly"
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions about our packages"
+    },
+    "cta": {
+      "title": "Ready to make your party unforgettable?",
+      "subtitle": "Book now and receive a personal quote within 24 hours",
+      "getQuote": "Request quote",
+      "callNow": "Call us now",
+      "notSure": "Not sure which package suits you? Contact us for personal advice!",
+      "whatsapp": "Request advice via WhatsApp"
+    },
+    "common": {
+      "perEvent": "/ event",
+      "viewAvailability": "View availability",
+      "exclVat": "Prices exclude VAT",
+      "from": "From"
+    }
+  }
+}

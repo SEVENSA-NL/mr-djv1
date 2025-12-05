@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Testimonials matches the snapshot for winter events 1`] = `
+exports[`Testimonials > matches the snapshot for winter events 1`] = `
 <section
   class="py-spacing-3xl bg-neutral-gray-100"
 >
@@ -20,12 +20,16 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
         class="bg-neutral-light p-spacing-xl rounded-lg shadow-xl flex flex-col h-full"
       >
         <div
+          aria-label="Beoordeling: 5 van de 5 sterren"
           class="flex"
+          role="img"
         >
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -35,8 +39,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -46,8 +52,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -57,8 +65,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -68,8 +78,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -105,12 +117,16 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
         class="bg-neutral-light p-spacing-xl rounded-lg shadow-xl flex flex-col h-full"
       >
         <div
+          aria-label="Beoordeling: 4 van de 5 sterren"
           class="flex"
+          role="img"
         >
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -120,8 +136,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -131,8 +149,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -142,8 +162,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-secondary"
+            class="h-5 w-5 text-secondary"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -153,8 +175,10 @@ exports[`Testimonials matches the snapshot for winter events 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="w-5 h-5 text-neutral-gray-500"
+            class="h-5 w-5 text-neutral-gray-500"
             fill="currentColor"
+            focusable="false"
+            role="img"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
           >

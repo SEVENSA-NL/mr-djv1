@@ -3,7 +3,7 @@ import { z } from "zod";
 const contactRequestSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  phone: z.string().min(10),
+  phone: z.string().optional().or(z.literal("")),
   eventDate: z.string().min(1),
   message: z.string().min(10).max(1000),
 });

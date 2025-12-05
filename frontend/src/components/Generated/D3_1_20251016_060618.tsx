@@ -125,13 +125,41 @@ const StickyBookingCTA = () => {
     });
   }, []);
 
-  return (
-    <StickyCTAWrapper isVisible={isVisible}>
-      <BookButton onClick={handleBooking}>
-        Book a DJ Now
-      </BookButton>
-    )
-  }, [handleCloseForm, handleOpenForm, handleSuccess, isFormOpen, successMessage])
+  const handleOpenForm = useCallback(() => {
+    setIsFormOpen(true);
+  }, []);
+
+  const handleCloseForm = useCallback(() => {
+    setIsFormOpen(false);
+  }, []);
+
+  const handleSuccess = useCallback((result: { success: boolean; message: string }) => {
+    if (result.success) {
+      setSuccessMessage(result.message);
+      setIsFormOpen(false);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
+    }
+  }, []);
+
+  const ctaContent = isFormOpen ? (
+    <FormCard>
+      <FormHeader>
+        <Title>Book a DJ</Title>
+        <CloseButton onClick={handleCloseForm}>&times;</CloseButton>
+      </FormHeader>
+      {successMessage ? (
+        <SuccessBanner>{successMessage}</SuccessBanner>
+      ) : (
+        <QuickBookingForm origin="sticky-cta" onSuccess={handleSuccess} />
+      )}
+    </FormCard>
+  ) : (
+    <BookButton onClick={handleOpenForm}>
+      Boek direct een DJ
+    </BookButton>
+  );
 
   return <StickyCTAWrapper $visible={isVisible}>{ctaContent}</StickyCTAWrapper>
 }

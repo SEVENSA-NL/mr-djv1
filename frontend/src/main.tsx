@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import "./lib/i18n"; // Initialize i18n before app renders
 import App from "./App.tsx";
 import HydrationGuard from "./components/HydrationGuard";
 import { registerSW } from "virtual:pwa-register";

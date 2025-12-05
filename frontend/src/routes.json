@@ -2,6 +2,9 @@
   "siteUrl": "https://staging.sevensa.nl",
   "routes": [
     { "path": "/", "changefreq": "weekly", "priority": 1.0 },
+    { "path": "/beschikbaarheid", "changefreq": "weekly", "priority": 0.95 },
+    { "path": "/prijzen", "changefreq": "weekly", "priority": 0.95 },
+    { "path": "/over-ons", "changefreq": "monthly", "priority": 0.8 },
     { "path": "/#diensten", "changefreq": "monthly", "priority": 0.8 },
     { "path": "/#over", "changefreq": "monthly", "priority": 0.7 },
     { "path": "/#pakketten", "changefreq": "weekly", "priority": 0.9 },

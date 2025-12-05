@@ -1,4 +1,5 @@
 import { pushEvent } from "./ga4";
+import { trackCustomEvent as trackPostHogEvent } from "./posthog";
 
 type Fbq = ((...args: unknown[]) => void) | null;
 
@@ -11,6 +12,9 @@ const getFbq = (): Fbq => {
   return typeof candidate === "function" ? candidate : null;
 };
 
+/**
+ * Booking tracking payload
+ */
 export type BookingTrackingPayload = {
   origin: string;
   bookingId?: string | null;
@@ -21,6 +25,9 @@ export type BookingTrackingPayload = {
   currency?: string | null;
 };
 
+/**
+ * Track a booking lead across GA4, PostHog, and Meta Pixel
+ */
 export const trackBookingLead = ({
   origin,
   bookingId,
@@ -45,6 +52,8 @@ export const trackBookingLead = ({
     params,
   });
 
+  trackPostHogEvent("booking_lead", params);
+
   const fbq = getFbq();
   if (fbq) {
     fbq("track", "Lead", {
@@ -58,12 +67,18 @@ export const trackBookingLead = ({
   }
 };
 
+/**
+ * Contact channel payload
+ */
 export type ContactChannelPayload = {
   channel: string;
   origin?: string;
   phoneNumber?: string;
 };
 
+/**
+ * Track a contact channel click across GA4, PostHog, and Meta Pixel
+ */
 export const trackContactChannelClick = ({
   channel,
   origin,
@@ -79,12 +94,141 @@ export const trackContactChannelClick = ({
     },
   });
 
+  trackPostHogEvent("contact_channel_click", {
+    channel,
+    origin,
+    phone_number: phoneNumber,
+  });
+
   const fbq = getFbq();
   if (fbq) {
     fbq("trackCustom", "ContactChannelClick", {
       channel,
       origin,
       phoneNumber,
+    });
+  }
+};
+
+/**
+ * Service engagement payload
+ */
+export type ServiceEngagementPayload = {
+  serviceType: string;
+  serviceId?: string;
+  origin?: string;
+};
+
+/**
+ * Track service view event
+ */
+export const trackServiceViewed = ({
+  serviceType,
+  serviceId,
+  origin,
+}: ServiceEngagementPayload): void => {
+  pushEvent({
+    name: "view_item",
+    params: {
+      item_category: "service",
+      item_id: serviceId ?? serviceType,
+      item_name: serviceType,
+      origin: origin ?? undefined,
+    },
+  });
+
+  trackPostHogEvent("service_viewed", {
+    service_type: serviceType,
+    service_id: serviceId,
+    origin,
+  });
+};
+
+/**
+ * Package selection payload
+ */
+export type PackageSelectionPayload = {
+  packageId: string;
+  packageName: string;
+  price?: number;
+  currency?: string;
+  serviceType?: string;
+};
+
+/**
+ * Track package selection event
+ */
+export const trackPackageSelected = ({
+  packageId,
+  packageName,
+  price,
+  currency,
+  serviceType,
+}: PackageSelectionPayload): void => {
+  pushEvent({
+    name: "select_item",
+    params: {
+      item_id: packageId,
+      item_name: packageName,
+      item_category: serviceType ?? "package",
+      price: price ?? undefined,
+      currency: currency ?? undefined,
+    },
+  });
+
+  trackPostHogEvent("package_selected", {
+    package_id: packageId,
+    package_name: packageName,
+    price,
+    currency,
+    service_type: serviceType,
+  });
+
+  const fbq = getFbq();
+  if (fbq) {
+    fbq("track", "AddToCart", {
+      content_name: packageName,
+      content_type: "product",
+      content_ids: [packageId],
+      value: price ?? undefined,
+      currency: currency ?? undefined,
+    });
+  }
+};
+
+/**
+ * Booking started payload
+ */
+export type BookingStartedPayload = {
+  eventType: string;
+  origin?: string;
+};
+
+/**
+ * Track booking process started
+ */
+export const trackBookingStarted = ({
+  eventType,
+  origin,
+}: BookingStartedPayload): void => {
+  pushEvent({
+    name: "begin_checkout",
+    params: {
+      event_type: eventType,
+      origin: origin ?? undefined,
+    },
+  });
+
+  trackPostHogEvent("booking_started", {
+    event_type: eventType,
+    origin,
+  });
+
+  const fbq = getFbq();
+  if (fbq) {
+    fbq("track", "InitiateCheckout", {
+      content_type: "product",
+      content_category: eventType,
     });
   }
 };

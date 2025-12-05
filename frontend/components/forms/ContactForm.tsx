@@ -14,8 +14,9 @@ const contactSchema = z.object({
   email: z.string().email("Vul een geldig e-mailadres in"),
   phone: z
     .string()
-    .min(10, "Vul een geldig telefoonnummer in")
-    .regex(/^[0-9+\-\s()]+$/, "Telefoonnummer mag alleen cijfers en +, -, (, ) bevatten"),
+    .regex(/^[0-9+\-\s()]*$/, "Telefoonnummer mag alleen cijfers en +, -, (, ) bevatten")
+    .optional()
+    .or(z.literal("")),
   eventDate: z
     .string()
     .min(1, "Selecteer je event datum")
@@ -72,8 +73,8 @@ export default function ContactForm({ className }: ContactFormProps) {
       try {
         posthog.capture("lead_submitted", {
           source: "contact_form",
-          has_phone: true,
-          has_event_date: true,
+          has_phone: !!values.phone,
+          has_event_date: !!values.eventDate,
           field_count: 5,
           timestamp: new Date().toISOString(),
         });
@@ -159,7 +160,7 @@ export default function ContactForm({ className }: ContactFormProps) {
 
         <div className="flex flex-col gap-2">
           <label htmlFor="contact-phone" className="text-sm font-medium text-slate-700">
-            Telefoonnummer
+            Telefoonnummer <span className="text-slate-500">(optioneel)</span>
           </label>
           <input
             id="contact-phone"

@@ -2,9 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import WhatsAppChat from "../components/Generated/D3_2_20251016_060656";
-
-const trackContactChannelClickMock = vi.fn();
+const trackContactChannelClickMock = vi.hoisted(() => vi.fn());
 
 vi.mock("../config/contact", () => ({
   __esModule: true,
@@ -18,6 +16,8 @@ vi.mock("../lib/analytics/events", () => ({
   __esModule: true,
   trackContactChannelClick: trackContactChannelClickMock,
 }));
+
+import WhatsAppChat from "../components/Generated/D3_2_20251016_060656";
 
 describe("WhatsAppChat", () => {
   beforeEach(() => {

@@ -78,9 +78,22 @@
   },
   "language": {
     "label": "Taal",
+    "aria": {
+      "label": "Selecteer taal"
+    },
     "options": {
       "en": "Engels",
       "nl": "Nederlands"
     }
+  },
+  "pricing": {
+    "title": "Prijzen & Pakketten",
+    "subtitle": "Kies het pakket dat bij jouw evenement past",
+    "badge": {
+      "mostChosen": "MEEST GEKOZEN",
+      "popular": "POPULAIR",
+      "recommended": "AANBEVOLEN"
+    },
+    "subtitleRecommended": "Aanbevolen voor de meeste events"
   }
 }

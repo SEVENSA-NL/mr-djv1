@@ -19,7 +19,7 @@ const sanitize = (value: string | undefined): string | null => {
 const env = import.meta.env as Record<string, string | undefined>;
 
 const fallbackPosthogHost = "https://app.posthog.com";
-const defaultPosthogApiKey = "phc_mrdj_live_a7b8c9d0e1f2g3h4i5j6k7l8";
+const defaultPosthogApiKey = "phc_OWPltdSQMiMZGABR8n6sXRPLqpwEKzFBvQjNCDAy1EK";
 const defaultMarketingConfig = {
   metaPixelId: "987654321012345",
   googleTagId: "GTM-NST23HJX",

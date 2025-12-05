@@ -1,0 +1,22 @@
+{
+  "generated_at": "2025-12-05T09:37:40.732Z",
+  "site_url": "https://mr-dj.sevensa.nl",
+  "total_urls": 17,
+  "breakdown": {
+    "core": 4,
+    "services": 3,
+    "cities": 10
+  },
+  "sample_urls": [
+    "https://mr-dj.sevensa.nl/",
+    "https://mr-dj.sevensa.nl/diensten",
+    "https://mr-dj.sevensa.nl/pakketten",
+    "https://mr-dj.sevensa.nl/contact",
+    "https://mr-dj.sevensa.nl/diensten/bruiloft-dj",
+    "https://mr-dj.sevensa.nl/diensten/bedrijfsfeest-dj",
+    "https://mr-dj.sevensa.nl/diensten/feest-dj",
+    "https://mr-dj.sevensa.nl/regio/eindhoven",
+    "https://mr-dj.sevensa.nl/regio/den-bosch",
+    "https://mr-dj.sevensa.nl/regio/tilburg"
+  ]
+}

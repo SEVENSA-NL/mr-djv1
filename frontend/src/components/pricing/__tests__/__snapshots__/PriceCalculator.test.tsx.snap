@@ -1,0 +1,408 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
+<div
+  class="_priceCalculator_a7f9ed"
+>
+  <div
+    class="_header_a7f9ed"
+  >
+    <h2
+      class="_title_a7f9ed"
+    >
+      💰 Prijs Calculator
+    </h2>
+    <p
+      class="_subtitle_a7f9ed"
+    >
+      Bereken direct wat jouw feest gaat kosten
+    </p>
+  </div>
+  <div
+    class="_content_a7f9ed"
+  >
+    <div
+      class="_section_a7f9ed"
+    >
+      <label
+        class="_sectionTitle_a7f9ed"
+      >
+        Aantal Gasten: 
+        <strong>
+          100
+        </strong>
+      </label>
+      <input
+        class="_slider_a7f9ed"
+        max="300"
+        min="20"
+        step="10"
+        type="range"
+        value="100"
+      />
+      <div
+        class="_sliderLabels_a7f9ed"
+      >
+        <span>
+          20
+        </span>
+        <span>
+          150
+        </span>
+        <span>
+          300+
+        </span>
+      </div>
+    </div>
+    <div
+      class="_section_a7f9ed"
+    >
+      <h3
+        class="_sectionTitle_a7f9ed"
+      >
+        Kies je pakket:
+      </h3>
+      <div
+        class="_packages_a7f9ed"
+      >
+        <button
+          class="_packageCard_a7f9ed  "
+          type="button"
+        >
+          <h4
+            class="_packageName_a7f9ed"
+          >
+            Brons Pakket
+          </h4>
+          <p
+            class="_packagePrice_a7f9ed"
+          >
+            €
+            850
+          </p>
+          <p
+            class="_packageDescription_a7f9ed"
+          >
+            Perfect voor kleine feesten tot 80 gasten
+          </p>
+        </button>
+        <button
+          class="_packageCard_a7f9ed _packageSelected_a7f9ed _packageRecommended_a7f9ed"
+          type="button"
+        >
+          <span
+            class="_recommendedBadge_a7f9ed"
+          >
+            ⭐ POPULAIR
+          </span>
+          <h4
+            class="_packageName_a7f9ed"
+          >
+            Zilver Pakket
+          </h4>
+          <p
+            class="_packagePrice_a7f9ed"
+          >
+            €
+            1350
+          </p>
+          <p
+            class="_packageDescription_a7f9ed"
+          >
+            Meest gekozen voor bruiloften 80-150 gasten
+          </p>
+        </button>
+        <button
+          class="_packageCard_a7f9ed  "
+          type="button"
+        >
+          <h4
+            class="_packageName_a7f9ed"
+          >
+            Goud Pakket
+          </h4>
+          <p
+            class="_packagePrice_a7f9ed"
+          >
+            €
+            2000
+          </p>
+          <p
+            class="_packageDescription_a7f9ed"
+          >
+            Premium pakket voor grote events 150+ gasten
+          </p>
+        </button>
+      </div>
+    </div>
+    <div
+      class="_section_a7f9ed"
+    >
+      <h3
+        class="_sectionTitle_a7f9ed"
+      >
+        Extra's toevoegen:
+      </h3>
+      <div
+        class="_addons_a7f9ed"
+      >
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                LED Dansvloer
+                <span
+                  class="_popularBadge_a7f9ed"
+                >
+                  🔥 POPULAIR
+                </span>
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                450
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              Verlichte dansvloer 4x4m
+            </p>
+          </div>
+        </label>
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                Photobooth
+                <span
+                  class="_popularBadge_a7f9ed"
+                >
+                  🔥 POPULAIR
+                </span>
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                350
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              Inclusief prints en props
+            </p>
+          </div>
+        </label>
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                CO2 Cannons
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                200
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              2 cannons + CO2 tanks
+            </p>
+          </div>
+        </label>
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                Live Saxofoon (extra uur)
+                <span
+                  class="_popularBadge_a7f9ed"
+                >
+                  🔥 POPULAIR
+                </span>
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                300
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              Extra uur live saxofoon
+            </p>
+          </div>
+        </label>
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                Venue Uplighting
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                250
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              12 LED uplights voor venue
+            </p>
+          </div>
+        </label>
+        <label
+          class="_addonItem_a7f9ed"
+        >
+          <input
+            class="_checkbox_a7f9ed"
+            type="checkbox"
+          />
+          <div
+            class="_addonInfo_a7f9ed"
+          >
+            <div
+              class="_addonHeader_a7f9ed"
+            >
+              <span
+                class="_addonName_a7f9ed"
+              >
+                Love Letters
+              </span>
+              <span
+                class="_addonPrice_a7f9ed"
+              >
+                +€
+                150
+              </span>
+            </div>
+            <p
+              class="_addonDescription_a7f9ed"
+            >
+              Verlichte LOVE letters 1.2m
+            </p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div
+      class="_totalSection_a7f9ed"
+    >
+      <div
+        class="_totalBreakdown_a7f9ed"
+      >
+        <div
+          class="_breakdownLine_a7f9ed"
+        >
+          <span>
+            Pakket (
+            Zilver Pakket
+            )
+          </span>
+          <span>
+            €
+            1350
+          </span>
+        </div>
+      </div>
+      <div
+        class="_totalLine_a7f9ed"
+      >
+        <span
+          class="_totalLabel_a7f9ed"
+        >
+          Totaal:
+        </span>
+        <span
+          class="_totalAmount_a7f9ed"
+        >
+          €
+          1350
+        </span>
+      </div>
+      <button
+        class="_ctaButton_a7f9ed"
+        type="button"
+      >
+        ✨ Offerte Aanvragen voor €
+        1350
+      </button>
+      <p
+        class="_disclaimer_a7f9ed"
+      >
+        * Prijzen zijn indicatief en exclusief BTW. Exacte prijs wordt bevestigd in je offerte.
+      </p>
+    </div>
+  </div>
+</div>
+`;

@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './VideoTestimonial.module.css';
 
@@ -31,6 +29,7 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const currentTestimonial = testimonials[currentIndex];
@@ -95,7 +94,28 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
   const handleThumbnailClick = (index: number) => {
     setCurrentIndex(index);
     setIsPlaying(false);
+    setVideoError(false);
   };
+
+  const handleVideoError = () => {
+    setVideoError(true);
+    setIsPlaying(false);
+
+    // Track video error
+    if (typeof window !== 'undefined' && window.posthog) {
+      window.posthog.capture('video_testimonial_error', {
+        testimonial_id: currentTestimonial.id,
+        testimonial_name: currentTestimonial.name,
+        video_url: currentTestimonial.videoUrl,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  };
+
+  // Reset error state when testimonial changes
+  useEffect(() => {
+    setVideoError(false);
+  }, [currentIndex]);
 
   return (
     <div className={styles.container}>
@@ -106,47 +126,72 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
 
       <div className={styles.videoContainer}>
         <div className={styles.mainVideo}>
-          <video
-            ref={videoRef}
-            className={styles.video}
-            poster={currentTestimonial.thumbnail}
-            preload="metadata"
-            playsInline
-            loop={loop}
-            onEnded={handleVideoEnd}
-            controls={showControls && hasUserInteracted}
-          >
-            <source src={currentTestimonial.videoUrl} type="video/mp4" />
-            Je browser ondersteunt geen HTML5 video.
-          </video>
-
-          {!isPlaying && (
-            <button
-              type="button"
-              className={styles.playButton}
-              onClick={handlePlay}
-              aria-label="Video afspelen"
-            >
-              <svg
-                className={styles.playIcon}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          {!videoError ? (
+            <>
+              <video
+                ref={videoRef}
+                className={styles.video}
+                poster={currentTestimonial.thumbnail}
+                preload="metadata"
+                playsInline
+                loop={loop}
+                onEnded={handleVideoEnd}
+                onError={handleVideoError}
+                controls={showControls && hasUserInteracted}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
+                <source src={currentTestimonial.videoUrl} type="video/mp4" />
+                Je browser ondersteunt geen HTML5 video.
+              </video>
+
+              {!isPlaying && (
+                <button
+                  type="button"
+                  className={styles.playButton}
+                  onClick={handlePlay}
+                  aria-label="Video afspelen"
+                >
+                  <svg
+                    className={styles.playIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+              )}
+            </>
+          ) : (
+            <div className={styles.videoFallback}>
+              <div className={styles.fallbackIcon}>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  className={styles.fallbackIconSvg}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <p className={styles.fallbackText}>Video kon niet worden geladen</p>
+              <p className={styles.fallbackSubtext}>Lees hieronder de testimonial</p>
+            </div>
           )}
 
           <div className={styles.videoInfo}>
@@ -224,3 +269,4 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
 };
 
 export default VideoTestimonial;
+export type { Testimonial };

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeroSection matches the default snapshot 1`] = `
+exports[`HeroSection > matches the default snapshot 1`] = `
 <section
   class="bg-neutral-dark py-spacing-3xl px-spacing-xl min-h-[60vh] flex items-center"
 >
@@ -23,13 +23,13 @@ exports[`HeroSection matches the default snapshot 1`] = `
       class="flex justify-center gap-spacing-md flex-wrap"
     >
       <button
-        class="inline-flex items-center justify-center rounded-md text-strong transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-secondary text-neutral-dark hover:bg-secondary/90 focus-visible:ring-secondary/40 px-spacing-lg py-spacing-md body-lg"
+        class="inline-flex items-center justify-center rounded-md text-strong transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-secondary text-neutral-dark hover:bg-secondary/90 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-secondary/40 px-spacing-lg py-spacing-md body-lg"
         type="button"
       >
         Controleer beschikbaarheid
       </button>
       <button
-        class="inline-flex items-center justify-center rounded-md text-strong transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-neutral-dark text-neutral-dark hover:bg-neutral-light focus-visible:ring-neutral-dark/40 px-spacing-lg py-spacing-md body-lg"
+        class="inline-flex items-center justify-center rounded-md text-strong transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-neutral-dark text-neutral-dark hover:bg-neutral-light hover:shadow-sm hover:scale-[1.01] active:scale-[0.99] focus-visible:ring-neutral-dark/40 px-spacing-lg py-spacing-md body-lg"
         type="button"
       >
         Vraag een offerte aan

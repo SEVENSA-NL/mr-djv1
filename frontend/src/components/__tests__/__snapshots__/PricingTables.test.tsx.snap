@@ -1,17 +1,81 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PricingTables matches the snapshot for custom packages 1`] = `
+exports[`PricingTables > matches the snapshot for custom packages 1`] = `
 <section
   class="py-spacing-3xl bg-neutral-gray-100"
 >
   <div
     class="container mx-auto px-spacing-md"
   >
-    <h2
-      class="heading-2 text-center text-neutral-dark mb-spacing-2xl"
+    <div
+      class="mb-spacing-2xl text-center"
     >
-      Onze Pakketten
-    </h2>
+      <h2
+        class="heading-2 text-neutral-dark mb-spacing-md"
+      >
+        Onze Pakketten
+      </h2>
+      <div
+        class="flex flex-wrap justify-center gap-x-spacing-xl gap-y-spacing-xs text-sm text-neutral-600"
+      >
+        <div
+          class="flex items-center gap-spacing-xs"
+        >
+          <span
+            class="text-lg"
+          >
+            ⭐
+          </span>
+          <span
+            class="font-medium"
+          >
+            4.9/5 sterren
+          </span>
+        </div>
+        <div
+          class="flex items-center gap-spacing-xs"
+        >
+          <span
+            class="text-lg"
+          >
+            🎉
+          </span>
+          <span
+            class="font-medium"
+          >
+            500+ geslaagde events
+          </span>
+        </div>
+        <div
+          class="flex items-center gap-spacing-xs"
+        >
+          <span
+            class="text-lg"
+          >
+            💯
+          </span>
+          <span
+            class="font-medium"
+          >
+            100% dansgarantie
+          </span>
+        </div>
+        <div
+          class="flex items-center gap-spacing-xs"
+        >
+          <span
+            class="text-lg"
+          >
+            ⏱️
+          </span>
+          <span
+            class="font-medium"
+          >
+            15+ jaar ervaring
+          </span>
+        </div>
+      </div>
+    </div>
     <div
       class="grid grid-cols-1 md:grid-cols-3 gap-spacing-xl items-center"
     >
@@ -108,19 +172,36 @@ exports[`PricingTables matches the snapshot for custom packages 1`] = `
           </li>
         </ul>
         <button
-          class="inline-flex items-center justify-center rounded-md text-strong transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-primary text-neutral-light hover:bg-primary/90 focus-visible:ring-primary/40 px-spacing-lg py-spacing-md body-lg w-full"
+          class="inline-flex items-center justify-center rounded-md text-strong transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-primary text-neutral-light hover:bg-primary/90 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-primary/40 px-spacing-lg py-spacing-md body-lg w-full"
           type="button"
         >
           Plan intake
         </button>
       </div>
       <div
-        class="relative flex flex-col p-spacing-xl rounded-lg transition duration-300 bg-neutral-dark text-neutral-light shadow-2xl transform scale-105"
+        class="relative flex flex-col p-spacing-xl rounded-lg transition duration-300 bg-neutral-dark text-neutral-light shadow-2xl transform md:scale-105 scale-100 ring-4 ring-amber-500 ring-offset-2 relative z-10"
       >
         <div
-          class="absolute top-0 right-0 bg-secondary text-neutral-dark body-sm text-strong px-spacing-md py-spacing-xs rounded-tr-lg rounded-bl-lg"
+          class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-amber-400 text-neutral-dark body-sm text-strong px-spacing-lg py-spacing-sm rounded-full shadow-lg border-2 border-amber-300 flex items-center gap-2 whitespace-nowrap animate-pulse-subtle"
         >
-          Populair
+          <svg
+            aria-hidden="true"
+            class="w-4 h-4"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <span
+            class="font-bold"
+          >
+            MEEST GEKOZEN
+          </span>
         </div>
         <div
           class="pb-spacing-md mb-spacing-md text-secondary border-b border-secondary/50"
@@ -231,7 +312,7 @@ exports[`PricingTables matches the snapshot for custom packages 1`] = `
           </li>
         </ul>
         <button
-          class="inline-flex items-center justify-center rounded-md text-strong transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-secondary text-neutral-dark hover:bg-secondary/90 focus-visible:ring-secondary/40 px-spacing-lg py-spacing-md body-lg w-full"
+          class="inline-flex items-center justify-center rounded-md text-strong transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-secondary text-neutral-dark hover:bg-secondary/90 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-secondary/40 px-spacing-lg py-spacing-md body-lg w-full"
           type="button"
         >
           Boek nu
@@ -349,12 +430,43 @@ exports[`PricingTables matches the snapshot for custom packages 1`] = `
           </li>
         </ul>
         <button
-          class="inline-flex items-center justify-center rounded-md text-strong transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-primary text-neutral-light hover:bg-primary/90 focus-visible:ring-primary/40 px-spacing-lg py-spacing-md body-lg w-full"
+          class="inline-flex items-center justify-center rounded-md text-strong transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-primary text-neutral-light hover:bg-primary/90 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-primary/40 px-spacing-lg py-spacing-md body-lg w-full"
           type="button"
         >
           Vraag offerte aan
         </button>
       </div>
+    </div>
+    <div
+      class="mt-spacing-2xl flex flex-col items-center gap-spacing-md text-center"
+    >
+      <p
+        class="body-lg text-neutral-dark max-w-2xl"
+      >
+        Niet zeker welk pakket bij je past? Chat direct met ons via WhatsApp voor persoonlijk advies!
+      </p>
+      <a
+        aria-label="Vraag advies via WhatsApp"
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-green-500 hover:shadow-xl active:bg-green-700 "
+        href="https://wa.me/31620383638?text=Hoi%20Mister%20DJ%2C%20ik%20heb%20een%20vraag%20over%20jullie%20pakketten%20en%20prijzen."
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          aria-hidden="true"
+          class="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+          />
+        </svg>
+        <span>
+          Vraag advies via WhatsApp
+        </span>
+      </a>
     </div>
   </div>
 </section>

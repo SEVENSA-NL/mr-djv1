@@ -67,7 +67,7 @@ function PricingCard({ pkg }: { pkg: PricingFeatureSet }) {
   const { name, subtitle, price, features, isFeatured, buttonText } = pkg;
 
   const cardClasses = isFeatured
-    ? "bg-neutral-dark text-neutral-light shadow-2xl transform scale-105 ring-4 ring-amber-500 ring-offset-2"
+    ? "bg-neutral-dark text-neutral-light shadow-2xl transform md:scale-105 scale-100 ring-4 ring-amber-500 ring-offset-2 relative z-10"
     : "bg-neutral-light text-neutral-dark shadow-lg";
 
   const headerClasses = isFeatured
@@ -81,12 +81,13 @@ function PricingCard({ pkg }: { pkg: PricingFeatureSet }) {
       className={`relative flex flex-col p-spacing-xl rounded-lg transition duration-300 ${cardClasses}`}
     >
       {isFeatured ? (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-amber-400 text-neutral-dark body-sm text-strong px-spacing-lg py-spacing-sm rounded-full shadow-lg border-2 border-amber-300 flex items-center gap-2">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-amber-400 text-neutral-dark body-sm text-strong px-spacing-lg py-spacing-sm rounded-full shadow-lg border-2 border-amber-300 flex items-center gap-2 whitespace-nowrap animate-pulse-subtle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
             className="w-4 h-4"
+            aria-hidden="true"
           >
             <path
               fillRule="evenodd"

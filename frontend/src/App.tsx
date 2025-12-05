@@ -1,63 +1,30 @@
-import { useTranslation } from "react-i18next";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import LanguageSwitcher from "./components/LanguageSwitcher";
-import BookingSummary from "./components/BookingSummary";
-import QuickBookingForm from "./components/booking/QuickBookingForm";
-import EventTypeSelector from "./components/booking/EventTypeSelector";
 import { EventTypeProvider } from "./context/EventTypeContext";
 import UserBehaviorTracker from "./components/analytics/UserBehaviorTracker";
-import HeroSection from "./components/HeroSection";
-import Testimonials from "./components/Testimonials";
+import Layout from "./components/Layout";
 
-type HeroContent = {
-  title: string;
-  subtitle: string;
-  ctaPrimaryText: string;
-  ctaSecondaryText?: string;
-};
-
-type AppCopy = {
-  title: string;
-  subtitle?: string;
-};
+// Pages
+import HomePage from "./pages/HomePage";
+import AvailabilityPage from "./pages/AvailabilityPage";
+import PricingPage from "./pages/PricingPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
-  const { t } = useTranslation();
-  const heroContent = t("hero", { returnObjects: true }) as HeroContent;
-  const appCopy = t("app", { returnObjects: true }) as AppCopy;
-
   return (
     <EventTypeProvider>
-      <div className="App">
+      <Router>
         <UserBehaviorTracker />
-        <header className="app-header">
-          <div className="app-brand">
-            <p className="app-badge">{t("hero.badge")}</p>
-            <h1 className="app-title">{appCopy.title}</h1>
-            {appCopy.subtitle ? <p className="app-subtitle">{appCopy.subtitle}</p> : null}
-          </div>
-          <LanguageSwitcher />
-        </header>
-
-        <main className="app-main">
-          <HeroSection
-            title={heroContent.title}
-            subtitle={heroContent.subtitle}
-            ctaPrimaryText={heroContent.ctaPrimaryText}
-            ctaSecondaryText={heroContent.ctaSecondaryText}
-          />
-
-          <EventTypeSelector />
-
-          <section className="booking-grid" aria-label={t("app.bookingSectionLabel") ?? "Boekingsflow"}>
-            <QuickBookingForm origin="landing-page" autoFocus />
-            <BookingSummary />
-          </section>
-
-          <Testimonials />
-        </main>
-      </div>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/beschikbaarheid" element={<AvailabilityPage />} />
+            <Route path="/prijzen" element={<PricingPage />} />
+            <Route path="/over-ons" element={<AboutPage />} />
+          </Routes>
+        </Layout>
+      </Router>
     </EventTypeProvider>
   );
 }

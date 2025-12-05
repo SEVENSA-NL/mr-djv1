@@ -118,5 +118,91 @@ exports[`structuredData > injects structured data scripts into the head exactly 
   }
 }
   </script>
+  <script
+    id="schema-weddingFAQ"
+    type="application/ld+json"
+  >
+    {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wat kost een DJ met live saxofonist voor een bruiloft?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "De kosten variëren afhankelijk van de duur en locatie. Neem contact met ons op voor een persoonlijke offerte op basis van uw wensen en budget."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hoever van tevoren moet ik een DJ boeken?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We raden aan om minstens 3-6 maanden van tevoren te boeken, vooral voor populaire data zoals zaterdagen in het zomerseizoen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Verzorgen jullie ook de geluidsapparatuur?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, wij verzorgen professionele geluidsapparatuur en lichtshow die past bij de grootte en sfeer van uw evenement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kunnen we muziekwensen doorgeven?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absoluut! We stemmen de muziek volledig af op uw wensen en kunnen vooraf een playlist samenstellen met uw favoriete nummers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "In welke regio's zijn jullie actief?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We zijn actief in heel Zuid-Nederland, met name in Brabant, Eindhoven, Tilburg, Den Bosch en omgeving."
+      }
+    }
+  ]
+}
+  </script>
+  <script
+    id="schema-corporateFAQ"
+    type="application/ld+json"
+  >
+    {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wat maakt jullie geschikt voor bedrijfsevents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We hebben jarenlange ervaring met bedrijfsfeesten en corporate events. Onze DJ's begrijpen hoe ze een professionele maar ontspannen sfeer kunnen creëren die past bij uw bedrijfscultuur."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kunnen jullie muziek aanpassen aan verschillende doelgroepen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, we stemmen de muziek af op uw gasten en het type event. Of het nu gaat om een netwerkevent, jubileum of teambuilding, we zorgen voor de juiste sfeer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bieden jullie ook technische ondersteuning?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, we bieden volledige technische ondersteuning inclusief geluid, verlichting en indien gewenst ook microfoons voor speeches of presentaties."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 `;

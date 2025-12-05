@@ -31,11 +31,14 @@ export default function WhatsAppButton({
 
   const handleClick = () => {
     try {
-      posthog.capture("whatsapp_button_click", {
-        variant,
-        message_type: messageType,
-        timestamp: new Date().toISOString(),
-      });
+      if (typeof window !== "undefined" && window.posthog) {
+        window.posthog.capture("whatsapp_button_click", {
+          variant,
+          message_type: messageType,
+          phone_number: PHONE_NUMBER,
+          timestamp: new Date().toISOString(),
+        });
+      }
     } catch (error) {
       console.warn("PostHog tracking failed:", error);
     }

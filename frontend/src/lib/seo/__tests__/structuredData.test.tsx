@@ -25,10 +25,12 @@ describe("structuredData", () => {
 
     const scripts = document.querySelectorAll("script[type='application/ld+json'][id^='schema-']");
 
-    expect(scripts).toHaveLength(3);
+    expect(scripts).toHaveLength(5);
     expect(document.getElementById("schema-organization")).toBeInTheDocument();
     expect(document.getElementById("schema-service")).toBeInTheDocument();
     expect(document.getElementById("schema-localBusiness")).toBeInTheDocument();
+    expect(document.getElementById("schema-weddingFAQ")).toBeInTheDocument();
+    expect(document.getElementById("schema-corporateFAQ")).toBeInTheDocument();
     expect(document.head).toMatchSnapshot();
 
     scripts.forEach((script) => {

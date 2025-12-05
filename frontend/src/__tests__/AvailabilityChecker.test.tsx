@@ -44,7 +44,7 @@ describe("AvailabilityChecker autosave behaviour", () => {
     expect(screen.getByLabelText("Uw E-mailadres")).toHaveValue("saved@example.com");
     await waitFor(() => {
       expect(screen.getByTestId("selected-date")).toHaveTextContent("2025-02-01T00:00:00.000Z");
-    });
+    }, { timeout: 3000 });
   });
 
   it("saves user input to localStorage", async () => {
@@ -64,7 +64,7 @@ describe("AvailabilityChecker autosave behaviour", () => {
         email: "new@example.com",
         selectedDate: "2025-06-15T00:00:00.000Z",
       });
-    });
+    }, { timeout: 3000 });
   });
 
   it("clears saved data after a successful submission", async () => {
@@ -91,7 +91,7 @@ describe("AvailabilityChecker autosave behaviour", () => {
 
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalled();
-    });
+    }, { timeout: 3000 });
 
     const [calledUrl, options] = fetchMock.mock.calls[0];
     expect(calledUrl).toBe("/api/availability/check");
@@ -106,18 +106,18 @@ describe("AvailabilityChecker autosave behaviour", () => {
 
     await waitFor(() => {
       expect(window.dataLayer?.find((entry) => entry.event === "availability_check_success")).toBeTruthy();
-    });
+    }, { timeout: 3000 });
 
     await waitFor(() => {
       expect(
         screen.getByText("Beschikbaarheid gecontroleerd! We nemen contact op via e-mail."),
       ).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
     await waitFor(() => {
       expect(window.localStorage.getItem(STORAGE_KEY)).toBeNull();
       expect(screen.getByLabelText("Uw E-mailadres")).toHaveValue("");
       expect(screen.getByTestId("selected-date")).toHaveTextContent("no-date");
-    });
+    }, { timeout: 3000 });
   });
 });

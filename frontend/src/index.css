@@ -292,6 +292,20 @@ button:focus-visible {
   }
 }
 
+/* Custom animations for pricing components */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* Respect user's motion preferences for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -301,5 +315,9 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-pulse-subtle {
+    animation: none !important;
   }
 }
