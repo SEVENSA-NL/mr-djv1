@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PricingTables from "@/src/components/PricingTables";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PriceCalculator from "@/components/pricing/PriceCalculator";
 
 export const metadata: Metadata = {
   title: "Pakketten & Prijzen - Transparante DJ Pakketten",
@@ -56,6 +57,8 @@ export default function PakkettenPage() {
       </section>
 
       <PricingTables />
+
+      <PriceCalculator />
 
       <section className="mx-auto max-w-5xl px-4 py-16 lg:px-0">
         <div className="rounded-lg bg-gradient-to-br from-amber-50 to-amber-100 p-8">

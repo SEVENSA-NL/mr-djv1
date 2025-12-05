@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. DJ - Factuur Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #F5F5F5;
+            padding: 40px 20px;
+        }
+        
+        .invoice-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Header Section */
+        .invoice-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #0D1625 100%);
+            color: #FFFFFF;
+            padding: 40px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .logo-section {
+            flex: 1;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .company-info {
+            font-size: 12px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .company-info strong {
+            color: #D4AF37;
+            display: block;
+            margin-top: 8px;
+        }
+        
+        .invoice-title-section {
+            text-align: right;
+        }
+        
+        .invoice-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .invoice-number {
+            font-size: 16px;
+            color: #00AEEF;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .invoice-date {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* Client & Details Section */
+        .details-section {
+            padding: 40px 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .client-info, .invoice-details {
+            background: #F9F9F9;
+            padding: 25px;
+            border-left: 4px solid #00AEEF;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A2C4B;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .info-line {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-line strong {
+            font-weight: 600;
+            color: #1A2C4B;
+        }
+        
+        /* Items Table */
+        .items-section {
+            padding: 0 50px 30px 50px;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .items-table thead {
+            background: #1A2C4B;
+            color: #FFFFFF;
+        }
+        
+        .items-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .items-table th:last-child,
+        .items-table td:last-child {
+            text-align: right;
+        }
+        
+        .items-table tbody tr {
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .items-table tbody tr:hover {
+            background: #F9F9F9;
+        }
+        
+        .items-table td {
+            padding: 15px;
+            font-size: 14px;
+            color: #1A2C4B;
+        }
+        
+        .item-description {
+            font-weight: 600;
+            color: #1A2C4B;
+            margin-bottom: 3px;
+        }
+        
+        .item-details {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Totals Section */
+        .totals-section {
+            padding: 0 50px 40px 50px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .totals-table {
+            width: 350px;
+        }
+        
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #1A2C4B;
+        }
+        
+        .totals-row.subtotal {
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .totals-row.vat {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .totals-row.total {
+            background: #1A2C4B;
+            color: #FFFFFF;
+            padding: 15px 20px;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .totals-row.total .amount {
+            color: #D4AF37;
+            font-size: 24px;
+        }
+        
+        /* Payment Info */
+        .payment-section {
+            padding: 30px 50px;
+            background: #F9F9F9;
+            border-top: 3px solid #00AEEF;
+        }
+        
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .payment-block {
+            background: #FFFFFF;
+            padding: 20px;
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .payment-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A2C4B;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .payment-info {
+            font-size: 13px;
+            color: #1A2C4B;
+            line-height: 1.8;
+        }
+        
+        .payment-highlight {
+            background: #FFF9E6;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .payment-highlight strong {
+            color: #1A2C4B;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        .invoice-footer {
+            background: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 25px 50px;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .footer-highlight {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: #FFFFFF;
+                padding: 0;
+            }
+            
+            .invoice-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="logo-section">
+                <img src="mr_dj_logo.png" alt="Mr. DJ Logo" class="logo">
+                <div class="company-info">
+                    <strong>Mr. DJ</strong>
+                    Zuid-Nederland<br>
+                    www.mr-dj.nl<br>
+                    info@mr-dj.nl
+                </div>
+            </div>
+            <div class="invoice-title-section">
+                <div class="invoice-title">FACTUUR</div>
+                <div class="invoice-number">Factuurnummer: 2026-001</div>
+                <div class="invoice-date">Factuurdatum: 15 januari 2026</div>
+            </div>
+        </div>
+        
+        <!-- Client & Invoice Details -->
+        <div class="details-section">
+            <div class="client-info">
+                <div class="section-title">Factuuradres</div>
+                <div class="info-line"><strong>Familie Jansen</strong></div>
+                <div class="info-line">Hoofdstraat 123</div>
+                <div class="info-line">5611 AB Eindhoven</div>
+                <div class="info-line">Nederland</div>
+                <div class="info-line" style="margin-top: 10px;">Email: jansen@email.nl</div>
+                <div class="info-line">Tel: +31 6 1234 5678</div>
+            </div>
+            
+            <div class="invoice-details">
+                <div class="section-title">Factuurgegevens</div>
+                <div class="info-line"><strong>Event:</strong> Bruiloft</div>
+                <div class="info-line"><strong>Datum:</strong> 20 juni 2026</div>
+                <div class="info-line"><strong>Locatie:</strong> Landgoed De Rosep, Oisterwijk</div>
+                <div class="info-line"><strong>Tijd:</strong> 20:00 - 02:00 uur</div>
+                <div class="info-line" style="margin-top: 10px;"><strong>Vervaldatum:</strong> 15 februari 2026</div>
+                <div class="info-line"><strong>Betalingstermijn:</strong> 30 dagen</div>
+            </div>
+        </div>
+        
+        <!-- Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Omschrijving</th>
+                        <th style="width: 15%;">Aantal</th>
+                        <th style="width: 15%;">Prijs</th>
+                        <th style="width: 20%;">Totaal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="item-description">DJ Services - Goud Pakket</div>
+                            <div class="item-details">Professionele DJ voor 6 uur inclusief apparatuur, lichtshow en 100% dansgarantie</div>
+                        </td>
+                        <td>1</td>
+                        <td>€1.500,00</td>
+                        <td>€1.500,00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-description">Extra Uur</div>
+                            <div class="item-details">Verlenging tot 02:00 uur</div>
+                        </td>
+                        <td>2</td>
+                        <td>€150,00</td>
+                        <td>€300,00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-description">Openingsdans Mix</div>
+                            <div class="item-details">Professionele mix van 3 nummers voor eerste dans</div>
+                        </td>
+                        <td>1</td>
+                        <td>€75,00</td>
+                        <td>€75,00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-description">Reiskosten</div>
+                            <div class="item-details">Oisterwijk - 45 km enkele reis</div>
+                        </td>
+                        <td>1</td>
+                        <td>€25,00</td>
+                        <td>€25,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Totals -->
+        <div class="totals-section">
+            <div class="totals-table">
+                <div class="totals-row subtotal">
+                    <span>Subtotaal</span>
+                    <span>€1.900,00</span>
+                </div>
+                <div class="totals-row vat">
+                    <span>BTW 21%</span>
+                    <span>€399,00</span>
+                </div>
+                <div class="totals-row total">
+                    <span>Totaal te betalen</span>
+                    <span class="amount">€2.299,00</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <div class="payment-grid">
+                <div class="payment-block">
+                    <div class="payment-title">Betaalgegevens</div>
+                    <div class="payment-info">
+                        <strong>Bankrekening:</strong> NL12 ABNA 0123 4567 89<br>
+                        <strong>Ten name van:</strong> Mr. DJ<br>
+                        <strong>BIC/SWIFT:</strong> ABNANL2A<br>
+                        <strong>BTW-nummer:</strong> NL123456789B01<br>
+                        <strong>KvK-nummer:</strong> 12345678
+                    </div>
+                    <div class="payment-highlight">
+                        <strong>Vermeld bij betaling:</strong> Factuurnummer 2026-001
+                    </div>
+                </div>
+                
+                <div class="payment-block">
+                    <div class="payment-title">Betalingsvoorwaarden</div>
+                    <div class="payment-info">
+                        Deze factuur dient binnen 30 dagen na factuurdatum te worden voldaan. Bij overschrijding van de betalingstermijn zijn wij gerechtigd de wettelijke rente in rekening te brengen.<br><br>
+                        <strong>Aanbetaling:</strong> 50% bij boeking<br>
+                        <strong>Restbedrag:</strong> Uiterlijk 14 dagen voor event
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-highlight">100% Dansgarantie | 15+ Jaar Ervaring | 2500+ Succesvolle Events</div>
+            Bedankt voor uw vertrouwen in Mr. DJ. Voor vragen over deze factuur kunt u contact opnemen via info@mr-dj.nl<br>
+            Algemene voorwaarden zijn van toepassing. Zie www.mr-dj.nl/voorwaarden
+        </div>
+    </div>
+</body>
+</html>

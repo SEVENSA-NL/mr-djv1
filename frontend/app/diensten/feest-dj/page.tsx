@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PricingTables from "@/src/components/PricingTables";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AvailabilityChecker from "@/components/booking/AvailabilityChecker";
 
 export const metadata: Metadata = {
   title: "Feest DJ - Professionele DJ voor elk feest",
@@ -118,6 +119,8 @@ export default function FeestDJPage() {
       </section>
 
       <PricingTables />
+
+      <AvailabilityChecker defaultEventType="feest" />
 
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-0">

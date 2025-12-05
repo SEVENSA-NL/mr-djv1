@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-05T04:06:30.588Z",
+  "categories": {
+    "weddingDJ": {
+      "category": "wedding-dj",
+      "total": 10,
+      "successful": 10,
+      "results": [
+        {
+          "category": "wedding-dj",
+          "index": 1,
+          "prompt": "Professional DJ setup at an elegant wedding reception, white and gold decor, uplighting, romantic atmosphere, soft focus, high-end event photography style",
+          "success": true,
+          "predictionId": "yggzp0x4f1rme0ctxjrak3h06m",
+          "imageUrl": "https://replicate.delivery/xezq/VWDawGRqMf2bXKqDBQ5LBMwVrm2g6NeIvFGOmXeubwUQiBgrA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 2,
+          "prompt": "DJ mixing at luxurious wedding, bride and groom dancing in foreground, purple uplighting, modern DJ equipment, professional event photography",
+          "success": true,
+          "predictionId": "6wzwndxhmsrm80ctxjratbw8mr",
+          "imageUrl": "https://replicate.delivery/xezq/QvWZ06qsiy5KOhSJ0nTmeqXl1QHagjnGopFyYUleopnLxAwVA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 3,
+          "prompt": "Wedding dance floor filled with guests dancing, professional DJ booth with Mr-DJ branding, warm golden lighting, joyful atmosphere",
+          "success": true,
+          "predictionId": "t96bajdyrhrme0ctxjr8m0m12w",
+          "imageUrl": "https://replicate.delivery/xezq/oCFsMuHk5g7vKJAdgFYVGfSI9pz4IUj3uXqhp8QUohfOxAwVA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 4,
+          "prompt": "Elegant wedding ceremony transitioning to reception, DJ setup with subtle lighting, sophisticated venue, professional photography",
+          "success": true,
+          "predictionId": "863xchpbzsrme0ctxjrb08kvar",
+          "imageUrl": "https://replicate.delivery/xezq/r1wVhfUUlw3VIqjkIesa0iUaK9mpkoet4hG3vmk1tCxkiBgrA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 5,
+          "prompt": "First dance at wedding with DJ in background, romantic lighting, elegant venue, professional event capture",
+          "success": true,
+          "predictionId": "ynjaxtps7hrma0ctxjrbzrgnp0",
+          "imageUrl": "https://replicate.delivery/xezq/tf2iVfgyvNvX3Utf1UPX31xXJIfBBp2TfCwp51Yd4EE5KGAuC/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 6,
+          "prompt": "DJ headphones closeup at wedding, mixer controls, elegant wedding venue background, professional equipment",
+          "success": true,
+          "predictionId": "t125be7ep1rmc0ctxjrafw8yvw",
+          "imageUrl": "https://replicate.delivery/xezq/Q8agjpO7nU49MZIeo51krOnXKfiw8CDPxnLIANcstXXbxAwVA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 7,
+          "prompt": "Outdoor wedding reception at sunset, DJ booth setup, string lights, romantic atmosphere, golden hour photography",
+          "success": true,
+          "predictionId": "ymwze8zw8drm80ctxjramcbjs0",
+          "imageUrl": "https://replicate.delivery/xezq/A0ZoYpUFXKqOO5JAZ1uxoLHt1dlkduhIF0P2G7iyjecvYA4KA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 8,
+          "prompt": "Wedding guests celebrating on dance floor, professional DJ equipment visible, dynamic lighting, joy and energy",
+          "success": true,
+          "predictionId": "tfqk8rg9gxrme0ctxjrrspqvqg",
+          "imageUrl": "https://replicate.delivery/xezq/u2tfMtwHbkyYH6U9cB39t9AYDGqMeeWqQxsSyyIWwRFCjBgrA/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 9,
+          "prompt": "Bride tossing bouquet with DJ and lighting setup in background, modern wedding venue, professional capture",
+          "success": true,
+          "predictionId": "r06kterppxrma0ctxjrse5wzeg",
+          "imageUrl": "https://replicate.delivery/xezq/hunNZl16MP4mH1mINRJEzVoUoUra1LFwg3Unb0h1cZXZMAcF/out-0.jpg"
+        },
+        {
+          "category": "wedding-dj",
+          "index": 10,
+          "prompt": "Wedding cocktail hour with background DJ setup, elegant venue, sophisticated lighting, luxury event photography",
+          "success": true,
+          "predictionId": "c5ejm693wnrme0ctxjrr2y7f8g",
+          "imageUrl": "https://replicate.delivery/xezq/1N9GYVjvMKbSJtVN3exbndppQjEKKrsmIbUE3LpJw5C0YA4KA/out-0.jpg"
+        }
+      ]
+    },
+    "corporateEvent": {
+      "category": "corporate-event",
+      "total": 10,
+      "successful": 10,
+      "results": [
+        {
+          "category": "corporate-event",
+          "index": 1,
+          "prompt": "Professional DJ at corporate event, business people networking, modern conference center, blue and white lighting, professional photography",
+          "success": true,
+          "predictionId": "ew0vqahd39rm80ctxjrvxb9660",
+          "imageUrl": "https://replicate.delivery/xezq/kEPPQqYWbybTDBBcU1WTLoORxnODdkb455npG9Y3NWf1YA4KA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 2,
+          "prompt": "DJ booth at company party, employees dancing, branded corporate event, energetic atmosphere, modern venue",
+          "success": true,
+          "predictionId": "hb4g3v9t9hrm80ctxjrsg99f28",
+          "imageUrl": "https://replicate.delivery/xezq/KHkxiegwFVWXfkrYsxY7U766s42XLqdpDWilJMol1SmuxAwVA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 3,
+          "prompt": "Corporate awards ceremony with DJ and lighting, elegant ballroom, professional event setup, sophisticated atmosphere",
+          "success": true,
+          "predictionId": "q4n6a9j7x5rma0ctxjrs7f25ag",
+          "imageUrl": "https://replicate.delivery/xezq/QEFtXF5femqIQEDsWfHF7F3LhAjoLS7I26xgbmFoAgKjjBgrA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 4,
+          "prompt": "Business conference after-party, DJ mixing, networking crowd, modern urban venue, professional event photography",
+          "success": true,
+          "predictionId": "bdy9jnjn4nrm80ctxjrvd34dxc",
+          "imageUrl": "https://replicate.delivery/xezq/OHGHGp0kWw6EBd5GGgrwBDLWIEpyFfunk6xJvsfJnPy2xAwVA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 5,
+          "prompt": "Corporate team building event, DJ entertainment, outdoor venue, professional setup, engaged employees",
+          "success": true,
+          "predictionId": "8ckw2y3agnrm80ctxjrs7jt26w",
+          "imageUrl": "https://replicate.delivery/xezq/lU80OcOSsGJSNJwqXuCtud7DFCACcE8ZJCqRsb54esN9YA4KA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 6,
+          "prompt": "Product launch party with DJ, corporate branding visible, modern venue, professional lighting and setup",
+          "success": true,
+          "predictionId": "wd9ahabqknrm80ctxjrvk7p608",
+          "imageUrl": "https://replicate.delivery/xezq/jn3d283JyjKNH52UBNRSDlQt9SohBlIWwPa3efUPhpMejBgrA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 7,
+          "prompt": "Company anniversary celebration, DJ equipment setup, employees celebrating, elegant venue, professional capture",
+          "success": true,
+          "predictionId": "zyzts6c52hrma0ctxjrry2kc00",
+          "imageUrl": "https://replicate.delivery/xezq/6Z7kPnIaBY6YBhwBHve7l9VWsR86Ph7sM1TyVCbT9QkAZA4KA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 8,
+          "prompt": "Corporate gala dinner with DJ booth, formal attire, luxury venue, sophisticated lighting and atmosphere",
+          "success": true,
+          "predictionId": "r41dekwj85rme0ctxjrvh3436w",
+          "imageUrl": "https://replicate.delivery/xezq/nuX3X3gVKlZqPxCe4KIbnzcfHPzsOJ02bNetXoAdYHcIkBgrA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 9,
+          "prompt": "Tech company party, DJ with modern equipment, casual atmosphere, creative venue, energetic vibe",
+          "success": true,
+          "predictionId": "2w77364zc9rmc0ctxjrvhn39g4",
+          "imageUrl": "https://replicate.delivery/xezq/MZVkJsacQmLoJpe2PqCc526fxhn8iYnopbkaKzVwiQAKyAwVA/out-0.jpg"
+        },
+        {
+          "category": "corporate-event",
+          "index": 10,
+          "prompt": "Corporate holiday party, DJ setup with festive lighting, celebrating employees, professional venue",
+          "success": true,
+          "predictionId": "g0yyvwnmqnrme0ctxjrrxmfvnw",
+          "imageUrl": "https://replicate.delivery/xezq/JRlKfSF9Fi0kKifZ2SPUpwVYJ7Ez7TNKIMvT6s90L0fckBgrA/out-0.jpg"
+        }
+      ]
+    },
+    "partyDJ": {
+      "category": "party-dj",
+      "total": 10,
+      "successful": 10,
+      "results": [
+        {
+          "category": "party-dj",
+          "index": 1,
+          "prompt": "Energetic DJ at private party, crowd dancing with hands up, colorful lighting, nightclub atmosphere, dynamic photography",
+          "success": true,
+          "predictionId": "gxwfbhdy01rm80ctxjrtbqcn6g",
+          "imageUrl": "https://replicate.delivery/xezq/bs4kGdI92GIZDld8bVZkvLyBII2fweR4DOSyrtpQOZEQyAwVA/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 2,
+          "prompt": "Birthday party DJ setup, guests celebrating, balloon decorations, modern venue, fun atmosphere",
+          "success": true,
+          "predictionId": "ask8a26b31rmc0ctxjrtvs3xzc",
+          "imageUrl": "https://replicate.delivery/xezq/IebcbL1BDzxaeUDDf1zWP1MtHXBY01QdeVW7y2CAVurMJDAXB/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 3,
+          "prompt": "DJ performing at outdoor festival, sunset background, crowd silhouettes, festival lighting, professional capture",
+          "success": true,
+          "predictionId": "pzt2ksern9rmc0ctxjrrpdw038",
+          "imageUrl": "https://replicate.delivery/xezq/zHZAICndIqbMP5UrWFumMfeAaGk9vy5GKcJFvgi0LTNXyAwVA/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 4,
+          "prompt": "House party DJ setup, intimate venue, colorful LED lights, dancing guests, energetic atmosphere",
+          "success": true,
+          "predictionId": "trsq68q6b1rmc0ctxjrvd33sg0",
+          "imageUrl": "https://replicate.delivery/xezq/zluSC1qec2XCWyLdlmgf5uhCrqRHrfittXqUTb95MBfxJDAXB/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 5,
+          "prompt": "DJ mixing at nightclub-style party, laser lights, smoke effects, dancing crowd, dynamic photography",
+          "success": true,
+          "predictionId": "bpvacjqvx1rma0ctxjrvas02bg",
+          "imageUrl": "https://replicate.delivery/xezq/OG7lKYD3GVLTOBecRKbY5kuDO5TFkdAMNOMBS1obUBOQZA4KA/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 6,
+          "prompt": "Anniversary party with DJ, elegant venue, mixed age crowd dancing, professional lighting setup",
+          "success": true,
+          "predictionId": "231n1c09v1rme0ctxjsbqef5dg",
+          "imageUrl": "https://replicate.delivery/xezq/Jb5Ns7gazb4OBFcYlc1c8AiHZSxyj3SN2WA5oiL3U17oMAcF/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 7,
+          "prompt": "Graduation party DJ, young adults celebrating, modern venue, energetic atmosphere, professional photography",
+          "success": true,
+          "predictionId": "451ncc8q01rma0ctxjsaksn5a8",
+          "imageUrl": "https://replicate.delivery/xezq/rejA3bTaohScUqWmlplXYtnTrgTty2HC12Uq9RNfKmCmyAwVA/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 8,
+          "prompt": "Pool party DJ setup, outdoor venue, summer vibes, guests dancing, festive atmosphere",
+          "success": true,
+          "predictionId": "f9h8rp1465rmc0ctxjs91edvpc",
+          "imageUrl": "https://replicate.delivery/xezq/J8iwfH5kfumbbEzf2D27f20LVFdMwlTmBUsMozEb8bDoKDAXB/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 9,
+          "prompt": "New Year's Eve party DJ, countdown moment, confetti, celebrating crowd, dynamic lighting",
+          "success": true,
+          "predictionId": "hpm0cp1hhdrmc0ctxjs83z4fh0",
+          "imageUrl": "https://replicate.delivery/xezq/kuQYH6sdyvptANbDZMw0fbZ3BhRIRw1xAeUkcIqJp7xtyAwVA/out-0.jpg"
+        },
+        {
+          "category": "party-dj",
+          "index": 10,
+          "prompt": "Private event DJ, rooftop venue, city skyline background, sunset lighting, sophisticated party atmosphere",
+          "success": true,
+          "predictionId": "s080wpsyn1rmc0ctxjsa9qy9gr",
+          "imageUrl": "https://replicate.delivery/xezq/9Q5fSOPmg2VnUCo3E9YdrfNIH4yRYpcSakkPMlaO0OyzyAwVA/out-0.jpg"
+        }
+      ]
+    },
+    "generalMarketing": {
+      "category": "general-marketing",
+      "total": 10,
+      "successful": 10,
+      "results": [
+        {
+          "category": "general-marketing",
+          "index": 1,
+          "prompt": "Professional DJ equipment close-up, high-end CDJ players and mixer, studio lighting, commercial photography style",
+          "success": true,
+          "predictionId": "zwjtegjg5hrmc0ctxjs962dctw",
+          "imageUrl": "https://replicate.delivery/xezq/4ng7aNzoe5w3XSnYduSRjZcswO93TNcaqz5LjfHj2rz4yAwVA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 2,
+          "prompt": "DJ hands on mixer controls, bokeh background, professional equipment, artistic photography",
+          "success": true,
+          "predictionId": "n9c83035mdrme0ctxjsbspmrhw",
+          "imageUrl": "https://replicate.delivery/xezq/qvEvGac23Yr8JloGZUAmE58cLLDqc47xsVTPK5Y5QfJeyAwVA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 3,
+          "prompt": "Modern DJ booth setup, LED screens, professional lighting rig, clean commercial photography",
+          "success": true,
+          "predictionId": "7zkd1zkv05rma0ctxjs8rtf0ac",
+          "imageUrl": "https://replicate.delivery/xezq/4iNYB1Ihpk7eAi9O29c7QaO5a6nt6gYrtPuqy48XfXhGzAwVA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 4,
+          "prompt": "DJ preparing for event, checking equipment, professional venue, behind-the-scenes style",
+          "success": true,
+          "predictionId": "veg8y2x0ynrm80ctxjsb45m0yr",
+          "imageUrl": "https://replicate.delivery/xezq/GWtUU7Fl5vaWDBIEy3R5ae3PRkWVRWH8kuMhhdy5p94lZA4KA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 5,
+          "prompt": "Aerial view of DJ booth at large event, crowd below, professional lighting design, epic scale",
+          "success": true,
+          "predictionId": "5p9fsjdp9hrm80ctxjsavecram",
+          "imageUrl": "https://replicate.delivery/xezq/R0Dfb6LefTJHQJp0Z1g7jFuS6L1yBac45Lee7Lsle4oZ0MAcF/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 6,
+          "prompt": "DJ equipment and laptop setup, music production software visible, professional studio lighting",
+          "success": true,
+          "predictionId": "yqqx46ybm5rme0ctxjs8tt5r68",
+          "imageUrl": "https://replicate.delivery/xezq/P2rdKnOIhWJTIlM2CaWvJHakXJDo862SbveQqklofq3WzAwVA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 7,
+          "prompt": "Sound check before event, DJ testing equipment, empty venue, professional preparation",
+          "success": true,
+          "predictionId": "fcwh7xf11srme0ctxjs8vkx0b0",
+          "imageUrl": "https://replicate.delivery/xezq/cw1DCkRIxirUNVHatbxqcJzsdbMrSyQxY0eCPt40hEttZA4KA/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 8,
+          "prompt": "DJ at sunset outdoor event, silhouette against golden sky, romantic atmosphere, artistic capture",
+          "success": true,
+          "predictionId": "ejdnhgze5drme0ctxjsa870eag",
+          "imageUrl": "https://replicate.delivery/xezq/IAZFGAKWqpKnGNOcqeobCbeB7uucasQfS8ZYwbkmc4gfNDAXB/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 9,
+          "prompt": "Professional DJ portrait with equipment, confident pose, studio lighting, commercial photography",
+          "success": true,
+          "predictionId": "s3v0d903j5rma0ctxjst77j290",
+          "imageUrl": "https://replicate.delivery/xezq/RCzXegaqGehgAk5J0R4tQLf6m3RGnqJrGD5JIvxeJvgVODAXB/out-0.jpg"
+        },
+        {
+          "category": "general-marketing",
+          "index": 10,
+          "prompt": "DJ equipment with Mr-DJ branding, professional setup, clean commercial product photography",
+          "success": true,
+          "predictionId": "bxew860s19rmc0ctxjssezjtfm",
+          "imageUrl": "https://replicate.delivery/xezq/O9h2Zn8DiJZ8Lpf50FutSGjVVRP1ozttXTXr6lTmqoy1ZA4KA/out-0.jpg"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "totalImages": 40,
+    "successful": 40,
+    "failed": 0,
+    "durationMs": 165489,
+    "durationMinutes": "2.76"
+  }
+}

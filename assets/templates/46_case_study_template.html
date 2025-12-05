@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mister DJ - Brochure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @page { size: A4; margin: 0; }
+        body { 
+            font-family: 'Montserrat', Arial, sans-serif; 
+            background: #F5F5F5;
+        }
+        
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto 5mm auto;
+            background: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+            page-break-after: always;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Cover Page */
+        .cover-page {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 40mm;
+        }
+        
+        .cover-logo {
+            width: 80mm;
+            height: 80mm;
+            background: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: #1A2C4B;
+            border: 5px solid #D4AF37;
+            margin-bottom: 20mm;
+        }
+        
+        .cover-title {
+            font-size: 56px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10mm;
+        }
+        
+        .cover-tagline {
+            font-size: 24px;
+            font-weight: 600;
+            color: #D4AF37;
+            margin-bottom: 20mm;
+        }
+        
+        .cover-badge {
+            background: #D4AF37;
+            color: #1A2C4B;
+            padding: 8mm 15mm;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        /* Standard Page Layout */
+        .page-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            padding: 15mm 20mm;
+            color: #FFFFFF;
+        }
+        
+        .page-title {
+            font-size: 36px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 5mm;
+        }
+        
+        .page-subtitle {
+            font-size: 16px;
+            color: #D4AF37;
+        }
+        
+        .page-content {
+            padding: 20mm;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10mm;
+            padding-bottom: 5mm;
+            border-bottom: 3px solid #00AEEF;
+        }
+        
+        .text-block {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1A2C4B;
+            margin-bottom: 10mm;
+        }
+        
+        /* Package Cards */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8mm;
+            margin-top: 10mm;
+        }
+        
+        .package-card {
+            background: #F9F9F9;
+            border: 3px solid #E0E0E0;
+            border-radius: 10px;
+            padding: 8mm;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .package-card.featured {
+            border-color: #D4AF37;
+            background: #FFF9E6;
+            transform: scale(1.05);
+        }
+        
+        .package-name {
+            font-size: 24px;
+            font-weight: 900;
+            color: #1A2C4B;
+            margin-bottom: 5mm;
+            text-transform: uppercase;
+        }
+        
+        .package-price {
+            font-size: 32px;
+            font-weight: 900;
+            color: #00AEEF;
+            margin-bottom: 5mm;
+        }
+        
+        .package-features {
+            list-style: none;
+            text-align: left;
+            font-size: 12px;
+            line-height: 2;
+        }
+        
+        .package-features li:before {
+            content: "✓ ";
+            color: #00AEEF;
+            font-weight: 900;
+            margin-right: 2mm;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8mm;
+            margin-top: 10mm;
+        }
+        
+        .feature-item {
+            background: #F9F9F9;
+            padding: 8mm;
+            border-left: 5px solid #00AEEF;
+            border-radius: 5px;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 3mm;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 3mm;
+        }
+        
+        .feature-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        /* Testimonials */
+        .testimonial {
+            background: #E8F4FD;
+            padding: 10mm;
+            border-left: 5px solid #D4AF37;
+            margin-bottom: 8mm;
+            border-radius: 5px;
+        }
+        
+        .testimonial-text {
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.7;
+            color: #1A2C4B;
+            margin-bottom: 5mm;
+        }
+        
+        .testimonial-author {
+            font-size: 13px;
+            font-weight: 700;
+            color: #00AEEF;
+        }
+        
+        .testimonial-rating {
+            color: #D4AF37;
+            font-size: 16px;
+            margin-bottom: 3mm;
+        }
+        
+        /* Back Cover */
+        .back-cover {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 40mm;
+        }
+        
+        .back-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 15mm;
+            text-transform: uppercase;
+        }
+        
+        .contact-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15mm;
+            border-radius: 15px;
+            border: 3px solid #D4AF37;
+            margin-bottom: 15mm;
+        }
+        
+        .contact-item {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5mm;
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            margin-right: 3mm;
+            color: #D4AF37;
+        }
+        
+        @media print {
+            body { background: #FFFFFF; }
+            .page { box-shadow: none; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Cover -->
+    <div class="page cover-page">
+        <div class="cover-logo">MR DJ</div>
+        <h1 class="cover-title">Mister DJ</h1>
+        <p class="cover-tagline">Dé Feestspecialist van het Zuiden</p>
+        <div class="cover-badge">100% Dansgarantie</div>
+    </div>
+    
+    <!-- Page 2: Over Ons -->
+    <div class="page">
+        <div class="page-header">
+            <h2 class="page-title">Over Mister DJ</h2>
+            <p class="page-subtitle">15+ Jaar Ervaring | 2500+ Succesvolle Feesten</p>
+        </div>
+        
+        <div class="page-content">
+            <div class="text-block">
+                Met ruim 15 jaar ervaring is Mister DJ dé feestspecialist van Zuid-Nederland. Van zinderende bruiloften tot zakelijke borrels, wij zorgen voor de perfecte sfeer op elk evenement. Met persoonlijke aandacht, professionele apparatuur en een passie voor muziek maken wij van elk feest een onvergetelijke ervaring.
+            </div>
+            
+            <div class="text-block">
+                Onze unieke <strong>100% dansgarantie</strong> betekent dat wij garanderen dat uw gasten de hele avond op de dansvloer staan. Wij spelen niet alleen muziek, wij creëren een sfeer waarin iedereen zich vermaakt en herinneringen worden gemaakt die een leven lang meegaan.
+            </div>
+            
+            <h3 class="section-title">Waarom Kiezen voor Mister DJ?</h3>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🎵</div>
+                    <div class="feature-title">Persoonlijke Aanpak</div>
+                    <div class="feature-text">Uitgebreide intake om uw wensen perfect te begrijpen en te vertalen naar de ideale muziekbeleving</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🎧</div>
+                    <div class="feature-title">Professionele Apparatuur</div>
+                    <div class="feature-text">Premium geluidsinstallatie en spectaculaire lichtshows voor een professionele uitstraling</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">⭐</div>
+                    <div class="feature-title">15+ Jaar Ervaring</div>
+                    <div class="feature-text">Ruim 2500 succesvolle feesten verzorgd met consistente 10/10 reviews van tevreden klanten</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">💯</div>
+                    <div class="feature-title">100% Dansgarantie</div>
+                    <div class="feature-text">Als enige DJ service bieden wij een unieke garantie: volle dansvloer of geld terug</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 3: Pakketten -->
+    <div class="page">
+        <div class="page-header">
+            <h2 class="page-title">Onze Pakketten</h2>
+            <p class="page-subtitle">Voor Elk Budget en Elke Gelegenheid</p>
+        </div>
+        
+        <div class="page-content">
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div class="package-name">Brons</div>
+                    <div class="package-price">€995</div>
+                    <ul class="package-features">
+                        <li>4 uur DJ</li>
+                        <li>Basis geluidsinstallatie</li>
+                        <li>Standaard lichtshow</li>
+                        <li>Muziekvoorkeuren intake</li>
+                        <li>Setup & breakdown</li>
+                        <li>100% dansgarantie</li>
+                    </ul>
+                </div>
+                
+                <div class="package-card featured">
+                    <div class="package-name">Zilver</div>
+                    <div class="package-price">€1.495</div>
+                    <ul class="package-features">
+                        <li>6 uur DJ</li>
+                        <li>Premium geluidsinstallatie</li>
+                        <li>Uitgebreide lichtshow</li>
+                        <li>Draadloze microfoon</li>
+                        <li>Persoonlijke intake</li>
+                        <li>Rookmachine</li>
+                        <li>DJ booth verlichting</li>
+                        <li>100% dansgarantie</li>
+                    </ul>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-name">Goud</div>
+                    <div class="package-price">€1.995</div>
+                    <ul class="package-features">
+                        <li>8 uur DJ</li>
+                        <li>Premium+ geluidsinstallatie</li>
+                        <li>Spectaculaire lichtshow</li>
+                        <li>2x draadloze microfoon</li>
+                        <li>Uitgebreide intake</li>
+                        <li>Rookmachine + LED effects</li>
+                        <li>Moving heads</li>
+                        <li>DJ booth premium</li>
+                        <li>100% dansgarantie</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-block" style="margin-top: 15mm; text-align: center; font-size: 13px; color: #666;">
+                <strong>Extra Services:</strong> Saxofonist Leslie Moore (+€350) | Extra uur DJ (+€150) | Ceremonie muziek (+€200)
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 4: Reviews -->
+    <div class="page">
+        <div class="page-header">
+            <h2 class="page-title">Wat Klanten Zeggen</h2>
+            <p class="page-subtitle">10/10 Reviews | 100% Klanttevredenheid</p>
+        </div>
+        
+        <div class="page-content">
+            <div class="testimonial">
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">
+                    "Bart, ondanks de extreme hitte heb je het gewoon voor elkaar gekregen om iedereen gisteren op onze bruiloft op de dansvloer te krijgen. Wij genieten nog lekker na van onze speciale dag. Hartstikke bedankt!"
+                </div>
+                <div class="testimonial-author">— Kim & Silas, Bruiloft 2024</div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">
+                    "Wat was het mooi op onze speciale dag. We leverden een lege kale schuur aan en er is een prachtig aangeklede ruimte van gemaakt met de doeken en de verlichting maakte dat helemaal af. Je advies hierin is heel goed en welkom geweest."
+                </div>
+                <div class="testimonial-author">— Familie van Liempt, Bruiloft 2024</div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">
+                    "Professionele DJ met gevoel voor de juiste muziek op het juiste moment. De dansvloer was de hele avond vol en onze gasten hebben zich fantastisch vermaakt. Absoluut een aanrader!"
+                </div>
+                <div class="testimonial-author">— Bedrijfsfeest Eindhoven, 2024</div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15mm;">
+                <div style="font-size: 48px; font-weight: 900; color: #00AEEF; margin-bottom: 5mm;">10/10</div>
+                <div style="font-size: 16px; color: #666;">Gemiddelde score op ThePerfectWedding.nl</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 5: Back Cover -->
+    <div class="page back-cover">
+        <h2 class="back-title">Klaar om te Boeken?</h2>
+        
+        <div class="contact-box">
+            <div class="contact-item">
+                <span class="contact-icon">📞</span>
+                +31 (0) 40 8422594
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                info@mr-dj.nl
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">🌐</span>
+                www.mr-dj.nl
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📍</span>
+                Kapteijnlaan 17, 5505 AV Veldhoven
+            </div>
+        </div>
+        
+        <div style="font-size: 20px; font-weight: 700; color: #D4AF37;">
+            KvK: 68906277
+        </div>
+    </div>
+</body>
+</html>
+

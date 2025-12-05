@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. DJ - Boekingsbevestiging</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #F5F5F5;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+        }
+        
+        /* Header */
+        .email-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            color: #FFFFFF;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+        }
+        
+        .header-subtitle {
+            color: #D4AF37;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Success Banner */
+        .success-banner {
+            background-color: #D4AF37;
+            color: #FFFFFF;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Content */
+        .email-content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            color: #1A2C4B;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .paragraph {
+            font-size: 15px;
+            color: #1A2C4B;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        /* Event Details Box */
+        .details-box {
+            background-color: #F9F9F9;
+            border-left: 4px solid #00AEEF;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .details-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #1A2C4B;
+            width: 140px;
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            color: #1A2C4B;
+            font-size: 14px;
+        }
+        
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .highlight-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-text {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Next Steps */
+        .steps-section {
+            margin: 30px 0;
+        }
+        
+        .steps-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 20px;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background-color: #00AEEF;
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-heading {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 5px;
+        }
+        
+        .step-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #D4AF37;
+            color: #FFFFFF;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background-color: #F9F9F9;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .contact-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.8;
+        }
+        
+        .contact-link {
+            color: #00AEEF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .email-footer {
+            background-color: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .footer-highlight {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #00AEEF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="email-header">
+            <img src="https://www.mr-dj.nl/logo-white.png" alt="Mr. DJ Logo" class="logo">
+            <h1 class="header-title">Boeking Bevestigd!</h1>
+            <p class="header-subtitle">Bedankt voor je vertrouwen</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div class="success-banner">
+            ✓ Je boeking is succesvol ontvangen en bevestigd
+        </div>
+        
+        <!-- Content -->
+        <div class="email-content">
+            <p class="greeting">Beste Emma & Thomas,</p>
+            
+            <p class="paragraph">
+                Wat geweldig dat jullie hebben gekozen voor Mr. DJ! We zijn vereerd dat we onderdeel mogen zijn van jullie bijzondere dag en kijken er enorm naar uit om van jullie bruiloft een onvergetelijk feest te maken.
+            </p>
+            
+            <p class="paragraph">
+                Jullie boeking is bevestigd en we hebben alle details genoteerd. Hieronder vind je een overzicht van je boeking.
+            </p>
+            
+            <!-- Event Details -->
+            <div class="details-box">
+                <div class="details-title">📅 Jouw Event Details</div>
+                <div class="detail-row">
+                    <div class="detail-label">Boekingsnummer:</div>
+                    <div class="detail-value">BK-2026-001</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Event type:</div>
+                    <div class="detail-value">Bruiloft</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Datum:</div>
+                    <div class="detail-value">Zaterdag 20 juni 2026</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Tijd:</div>
+                    <div class="detail-value">20:00 - 02:00 uur</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Locatie:</div>
+                    <div class="detail-value">Landgoed De Rosep, Oisterwijk</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Pakket:</div>
+                    <div class="detail-value">Zilver Pakket (6 uur)</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Totaalbedrag:</div>
+                    <div class="detail-value"><strong>€1.495,00</strong></div>
+                </div>
+            </div>
+            
+            <!-- Guarantee Highlight -->
+            <div class="highlight-box">
+                <div class="highlight-icon">🎉</div>
+                <div class="highlight-title">100% Dansgarantie</div>
+                <div class="highlight-text">
+                    Wij garanderen dat jullie gasten de hele avond op de dansvloer staan! Dat is onze belofte en daar staan we 100% achter.
+                </div>
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="steps-section">
+                <div class="steps-title">Volgende Stappen</div>
+                
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-heading">Aanbetaling</div>
+                        <div class="step-text">
+                            Je ontvangt binnen 24 uur een factuur voor de aanbetaling (50% = €747,50). Deze dient binnen 14 dagen te worden voldaan om de boeking definitief te maken.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-heading">Intake Gesprek</div>
+                        <div class="step-text">
+                            Na ontvangst van de aanbetaling plannen we een persoonlijk intake gesprek (telefonisch of fysiek) om al jullie wensen en muziekvoorkeuren door te nemen.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-heading">Muziekvoorkeuren</div>
+                        <div class="step-text">
+                            Jullie ontvangen een uitgebreid formulier om jullie muziekvoorkeuren, must-play nummers en do-not-play lijst door te geven. Dit zorgt voor een perfecte afstemming.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-heading">Pre-Event Check</div>
+                        <div class="step-text">
+                            2 weken voor het event nemen we contact op voor een laatste check en om eventuele laatste wijzigingen door te nemen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Buttons -->
+            <div class="cta-section">
+                <a href="https://www.mr-dj.nl/mijn-boeking" class="cta-button">Bekijk Mijn Boeking</a>
+                <a href="https://www.mr-dj.nl/muziekvoorkeuren" class="cta-button">Muziekvoorkeuren Invullen</a>
+            </div>
+            
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="contact-title">Vragen of Wijzigingen?</div>
+                <div class="contact-info">
+                    Neem gerust contact met ons op:<br>
+                    <a href="mailto:info@mr-dj.nl" class="contact-link">info@mr-dj.nl</a> | 
+                    <a href="tel:+31612345678" class="contact-link">+31 6 1234 5678</a><br>
+                    <a href="https://www.mr-dj.nl" class="contact-link">www.mr-dj.nl</a>
+                </div>
+            </div>
+            
+            <p class="paragraph">
+                Nogmaals bedankt voor jullie vertrouwen. We gaan er alles aan doen om van jullie bruiloft een onvergetelijk feest te maken!
+            </p>
+            
+            <p class="paragraph">
+                Met vriendelijke groet,<br>
+                <strong>Het Mr. DJ Team</strong>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="email-footer">
+            <div class="footer-highlight">15+ Jaar Ervaring | 2500+ Events | 100% Dansgarantie</div>
+            Mr. DJ - Zuid-Nederland<br>
+            KvK: 12345678 | BTW: NL123456789B01<br>
+            
+            <div class="social-links">
+                <a href="https://www.instagram.com/mr.dj.nl" class="social-link">Instagram</a> | 
+                <a href="https://www.facebook.com/mr.dj.nl" class="social-link">Facebook</a> | 
+                <a href="https://www.linkedin.com/company/mr-dj" class="social-link">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

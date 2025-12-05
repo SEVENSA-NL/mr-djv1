@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mister DJ - Banner Roll-up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', Arial, sans-serif; 
+            background: #F5F5F5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .banner-container {
+            width: 850px;
+            height: 2000px;
+            background: linear-gradient(180deg, #1A2C4B 0%, #00AEEF 50%, #1A2C4B 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+        .banner-top {
+            padding: 80px 60px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+        .logo-big {
+            width: 300px;
+            height: 300px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            margin: 0 auto 40px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            font-weight: 900;
+            color: #1A2C4B;
+            border: 10px solid #D4AF37;
+        }
+        .main-title {
+            font-size: 120px;
+            font-weight: 900;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+        .tagline {
+            font-size: 42px;
+            font-weight: 700;
+            color: #D4AF37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .banner-middle {
+            padding: 80px 60px;
+            text-align: center;
+        }
+        .guarantee-box {
+            background: #D4AF37;
+            color: #1A2C4B;
+            padding: 60px;
+            border-radius: 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 40px rgba(212,175,55,0.5);
+        }
+        .guarantee-title {
+            font-size: 72px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .guarantee-subtitle {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .service-row {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            border-left: 10px solid #D4AF37;
+            backdrop-filter: blur(10px);
+        }
+        .service-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        .service-name {
+            font-size: 48px;
+            font-weight: 900;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 60px 0;
+        }
+        .stat-box {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 96px;
+            font-weight: 900;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+        .banner-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%);
+            padding: 80px 60px;
+            text-align: center;
+        }
+        .contact-title {
+            font-size: 56px;
+            font-weight: 900;
+            color: #D4AF37;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .contact-info {
+            font-size: 36px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+        .contact-icon {
+            font-size: 42px;
+            margin-right: 20px;
+            color: #D4AF37;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner-container">
+        <div class="banner-top">
+            <div class="logo-big">MR DJ</div>
+            <h1 class="main-title">MISTER DJ</h1>
+            <p class="tagline">Dé Feestspecialist van het Zuiden</p>
+        </div>
+        
+        <div class="banner-middle">
+            <div class="guarantee-box">
+                <div class="guarantee-title">100% DANSGARANTIE</div>
+                <div class="guarantee-subtitle">Volle Dansvloer Gegarandeerd!</div>
+            </div>
+            
+            <div class="services-list">
+                <div class="service-row">
+                    <div class="service-icon">💍</div>
+                    <div class="service-name">Bruiloften</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-icon">🎉</div>
+                    <div class="service-name">Bedrijfsfeesten</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-icon">🎊</div>
+                    <div class="service-name">Alle Feesten</div>
+                </div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Jaar</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2500+</div>
+                    <div class="stat-label">Feesten</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">10/10</div>
+                    <div class="stat-label">Reviews</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="banner-bottom">
+            <div class="contact-title">BOEK NU!</div>
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                040-8422594
+            </div>
+            <div class="contact-info">
+                <span class="contact-icon">🌐</span>
+                www.mr-dj.nl
+            </div>
+        </div>
+    </div>
+</body>
+</html>

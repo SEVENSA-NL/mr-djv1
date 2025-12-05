@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. DJ - Offerte Bruiloft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #F5F5F5;
+            padding: 40px 20px;
+        }
+        
+        .quote-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Hero Header */
+        .quote-hero {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        
+        .quote-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .quote-subtitle {
+            font-size: 20px;
+            color: #D4AF37;
+            font-weight: 600;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Client Section */
+        .client-section {
+            padding: 40px 50px;
+            background: #F9F9F9;
+            border-bottom: 3px solid #00AEEF;
+        }
+        
+        .client-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00AEEF;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .info-line {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-line strong {
+            font-weight: 600;
+        }
+        
+        /* Introduction */
+        .intro-section {
+            padding: 40px 50px;
+        }
+        
+        .intro-text {
+            font-size: 16px;
+            color: #1A2C4B;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #D4AF37;
+        }
+        
+        .highlight-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Packages Section */
+        .packages-section {
+            padding: 40px 50px;
+            background: #F9F9F9;
+        }
+        
+        .section-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .package-card {
+            background: #FFFFFF;
+            border: 2px solid #E0E0E0;
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .package-card.recommended {
+            border: 3px solid #D4AF37;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+        
+        .package-badge {
+            background: #D4AF37;
+            color: #FFFFFF;
+            padding: 5px 15px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .package-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10px;
+        }
+        
+        .package-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #00AEEF;
+            margin-bottom: 20px;
+        }
+        
+        .package-duration {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .package-features {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .feature-item {
+            font-size: 14px;
+            color: #1A2C4B;
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F0F0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-item:before {
+            content: "✓";
+            color: #00AEEF;
+            font-weight: 700;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        /* Additional Services */
+        .extras-section {
+            padding: 40px 50px;
+        }
+        
+        .extras-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .extra-item {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #00AEEF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .extra-info {
+            flex: 1;
+        }
+        
+        .extra-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 5px;
+        }
+        
+        .extra-description {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .extra-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00AEEF;
+            margin-left: 20px;
+        }
+        
+        /* Terms Section */
+        .terms-section {
+            padding: 40px 50px;
+            background: #F9F9F9;
+        }
+        
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .terms-block {
+            background: #FFFFFF;
+            padding: 25px;
+            border-left: 4px solid #D4AF37;
+        }
+        
+        .terms-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 15px;
+        }
+        
+        .terms-text {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 40px 50px;
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .cta-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .cta-contact {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .quote-footer {
+            background: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 25px 50px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .footer-highlight {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        @media print {
+            body {
+                background: #FFFFFF;
+                padding: 0;
+            }
+            
+            .quote-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-container">
+        <!-- Hero Header -->
+        <div class="quote-hero">
+            <div class="hero-pattern"></div>
+            <img src="mr_dj_logo.png" alt="Mr. DJ Logo" class="logo">
+            <div class="quote-title">OFFERTE</div>
+            <div class="quote-subtitle">Bruiloft DJ Services</div>
+        </div>
+        
+        <!-- Client Information -->
+        <div class="client-section">
+            <div class="client-grid">
+                <div>
+                    <div class="section-title">Offerte voor</div>
+                    <div class="info-line"><strong>Emma & Thomas Jansen</strong></div>
+                    <div class="info-line">Hoofdstraat 123</div>
+                    <div class="info-line">5611 AB Eindhoven</div>
+                    <div class="info-line">Email: emma.jansen@email.nl</div>
+                    <div class="info-line">Tel: +31 6 1234 5678</div>
+                </div>
+                
+                <div>
+                    <div class="section-title">Offerte Details</div>
+                    <div class="info-line"><strong>Offertenummer:</strong> OFF-2026-001</div>
+                    <div class="info-line"><strong>Datum:</strong> 15 januari 2026</div>
+                    <div class="info-line"><strong>Geldig tot:</strong> 15 februari 2026</div>
+                    <div class="info-line"><strong>Event datum:</strong> 20 juni 2026</div>
+                    <div class="info-line"><strong>Locatie:</strong> Landgoed De Rosep, Oisterwijk</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Introduction -->
+        <div class="intro-section">
+            <p class="intro-text">
+                Beste Emma & Thomas,
+            </p>
+            <p class="intro-text">
+                Hartelijk gefeliciteerd met jullie aanstaande huwelijk! Wat geweldig dat jullie interesse hebben in Mr. DJ voor de muzikale begeleiding van jullie bruiloft. Met meer dan 15 jaar ervaring en 2500+ succesvolle events weten wij precies hoe we van jullie bruiloft een onvergetelijk feest maken.
+            </p>
+            <p class="intro-text">
+                Hieronder vind je onze bruiloft pakketten en extra services. Elk pakket is volledig aanpasbaar aan jullie wensen en budget.
+            </p>
+            
+            <div class="highlight-box">
+                <div class="highlight-title">🎉 100% Dansgarantie</div>
+                <div class="highlight-text">
+                    Als enige DJ service in Zuid-Nederland bieden wij een unieke 100% dansgarantie. Wij zorgen ervoor dat jullie gasten de hele avond op de dansvloer staan en een onvergetelijke ervaring beleven. Dat is onze belofte!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Packages -->
+        <div class="packages-section">
+            <h2 class="section-heading">Bruiloft Pakketten</h2>
+            
+            <div class="packages-grid">
+                <!-- Bronze Package -->
+                <div class="package-card">
+                    <div class="package-name">Brons</div>
+                    <div class="package-price">€995</div>
+                    <div class="package-duration">4 uur DJ services</div>
+                    <div class="package-features">
+                        <div class="feature-item">Professionele DJ</div>
+                        <div class="feature-item">Basis geluidsinstallatie</div>
+                        <div class="feature-item">Standaard lichtshow</div>
+                        <div class="feature-item">Persoonlijke intake</div>
+                        <div class="feature-item">Muziekvoorkeuren</div>
+                        <div class="feature-item">100% dansgarantie</div>
+                    </div>
+                </div>
+                
+                <!-- Silver Package (Recommended) -->
+                <div class="package-card recommended">
+                    <div class="package-badge">Meest Gekozen</div>
+                    <div class="package-name">Zilver</div>
+                    <div class="package-price">€1.495</div>
+                    <div class="package-duration">6 uur DJ services</div>
+                    <div class="package-features">
+                        <div class="feature-item">Alles van Brons +</div>
+                        <div class="feature-item">Premium geluidsinstallatie</div>
+                        <div class="feature-item">Uitgebreide lichtshow</div>
+                        <div class="feature-item">Draadloze microfoon</div>
+                        <div class="feature-item">Rookmachine</div>
+                        <div class="feature-item">DJ booth verlichting</div>
+                    </div>
+                </div>
+                
+                <!-- Gold Package -->
+                <div class="package-card">
+                    <div class="package-name">Goud</div>
+                    <div class="package-price">€1.995</div>
+                    <div class="package-duration">8 uur DJ services</div>
+                    <div class="package-features">
+                        <div class="feature-item">Alles van Zilver +</div>
+                        <div class="feature-item">Premium lichtshow</div>
+                        <div class="feature-item">LED dansvloer</div>
+                        <div class="feature-item">Openingsdans mix</div>
+                        <div class="feature-item">Live mixing</div>
+                        <div class="feature-item">Onbeperkte uren*</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Services -->
+        <div class="extras-section">
+            <h2 class="section-heading">Extra Services</h2>
+            
+            <div class="extras-grid">
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Extra Uur</div>
+                        <div class="extra-description">Verlenging van de DJ services</div>
+                    </div>
+                    <div class="extra-price">€150</div>
+                </div>
+                
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Openingsdans Mix</div>
+                        <div class="extra-description">Professionele mix van 3 nummers</div>
+                    </div>
+                    <div class="extra-price">€75</div>
+                </div>
+                
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Photobooth</div>
+                        <div class="extra-description">3 uur photobooth met props</div>
+                    </div>
+                    <div class="extra-price">€395</div>
+                </div>
+                
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Live Saxofonist</div>
+                        <div class="extra-description">2 uur live saxofoon bij DJ set</div>
+                    </div>
+                    <div class="extra-price">€495</div>
+                </div>
+                
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Ceremonie Muziek</div>
+                        <div class="extra-description">Geluidsinstallatie voor ceremonie</div>
+                    </div>
+                    <div class="extra-price">€195</div>
+                </div>
+                
+                <div class="extra-item">
+                    <div class="extra-info">
+                        <div class="extra-name">Reiskosten</div>
+                        <div class="extra-description">Buiten 30km van Eindhoven</div>
+                    </div>
+                    <div class="extra-price">€0,50/km</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Terms & Conditions -->
+        <div class="terms-section">
+            <h2 class="section-heading">Voorwaarden & Informatie</h2>
+            
+            <div class="terms-grid">
+                <div class="terms-block">
+                    <div class="terms-title">Betaling</div>
+                    <div class="terms-text">
+                        <strong>Aanbetaling:</strong> 50% bij boeking<br>
+                        <strong>Restbedrag:</strong> Uiterlijk 14 dagen voor event<br>
+                        <strong>Betaalmethoden:</strong> Bankoverschrijving, iDEAL<br><br>
+                        Alle prijzen zijn inclusief BTW (21%) en exclusief reiskosten buiten 30km van Eindhoven.
+                    </div>
+                </div>
+                
+                <div class="terms-block">
+                    <div class="terms-title">Annulering</div>
+                    <div class="terms-text">
+                        <strong>Tot 6 maanden:</strong> 50% restitutie<br>
+                        <strong>3-6 maanden:</strong> 25% restitutie<br>
+                        <strong>Binnen 3 maanden:</strong> Geen restitutie<br><br>
+                        Bij overmacht of ziekte zoeken wij naar een passende oplossing.
+                    </div>
+                </div>
+                
+                <div class="terms-block">
+                    <div class="terms-title">Inclusief</div>
+                    <div class="terms-text">
+                        • Persoonlijke intake gesprek<br>
+                        • Muziekvoorkeuren formulier<br>
+                        • Professionele apparatuur<br>
+                        • Opbouw en afbouw<br>
+                        • Verzekering<br>
+                        • 100% dansgarantie
+                    </div>
+                </div>
+                
+                <div class="terms-block">
+                    <div class="terms-title">Geldigheid</div>
+                    <div class="terms-text">
+                        Deze offerte is geldig tot <strong>15 februari 2026</strong>.<br><br>
+                        Na deze datum kunnen prijzen en beschikbaarheid wijzigen. Wij adviseren om tijdig te boeken, vooral voor populaire data in het hoogseizoen (mei-september).
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <div class="cta-title">Klaar om te boeken?</div>
+            <div class="cta-text">
+                Wij staan klaar om jullie bruiloft onvergetelijk te maken! Neem contact op voor vragen of om direct te boeken.
+            </div>
+            <div class="cta-contact">
+                <div class="contact-item">📧 info@mr-dj.nl</div>
+                <div class="contact-item">📱 +31 6 1234 5678</div>
+                <div class="contact-item">🌐 www.mr-dj.nl</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="quote-footer">
+            <div class="footer-highlight">15+ Jaar Ervaring | 2500+ Succesvolle Events | 100% Dansgarantie</div>
+            Mr. DJ - Zuid-Nederland's Premier Wedding & Event DJ Service<br>
+            KvK: 12345678 | BTW: NL123456789B01 | Algemene voorwaarden: www.mr-dj.nl/voorwaarden
+        </div>
+    </div>
+</body>
+</html>
+

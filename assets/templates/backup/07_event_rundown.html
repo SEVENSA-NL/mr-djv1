@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. DJ - Event Rundown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #F5F5F5;
+            padding: 20px;
+        }
+        
+        .rundown-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .rundown-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 40px;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 100px;
+        }
+        
+        .event-code {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .rundown-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .event-info {
+            font-size: 16px;
+            color: #D4AF37;
+        }
+        
+        .quick-info {
+            background: #F9F9F9;
+            padding: 30px 40px;
+            border-bottom: 3px solid #00AEEF;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        .info-item {
+            text-align: center;
+        }
+        
+        .info-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+        }
+        
+        .rundown-content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00AEEF;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #00AEEF 0%, #1A2C4B 100%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #F9F9F9;
+            border-left: 4px solid #00AEEF;
+            margin-left: 10px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -44px;
+            top: 25px;
+            width: 20px;
+            height: 20px;
+            background: #00AEEF;
+            border: 4px solid #FFFFFF;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px #00AEEF;
+        }
+        
+        .timeline-item.highlight {
+            background: #FFF9E6;
+            border-left-color: #D4AF37;
+        }
+        
+        .timeline-item.highlight:before {
+            background: #D4AF37;
+            box-shadow: 0 0 0 3px #D4AF37;
+        }
+        
+        .timeline-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00AEEF;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-item.highlight .timeline-time {
+            color: #D4AF37;
+        }
+        
+        .timeline-activity {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1A2C4B;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-notes {
+            background: #FFFFFF;
+            padding: 12px;
+            border-left: 3px solid #00AEEF;
+            font-size: 13px;
+            color: #1A2C4B;
+            margin-top: 10px;
+        }
+        
+        .timeline-notes strong {
+            color: #00AEEF;
+        }
+        
+        .contacts-section {
+            background: #F9F9F9;
+            padding: 30px 40px;
+            margin-top: 30px;
+        }
+        
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .contact-card {
+            background: #FFFFFF;
+            padding: 20px;
+            border-left: 4px solid #D4AF37;
+        }
+        
+        .contact-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 5px;
+        }
+        
+        .contact-role {
+            font-size: 13px;
+            color: #00AEEF;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .equipment-section {
+            padding: 30px 40px;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .equipment-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #F9F9F9;
+            border-left: 3px solid #00AEEF;
+        }
+        
+        .equipment-check {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            border: 2px solid #00AEEF;
+            border-radius: 3px;
+        }
+        
+        .equipment-name {
+            font-size: 14px;
+            color: #1A2C4B;
+            font-weight: 600;
+        }
+        
+        .notes-section {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 30px 40px;
+        }
+        
+        .notes-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 15px;
+        }
+        
+        .notes-text {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        
+        .rundown-footer {
+            background: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 25px 40px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        @media print {
+            body {
+                background: #FFFFFF;
+                padding: 0;
+            }
+            
+            .rundown-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rundown-container">
+        <div class="rundown-header">
+            <div class="header-top">
+                <img src="mr_dj_logo.png" alt="Mr. DJ Logo" class="logo">
+                <div class="event-code">BK-2026-001</div>
+            </div>
+            <h1 class="rundown-title">EVENT RUNDOWN</h1>
+            <p class="event-info">Bruiloft Emma & Thomas Jansen | 20 juni 2026 | Landgoed De Rosep, Oisterwijk</p>
+        </div>
+        
+        <div class="quick-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">📅</div>
+                    <div class="info-label">Datum</div>
+                    <div class="info-value">20 juni 2026</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">⏰</div>
+                    <div class="info-label">Tijd</div>
+                    <div class="info-value">18:00 - 02:00</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">👥</div>
+                    <div class="info-label">Gasten</div>
+                    <div class="info-value">120 personen</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rundown-content">
+            <h2 class="section-title">Tijdschema</h2>
+            
+            <div class="timeline">
+                <!-- Setup -->
+                <div class="timeline-item">
+                    <div class="timeline-time">18:00 - 19:30</div>
+                    <div class="timeline-activity">🔧 Opbouw & Soundcheck</div>
+                    <div class="timeline-description">
+                        Aankomst op locatie, opbouw apparatuur, soundcheck en laatste technische controles
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Actie:</strong> Aanmelden bij locatie manager, toegang tot zaal, stroomvoorziening controleren
+                    </div>
+                </div>
+                
+                <!-- Diner -->
+                <div class="timeline-item">
+                    <div class="timeline-time">19:30 - 20:00</div>
+                    <div class="timeline-activity">🍽️ Diner Achtergrondmuziek</div>
+                    <div class="timeline-description">
+                        Rustige achtergrondmuziek tijdens het diner (jazz, lounge, soft pop)
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Volume:</strong> Laag niveau, gasten moeten elkaar kunnen verstaan
+                    </div>
+                </div>
+                
+                <!-- Speeches -->
+                <div class="timeline-item highlight">
+                    <div class="timeline-time">20:00 - 20:30</div>
+                    <div class="timeline-activity">🎤 Speeches & Toespraken</div>
+                    <div class="timeline-description">
+                        Draadloze microfoon beschikbaar voor speeches (vader bruid, getuigen, bruidspaar)
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Actie:</strong> Microfoon testen, volume aanpassen, muziek dempen tijdens speeches
+                    </div>
+                </div>
+                
+                <!-- Openingsdans -->
+                <div class="timeline-item highlight">
+                    <div class="timeline-time">20:30 - 20:35</div>
+                    <div class="timeline-activity">💃 Openingsdans</div>
+                    <div class="timeline-description">
+                        Eerste dans bruidspaar: "Ed Sheeran - Perfect"
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Speciale mix:</strong> 3 minuten versie, fade-in intro, spotlight moment
+                    </div>
+                </div>
+                
+                <!-- Feest Start -->
+                <div class="timeline-item">
+                    <div class="timeline-time">20:35 - 22:00</div>
+                    <div class="timeline-activity">🎉 Feest Start - Warm-up</div>
+                    <div class="timeline-description">
+                        Geleidelijke opbouw van energie, mix van bekende hits en dansnummers. Gasten wennen aan de dansvloer.
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Genres:</strong> Pop, 80s/90s classics, feel-good hits | <strong>Tempo:</strong> Gemiddeld, opbouwend
+                    </div>
+                </div>
+                
+                <!-- Taart -->
+                <div class="timeline-item highlight">
+                    <div class="timeline-time">22:00 - 22:10</div>
+                    <div class="timeline-activity">🎂 Taart Aansnijden</div>
+                    <div class="timeline-description">
+                        Muziek dempen, aankondiging, taart aansnijden ceremonie
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Nummer:</strong> "Pharrell Williams - Happy" tijdens aansnijden
+                    </div>
+                </div>
+                
+                <!-- Peak Time -->
+                <div class="timeline-item highlight">
+                    <div class="timeline-time">22:10 - 00:30</div>
+                    <div class="timeline-activity">🔥 Peak Time - Hoogtepunt</div>
+                    <div class="timeline-description">
+                        Maximale energie, volle dansvloer, beste hits, 100% dansgarantie actief
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Genres:</strong> Dance, house, top 40, Latin, party classics | <strong>Tempo:</strong> Hoog energiek, non-stop
+                    </div>
+                </div>
+                
+                <!-- Late Night -->
+                <div class="timeline-item">
+                    <div class="timeline-time">00:30 - 01:45</div>
+                    <div class="timeline-activity">🌙 Late Night Session</div>
+                    <div class="timeline-description">
+                        Mix van energieke nummers en sing-alongs, gasten blijven op de dansvloer
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Mix:</strong> 70% energiek, 30% meezingers | Gasten verzoeken toegestaan
+                    </div>
+                </div>
+                
+                <!-- Closing -->
+                <div class="timeline-item highlight">
+                    <div class="timeline-time">01:45 - 01:50</div>
+                    <div class="timeline-activity">👋 Closing - Laatste Nummer</div>
+                    <div class="timeline-description">
+                        Afsluiting van de avond met laatste nummer: "Queen - Don't Stop Me Now"
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Actie:</strong> Aankondiging laatste nummer, iedereen op de dansvloer, emotioneel moment
+                    </div>
+                </div>
+                
+                <!-- Breakdown -->
+                <div class="timeline-item">
+                    <div class="timeline-time">01:50 - 02:30</div>
+                    <div class="timeline-activity">📦 Afbouw</div>
+                    <div class="timeline-description">
+                        Apparatuur afbreken, inpakken en laden
+                    </div>
+                    <div class="timeline-notes">
+                        <strong>Actie:</strong> Locatie netjes achterlaten, check met locatie manager
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contacts-section">
+            <h2 class="section-title">Belangrijke Contactpersonen</h2>
+            
+            <div class="contacts-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Emma Jansen</div>
+                    <div class="contact-role">Bruid</div>
+                    <div class="contact-info">
+                        📱 +31 6 1234 5678<br>
+                        📧 emma.jansen@email.nl
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-name">Thomas Jansen</div>
+                    <div class="contact-role">Bruidegom</div>
+                    <div class="contact-info">
+                        📱 +31 6 8765 4321<br>
+                        📧 thomas.jansen@email.nl
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-name">Sophie de Vries</div>
+                    <div class="contact-role">Wedding Planner</div>
+                    <div class="contact-info">
+                        📱 +31 6 2345 6789<br>
+                        📧 sophie@weddingplanner.nl
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-name">Landgoed De Rosep</div>
+                    <div class="contact-role">Locatie Manager</div>
+                    <div class="contact-info">
+                        📱 +31 13 123 4567<br>
+                        📧 info@landgoedderosep.nl
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="equipment-section">
+            <h2 class="section-title">Apparatuur Checklist</h2>
+            
+            <div class="equipment-grid">
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Premium Geluidsinstallatie</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Subwoofers (2x)</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Uitgebreide Lichtshow</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">LED Par Cans (8x)</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Moving Heads (2x)</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Rookmachine</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Draadloze Microfoon</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">DJ Booth Verlichting</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Backup Laptop</div>
+                </div>
+                <div class="equipment-item">
+                    <div class="equipment-check"></div>
+                    <div class="equipment-name">Verlengkabels & Stroomverdelers</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="notes-section">
+            <div class="notes-title">📝 Belangrijke Notities</div>
+            <div class="notes-text">
+                <strong>Speciale Wensen:</strong><br>
+                • Geen heavy metal of harde rock<br>
+                • Veel Latin/Reggaeton voor internationale gasten<br>
+                • Oma (85 jaar) houdt van André Hazes - 1-2 nummers inplannen<br>
+                • Groep vrienden wil graag 90s dance classics<br>
+                <br>
+                <strong>Technische Details:</strong><br>
+                • Locatie heeft 3x 16A stroomvoorziening beschikbaar<br>
+                • Opbouw via zij-ingang, niet door hoofdingang<br>
+                • Parkeergelegenheid achter het pand<br>
+                • Geluidsbegrenzer actief: max 95dB<br>
+                <br>
+                <strong>Emergency Plan:</strong><br>
+                • Backup apparatuur aanwezig in bus<br>
+                • Backup muziek op tweede laptop en USB<br>
+                • Noodcontact Mr. DJ: +31 6 1234 5678
+            </div>
+        </div>
+        
+        <div class="rundown-footer">
+            <strong style="color: #D4AF37;">Mr. DJ - 100% Dansgarantie</strong><br>
+            Event Rundown versie 1.0 | Laatst bijgewerkt: 6 juni 2026<br>
+            Voor wijzigingen of vragen: info@mr-dj.nl | +31 6 1234 5678
+        </div>
+    </div>
+</body>
+</html>
+

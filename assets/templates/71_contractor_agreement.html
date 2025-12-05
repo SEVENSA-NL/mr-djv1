@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mister DJ - Boekingscontract Bruiloft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #F5F5F5;
+            padding: 40px 20px;
+        }
+        
+        .contract-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Header */
+        .contract-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 40px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 120px;
+        }
+        
+        .header-title {
+            text-align: right;
+        }
+        
+        .contract-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .contract-subtitle {
+            font-size: 16px;
+            color: #D4AF37;
+        }
+        
+        /* Parties Section */
+        .parties-section {
+            padding: 40px 50px;
+            background: #F9F9F9;
+            border-bottom: 3px solid #00AEEF;
+        }
+        
+        .parties-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .party-block {
+            background: #FFFFFF;
+            padding: 25px;
+            border-left: 4px solid #1A2C4B;
+        }
+        
+        .party-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00AEEF;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        
+        .party-info {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.8;
+        }
+        
+        /* Content Section */
+        .content-section {
+            padding: 40px 50px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00AEEF;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .article {
+            margin-bottom: 25px;
+        }
+        
+        .article-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00AEEF;
+            margin-bottom: 10px;
+        }
+        
+        .article-text {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .article-list {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .article-list li {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        
+        /* Event Details Box */
+        .event-details-box {
+            background: #F9F9F9;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #D4AF37;
+        }
+        
+        .details-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 15px;
+        }
+        
+        .details-table {
+            width: 100%;
+        }
+        
+        .details-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .details-row:last-child {
+            border-bottom: none;
+        }
+        
+        .details-label {
+            font-weight: 600;
+            color: #1A2C4B;
+            width: 180px;
+            font-size: 14px;
+        }
+        
+        .details-value {
+            color: #1A2C4B;
+            font-size: 14px;
+            flex: 1;
+        }
+        
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 20px 25px;
+            margin: 25px 0;
+        }
+        
+        .highlight-text {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Signature Section */
+        .signature-section {
+            padding: 40px 50px;
+            background: #F9F9F9;
+        }
+        
+        .signature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .signature-block {
+            background: #FFFFFF;
+            padding: 30px;
+            border: 2px solid #E0E0E0;
+        }
+        
+        .signature-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 40px;
+        }
+        
+        .signature-line {
+            border-top: 2px solid #1A2C4B;
+            margin-top: 60px;
+            padding-top: 10px;
+        }
+        
+        .signature-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .signature-info {
+            font-size: 14px;
+            color: #1A2C4B;
+        }
+        
+        /* Footer */
+        .contract-footer {
+            background: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 25px 50px;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .footer-highlight {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        @media print {
+            body {
+                background: #FFFFFF;
+                padding: 0;
+            }
+            
+            .contract-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contract-container">
+        <!-- Header -->
+        <div class="contract-header">
+            <img src="mr_dj_logo.png" alt="Mister DJ Logo" class="logo">
+            <div class="header-title">
+                <div class="contract-title">OVEREENKOMST</div>
+                <div class="contract-subtitle">DJ Services Bruiloft</div>
+            </div>
+        </div>
+        
+        <!-- Parties -->
+        <div class="parties-section">
+            <div class="parties-grid">
+                <div class="party-block">
+                    <div class="party-title">Opdrachtgever (Klant)</div>
+                    <div class="party-info">
+                        <strong>Naam:</strong> Emma & Thomas Jansen<br>
+                        <strong>Adres:</strong> Hoofdstraat 123<br>
+                        <strong>Postcode/Plaats:</strong> 5611 AB Eindhoven<br>
+                        <strong>Email:</strong> emma.jansen@email.nl<br>
+                        <strong>Telefoon:</strong> +31 (0) 40 8422594
+                    </div>
+                </div>
+                
+                <div class="party-block">
+                    <div class="party-title">Opdrachtnemer (Mister DJ)</div>
+                    <div class="party-info">
+                        <strong>Handelsnaam:</strong> Mister DJ<br>
+                        <strong>Adres:</strong> Kapteijnlaan 17, 5505 AV Veldhoven<br>
+                        <strong>KvK-nummer:</strong> 68906277<br>
+                        <strong>BTW-nummer:</strong> NL689062779B01<br>
+                        <strong>Email:</strong> info@mr-dj.nl<br>
+                        <strong>Telefoon:</strong> +31 (0) 40 8422594
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content-section">
+            <!-- Event Details -->
+            <div class="event-details-box">
+                <div class="details-title">Event Specificaties</div>
+                <div class="details-table">
+                    <div class="details-row">
+                        <div class="details-label">Contractnummer:</div>
+                        <div class="details-value">CNT-2026-001</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Datum contract:</div>
+                        <div class="details-value">15 januari 2026</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Event type:</div>
+                        <div class="details-value">Bruiloft</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Event datum:</div>
+                        <div class="details-value">Zaterdag 20 juni 2026</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Aanvangstijd:</div>
+                        <div class="details-value">20:00 uur</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Eindtijd:</div>
+                        <div class="details-value">02:00 uur (6 uur totaal)</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Locatie:</div>
+                        <div class="details-value">Landgoed De Rosep, Oisterwijk</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Gekozen pakket:</div>
+                        <div class="details-value">Zilver Pakket</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Totaalbedrag:</div>
+                        <div class="details-value"><strong>€1.495,00 (incl. 21% BTW)</strong></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Articles -->
+            <div class="section-title">Artikel 1: Opdracht</div>
+            <div class="article">
+                <div class="article-text">
+                    Opdrachtgever verstrekt hierbij aan Opdrachtnemer de opdracht tot het verzorgen van DJ services tijdens bovengenoemd event. De opdracht omvat:
+                </div>
+                <ul class="article-list">
+                    <li>Professionele DJ services gedurende 6 uur</li>
+                    <li>Premium geluidsinstallatie</li>
+                    <li>Uitgebreide lichtshow inclusief effectverlichting</li>
+                    <li>Draadloze microfoon voor speeches</li>
+                    <li>Rookmachine voor sfeerverhoging</li>
+                    <li>DJ booth verlichting</li>
+                    <li>Persoonlijke intake en muziekvoorkeuren afstemming</li>
+                    <li>Opbouw en afbouw van alle apparatuur</li>
+                    <li>100% Dansgarantie</li>
+                </ul>
+            </div>
+            
+            <div class="section-title">Artikel 2: Verplichtingen Opdrachtnemer</div>
+            <div class="article">
+                <div class="article-text">
+                    Opdrachtnemer verplicht zich tot:
+                </div>
+                <ul class="article-list">
+                    <li>Het leveren van professionele DJ services conform de afgesproken specificaties</li>
+                    <li>Tijdige aanwezigheid op de locatie (minimaal 2 uur voor aanvangstijd voor opbouw)</li>
+                    <li>Het gebruik van professionele, goed onderhouden apparatuur</li>
+                    <li>Het naleven van de muziekvoorkeuren zoals besproken tijdens de intake</li>
+                    <li>Het creëren van een feestelijke sfeer met 100% dansgarantie</li>
+                    <li>Het respecteren van de locatieregels en omgangsvormen</li>
+                </ul>
+            </div>
+            
+            <div class="section-title">Artikel 3: Verplichtingen Opdrachtgever</div>
+            <div class="article">
+                <div class="article-text">
+                    Opdrachtgever verplicht zich tot:
+                </div>
+                <ul class="article-list">
+                    <li>Tijdige betaling conform de betalingsvoorwaarden (artikel 5)</li>
+                    <li>Het verstrekken van accurate informatie over de locatie en faciliteiten</li>
+                    <li>Het waarborgen van toegang tot de locatie voor opbouw (minimaal 2 uur voor aanvang)</li>
+                    <li>Het beschikbaar stellen van stroomvoorziening (230V, minimaal 16A)</li>
+                    <li>Het invullen van het muziekvoorkeuren formulier uiterlijk 4 weken voor het event</li>
+                    <li>Het informeren van Opdrachtnemer over eventuele wijzigingen of bijzonderheden</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <div class="highlight-text">
+                    <strong>100% DANSGARANTIE:</strong> Mister DJ garandeert dat uw gasten de hele avond op de dansvloer staan. Mocht dit onverhoopt niet het geval zijn, dan wordt 25% van het totaalbedrag gerestitueerd. Deze garantie geldt niet bij overmacht of indien de muziekvoorkeuren zodanig specifiek zijn dat dit een volle dansvloer belemmert.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 4: Prijs en Specificaties</div>
+            <div class="article">
+                <div class="article-text">
+                    De overeengekomen prijs voor de opdracht bedraagt <strong>€1.495,00</strong> inclusief 21% BTW. Dit bedrag is gebaseerd op het Zilver Pakket en omvat alle in artikel 1 genoemde diensten en apparatuur.
+                </div>
+                <div class="article-text">
+                    Niet inbegrepen in deze prijs zijn:
+                </div>
+                <ul class="article-list">
+                    <li>Reiskosten buiten 30km van Eindhoven (€0,50 per km)</li>
+                    <li>Extra uren buiten de overeengekomen 6 uur (€150 per uur)</li>
+                    <li>Aanvullende diensten die niet in het pakket zijn opgenomen</li>
+                </ul>
+            </div>
+            
+            <div class="section-title">Artikel 5: Betaling</div>
+            <div class="article">
+                <div class="article-text">
+                    De betaling geschiedt als volgt:
+                </div>
+                <ul class="article-list">
+                    <li><strong>Aanbetaling:</strong> 50% (€747,50) binnen 14 dagen na ondertekening van dit contract</li>
+                    <li><strong>Restbedrag:</strong> 50% (€747,50) uiterlijk 14 dagen voor de eventdatum</li>
+                </ul>
+                <div class="article-text">
+                    Betaling dient te geschieden via bankoverschrijving naar rekeningnummer NL12 ABNA 0123 4567 89 t.n.v. Mister DJ onder vermelding van het contractnummer. Bij niet-tijdige betaling behoudt Opdrachtnemer zich het recht voor de opdracht te annuleren zonder restitutie van reeds betaalde bedragen.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 6: Annulering</div>
+            <div class="article">
+                <div class="article-text">
+                    Bij annulering door Opdrachtgever gelden de volgende voorwaarden:
+                </div>
+                <ul class="article-list">
+                    <li><strong>Meer dan 6 maanden voor event:</strong> 50% restitutie van betaalde bedragen</li>
+                    <li><strong>3 tot 6 maanden voor event:</strong> 25% restitutie van betaalde bedragen</li>
+                    <li><strong>Minder dan 3 maanden voor event:</strong> Geen restitutie</li>
+                </ul>
+                <div class="article-text">
+                    Bij annulering door Opdrachtnemer (behalve in geval van overmacht) worden alle betaalde bedragen volledig gerestitueerd en ontvangt Opdrachtgever een compensatie van 25% van het totaalbedrag.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 7: Overmacht</div>
+            <div class="article">
+                <div class="article-text">
+                    Onder overmacht wordt verstaan: ziekte, ongeval, extreme weersomstandigheden, overheidsmaatregelen, of andere onvoorziene omstandigheden die het uitvoeren van de opdracht onmogelijk maken. Bij overmacht wordt gezocht naar een passende oplossing zoals vervanging of verplaatsing van de datum. Indien geen oplossing mogelijk is, worden betaalde bedragen gerestitueerd minus gemaakte kosten (maximaal 25%).
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 8: Aansprakelijkheid</div>
+            <div class="article">
+                <div class="article-text">
+                    Opdrachtnemer is verzekerd voor aansprakelijkheid en beschikt over een WA-verzekering. Opdrachtnemer is niet aansprakelijk voor schade aan de locatie of derden, tenzij deze het gevolg is van grove nalatigheid of opzet. Opdrachtgever vrijwaart Opdrachtnemer voor claims van derden die voortvloeien uit het event.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 9: Wijzigingen</div>
+            <div class="article">
+                <div class="article-text">
+                    Wijzigingen in de opdracht dienen minimaal 4 weken voor het event schriftelijk (per email) te worden doorgegeven. Opdrachtnemer zal zich inspannen wijzigingen te accommoderen, maar kan niet garanderen dat alle wijzigingen mogelijk zijn. Wijzigingen die leiden tot meerkosten worden separaat gefactureerd.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 10: Toepasselijk Recht</div>
+            <div class="article">
+                <div class="article-text">
+                    Op deze overeenkomst is Nederlands recht van toepassing. Geschillen worden bij voorkeur in onderling overleg opgelost. Indien dit niet mogelijk is, is de bevoegde rechter in het arrondissement van Opdrachtnemer bevoegd.
+                </div>
+            </div>
+            
+            <div class="section-title">Artikel 11: Algemene Voorwaarden</div>
+            <div class="article">
+                <div class="article-text">
+                    Op deze overeenkomst zijn de algemene voorwaarden van Mister DJ van toepassing. Deze zijn te raadplegen op www.mr-dj.nl/voorwaarden en zijn bij ondertekening aan Opdrachtgever verstrekt. Door ondertekening verklaart Opdrachtgever kennis te hebben genomen van en akkoord te gaan met deze voorwaarden.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Signatures -->
+        <div class="signature-section">
+            <div class="section-title">Ondertekening</div>
+            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">
+                Door ondertekening verklaren beide partijen akkoord te gaan met bovenstaande voorwaarden en specificaties.
+            </p>
+            
+            <div class="signature-grid">
+                <div class="signature-block">
+                    <div class="signature-title">Opdrachtgever</div>
+                    <div class="signature-line">
+                        <div class="signature-label">Handtekening</div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div class="signature-label">Naam</div>
+                        <div class="signature-info">Emma & Thomas Jansen</div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <div class="signature-label">Datum</div>
+                        <div class="signature-info">________________</div>
+                    </div>
+                </div>
+                
+                <div class="signature-block">
+                    <div class="signature-title">Opdrachtnemer</div>
+                    <div class="signature-line">
+                        <div class="signature-label">Handtekening</div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div class="signature-label">Naam</div>
+                        <div class="signature-info">Mister DJ</div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <div class="signature-label">Datum</div>
+                        <div class="signature-info">________________</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="contract-footer">
+            <div class="footer-highlight">Mister DJ - Professionele DJ Services Kapteijnlaan 17, 5505 AV Veldhoven</div>
+            KvK: 68906277 | BTW: NL689062779B01<br>
+            www.mr-dj.nl | info@mr-dj.nl | +31 (0) 40 8422594<br>
+            Algemene voorwaarden: www.mr-dj.nl/voorwaarden
+        </div>
+    </div>
+</body>
+</html>
+

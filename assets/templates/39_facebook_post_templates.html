@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mister DJ - Instagram Post Templates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', Arial, sans-serif; 
+            background: #F5F5F5;
+            padding: 30px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 36px; color: #1A2C4B; margin-bottom: 30px; text-align: center; }
+        
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        /* Instagram Square Post (1080x1080) */
+        .insta-square {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Template 1: Bruiloft Showcase */
+        .template-wedding {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        .wedding-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .wedding-title {
+            font-size: 42px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .wedding-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: #D4AF37;
+            margin-bottom: 25px;
+        }
+        
+        .wedding-guarantee {
+            background: #D4AF37;
+            color: #1A2C4B;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        .wedding-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        /* Template 2: Testimonial */
+        .template-testimonial {
+            background: #FFFFFF;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .testimonial-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .testimonial-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 32px;
+            font-weight: 900;
+        }
+        
+        .testimonial-stars {
+            color: #D4AF37;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-quote {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #1A2C4B;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .testimonial-author {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00AEEF;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .testimonial-cta {
+            background: linear-gradient(135deg, #00AEEF 0%, #0088CC 100%);
+            color: #FFFFFF;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        /* Template 3: Event Announcement */
+        .template-event {
+            background: #1A2C4B;
+            color: #FFFFFF;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .event-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #D4AF37;
+            color: #1A2C4B;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        .event-content {
+            margin-top: 60px;
+        }
+        
+        .event-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .event-details {
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+        
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .event-icon {
+            font-size: 24px;
+            color: #D4AF37;
+        }
+        
+        .event-cta {
+            background: #00AEEF;
+            color: #FFFFFF;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-top: 40px;
+        }
+        
+        /* Instagram Story (1080x1920) */
+        .insta-story {
+            width: 300px;
+            height: 533px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .story-template {
+            background: linear-gradient(180deg, #1A2C4B 0%, #00AEEF 100%);
+            height: 100%;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #FFFFFF;
+        }
+        
+        .story-header {
+            text-align: center;
+        }
+        
+        .story-logo {
+            width: 60px;
+            height: 60px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1A2C4B;
+            font-size: 24px;
+            font-weight: 900;
+        }
+        
+        .story-title {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .story-middle {
+            text-align: center;
+        }
+        
+        .story-main-text {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .story-sub-text {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .story-footer {
+            text-align: center;
+        }
+        
+        .story-cta {
+            background: #D4AF37;
+            color: #1A2C4B;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        .story-swipe {
+            font-size: 14px;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+        
+        .template-info {
+            background: #F9F9F9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .template-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10px;
+        }
+        
+        .template-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .caption-box {
+            background: #E8F4FD;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 5px solid #00AEEF;
+        }
+        
+        .caption-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10px;
+        }
+        
+        .caption-text {
+            font-size: 13px;
+            color: #1A2C4B;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .hashtags {
+            font-size: 12px;
+            color: #00AEEF;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Instagram Post Templates - Mister DJ</h1>
+        
+        <h2 style="font-size: 24px; color: #00AEEF; margin: 30px 0 20px 0;">Square Posts (1080x1080)</h2>
+        
+        <div class="templates-grid">
+            <!-- Template 1: Bruiloft Showcase -->
+            <div>
+                <div class="insta-square template-wedding">
+                    <div class="wedding-icon">💍</div>
+                    <h2 class="wedding-title">Bruiloft DJ</h2>
+                    <p class="wedding-subtitle">Onvergetelijke Avond Gegarandeerd</p>
+                    <div class="wedding-guarantee">100% DANSGARANTIE</div>
+                    <div class="wedding-footer">www.mr-dj.nl</div>
+                </div>
+                
+                <div class="template-info">
+                    <div class="template-title">Template 1: Bruiloft Showcase</div>
+                    <div class="template-desc">Perfect voor bruiloft promotie. Gebruik met foto's van echte bruiloften als achtergrond.</div>
+                </div>
+                
+                <div class="caption-box">
+                    <div class="caption-title">Voorbeeld Caption:</div>
+                    <div class="caption-text">✨ Jouw bruiloft, onze passie! ✨
+
+Met 15+ jaar ervaring en 2500+ succesvolle bruiloften weten we precies hoe we jouw grote dag onvergetelijk maken. 
+
+💯 100% dansgarantie
+🎵 Persoonlijke muziekafstemming
+🎉 Professionele apparatuur & lichtshow
+⭐ 10/10 reviews
+
+Boek nu je vrijblijvende kennismaking! 👆
+
+📞 040-8422594
+🌐 www.mr-dj.nl</div>
+                    <div class="hashtags">#bruiloftdj #djbruiloft #bruiloft2026 #trouwen #weddingdj #djzuidnederland #bruiloftinspiratie #feestdj #misterdj #dansgarantie</div>
+                </div>
+            </div>
+            
+            <!-- Template 2: Testimonial -->
+            <div>
+                <div class="insta-square template-testimonial">
+                    <div class="testimonial-header">
+                        <img src="mr_dj_logo.png" alt="Mister DJ Logo" style="width: 80px; height: auto;">
+                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    
+                    <div class="testimonial-quote">
+                        "Ondanks de extreme hitte kreeg Bart iedereen op de dansvloer! Wij genieten nog na van onze speciale dag. Hartstikke bedankt!"
+                    </div>
+                    
+                    <div class="testimonial-author">— Kim & Silas</div>
+                    
+                    <div class="testimonial-cta">
+                        Boek Nu Je Bruiloft DJ!<br>
+                        www.mr-dj.nl
+                    </div>
+                </div>
+                
+                <div class="template-info">
+                    <div class="template-title">Template 2: Testimonial Showcase</div>
+                    <div class="template-desc">Deel positieve reviews van tevreden klanten. Bouwt vertrouwen en social proof.</div>
+                </div>
+                
+                <div class="caption-box">
+                    <div class="caption-title">Voorbeeld Caption:</div>
+                    <div class="caption-text">💬 Wat onze klanten zeggen 💬
+
+Dit soort berichten maken ons werk zo waardevol! 🙏
+
+Kim & Silas hadden een prachtige bruiloft en ondanks de hitte was de dansvloer de hele avond vol. Dat is waar we voor gaan! 💃🕺
+
+Ook een feest met 100% dansgarantie? 
+
+📲 DM ons of bel 040-8422594
+🌐 Link in bio</div>
+                    <div class="hashtags">#review #testimonial #tevreden #bruiloftdj #5sterren #misterdj #dansgarantie #bruiloft #zuidnederland</div>
+                </div>
+            </div>
+            
+            <!-- Template 3: Event Announcement -->
+            <div>
+                <div class="insta-square template-event">
+                    <div class="event-badge">GEBOEKT</div>
+                    
+                    <div class="event-content">
+                        <h2 class="event-title">Bruiloft<br>Sarah & Tom</h2>
+                        
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <span class="event-icon">📅</span>
+                                <span>Zaterdag 20 Juni 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <span class="event-icon">📍</span>
+                                <span>Landgoed Best</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <span class="event-icon">🎵</span>
+                                <span>Zilver Pakket</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <span class="event-icon">💯</span>
+                                <span>100% Dansgarantie</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-cta">Boek Nu Je Datum!</div>
+                    </div>
+                </div>
+                
+                <div class="template-info">
+                    <div class="template-title">Template 3: Event Announcement</div>
+                    <div class="template-desc">Kondig aankomende events aan. Creëert urgentie en toont dat je geboekt wordt.</div>
+                </div>
+                
+                <div class="caption-box">
+                    <div class="caption-title">Voorbeeld Caption:</div>
+                    <div class="caption-text">🎉 GEBOEKT! 🎉
+
+Over 2 maanden mogen we de bruiloft van Sarah & Tom verzorgen op het prachtige Landgoed Best! 
+
+We gaan er een onvergetelijke avond van maken met:
+✨ 6 uur non-stop muziek
+🎵 Premium geluidsinstallatie
+💡 Spectaculaire lichtshow
+💯 En natuurlijk onze 100% dansgarantie!
+
+Juni zit al bijna vol! Wil jij ook je datum veiligstellen?
+
+📞 Bel 040-8422594
+🌐 www.mr-dj.nl</div>
+                    <div class="hashtags">#geboekt #bruiloft #bruiloftdj #event #landgoedbest #juni2026 #misterdj #djservice</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="font-size: 24px; color: #00AEEF; margin: 50px 0 20px 0;">Instagram Stories (1080x1920)</h2>
+        
+        <div class="templates-grid">
+            <!-- Story Template -->
+            <div>
+                <div class="insta-story">
+                    <div class="story-template">
+                        <div class="story-header">
+                            <img src="mr_dj_logo.png" alt="Mister DJ Logo" style="width: 60px; height: auto;">
+                            <div class="story-title">MISTER DJ</div>
+                        </div>
+                        
+                        <div class="story-middle">
+                            <div class="story-main-text">NOG 3 DATUMS<br>BESCHIKBAAR<br>IN JUNI!</div>
+                            <div class="story-sub-text">Boek nu voordat het te laat is!</div>
+                        </div>
+                        
+                        <div class="story-footer">
+                            <div class="story-cta">SWIPE UP</div>
+                            <div class="story-swipe">↑ Bekijk beschikbaarheid</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-info">
+                    <div class="template-title">Story Template: Urgentie</div>
+                    <div class="template-desc">Creëert FOMO (fear of missing out) en drijft directe actie. Gebruik voor beschikbaarheid updates.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

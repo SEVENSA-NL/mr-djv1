@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mister DJ - Emergency Contact Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @page { size: A4; margin: 15mm; }
+        body { 
+            font-family: 'Montserrat', Arial, sans-serif; 
+            background: #F5F5F5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 20mm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #FF0000;
+            color: #FFFFFF;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .header-title {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-section img {
+            width: 120px;
+            height: auto;
+        }
+        .event-info {
+            background: #FFF9E6;
+            border-left: 5px solid #D4AF37;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .event-info-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10px;
+        }
+        .event-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .event-info-item {
+            font-size: 12px;
+        }
+        .event-info-label {
+            font-weight: 700;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .contact-card {
+            background: #F9F9F9;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .contact-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A2C4B;
+        }
+        .contact-role {
+            font-size: 12px;
+            background: #00AEEF;
+            color: #FFFFFF;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 13px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-icon {
+            color: #00AEEF;
+            font-size: 16px;
+        }
+        .emergency-services {
+            background: #FFE4E4;
+            border: 3px solid #FF0000;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .emergency-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #FF0000;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .emergency-item {
+            text-align: center;
+            background: #FFFFFF;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        .emergency-number {
+            font-size: 24px;
+            font-weight: 900;
+            color: #FF0000;
+            margin-bottom: 5px;
+        }
+        .emergency-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+        }
+        .notes-section {
+            background: #E8F4FD;
+            border: 2px dashed #00AEEF;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .notes-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 10px;
+        }
+        .notes-content {
+            min-height: 80px;
+            background: #FFFFFF;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #E0E0E0;
+            font-size: 11px;
+            color: #666;
+        }
+        @media print {
+            body { background: #FFFFFF; padding: 0; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">🚨</div>
+            <h1 class="header-title">Emergency Contact Sheet</h1>
+            <p class="header-subtitle">Bewaar dit document altijd bij de hand tijdens events</p>
+        </div>
+        
+        <div class="logo-section">
+            <img src="mr_dj_logo.png" alt="Mister DJ Logo">
+        </div>
+        
+        <div class="event-info">
+            <div class="event-info-title">📋 Event Informatie</div>
+            <div class="event-info-grid">
+                <div class="event-info-item">
+                    <span class="event-info-label">Event:</span> [Event Naam]
+                </div>
+                <div class="event-info-item">
+                    <span class="event-info-label">Datum:</span> [DD-MM-YYYY]
+                </div>
+                <div class="event-info-item">
+                    <span class="event-info-label">Locatie:</span> [Venue Naam]
+                </div>
+                <div class="event-info-item">
+                    <span class="event-info-label">Tijd:</span> [Start - Eind]
+                </div>
+            </div>
+        </div>
+        
+        <!-- Emergency Services -->
+        <div class="emergency-services">
+            <div class="emergency-title">⚠️ Nooddiensten</div>
+            <div class="emergency-grid">
+                <div class="emergency-item">
+                    <div class="emergency-number">112</div>
+                    <div class="emergency-label">Algemeen Noodgeval</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="emergency-number">0900-8844</div>
+                    <div class="emergency-label">Huisartsenpost</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="emergency-number">088-0030600</div>
+                    <div class="emergency-label">Antigifcentrum</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Client Contacts -->
+        <div class="section">
+            <h2 class="section-title">👰 Client Contacten</h2>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Bruid/Bruidegom Naam]</div>
+                    <div class="contact-role">Hoofdcontact</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 12345678]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[email@example.com]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Partner Naam]</div>
+                    <div class="contact-role">Secundair Contact</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 87654321]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[email@example.com]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Wedding Planner Naam]</div>
+                    <div class="contact-role">Wedding Planner</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 11223344]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[planner@example.com]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Venue Contacts -->
+        <div class="section">
+            <h2 class="section-title">🏛️ Venue Contacten</h2>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Venue Naam]</div>
+                    <div class="contact-role">Locatie</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>[040-1234567]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 98765432]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>[Adres, Postcode Plaats]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[venue@example.com]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Venue Manager Naam]</div>
+                    <div class="contact-role">Venue Manager</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 55667788]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[manager@venue.nl]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">[Technisch Contact]</div>
+                    <div class="contact-role">Techniek/Electra</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 44556677]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">⚡</span>
+                        <span>Meterkast locatie: [Beschrijving]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Backup & Support -->
+        <div class="section">
+            <h2 class="section-title">🔧 Backup & Support</h2>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">Backup DJ</div>
+                    <div class="contact-role">Noodcontact</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 99887766]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[backup@dj.nl]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">Equipment Supplier</div>
+                    <div class="contact-role">Apparatuur Verhuur</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>[040-7654321]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 33445566]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>[rental@equipment.nl]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">🏢</span>
+                        <span>[Bedrijfsnaam]</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">Technische Support</div>
+                    <div class="contact-role">24/7 Helpdesk</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>[0800-SUPPORT]</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>[+31 6 22334455]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mister DJ Contact -->
+        <div class="section">
+            <h2 class="section-title">🎧 Mister DJ Contact</h2>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <div class="contact-name">Bart (Mister DJ)</div>
+                    <div class="contact-role">Hoofdverantwoordelijke</div>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>+31 (0) 40 8422594</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>info@mr-dj.nl</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>Kapteijnlaan 17, 5505 AV Veldhoven</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">🌐</span>
+                        <span>www.mr-dj.nl</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <div class="notes-title">📝 Extra Notities / Belangrijke Info</div>
+            <div class="notes-content">
+                <p>[Ruimte voor aanvullende notities, bijzonderheden, of belangrijke informatie specifiek voor dit event]</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>BELANGRIJK:</strong> Print dit document en bewaar het op een zichtbare plek tijdens het event.<br>
+            Zorg dat alle teamleden weten waar dit document zich bevindt.<br>
+            <strong>Mister DJ</strong> | KvK: 68906277 | www.mr-dj.nl | +31 (0) 40 8422594
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mister DJ - Muziekvoorkeuren Formulier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #F5F5F5;
+            padding: 20px;
+        }
+        
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .form-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .form-subtitle {
+            font-size: 18px;
+            color: #D4AF37;
+        }
+        
+        .form-intro {
+            background: #FFF9E6;
+            padding: 30px 40px;
+            border-left: 5px solid #D4AF37;
+        }
+        
+        .intro-text {
+            font-size: 15px;
+            color: #1A2C4B;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .form-content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A2C4B;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00AEEF;
+        }
+        
+        .section-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1A2C4B;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-label-optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 5px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #00AEEF;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            font-size: 15px;
+            color: #1A2C4B;
+            cursor: pointer;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radio-item:hover {
+            border-color: #00AEEF;
+            background: #F9F9F9;
+        }
+        
+        .radio-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+        
+        .radio-label {
+            font-size: 15px;
+            color: #1A2C4B;
+            font-weight: 600;
+        }
+        
+        .radio-description {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .info-box {
+            background: #E8F4FD;
+            border-left: 4px solid #00AEEF;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box-text {
+            font-size: 14px;
+            color: #1A2C4B;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #1A2C4B 0%, #00AEEF 100%);
+            color: #FFFFFF;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            border-radius: 5px;
+        }
+        
+        .highlight-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-text {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .submit-section {
+            background: #F9F9F9;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        .submit-button {
+            background: #D4AF37;
+            color: #FFFFFF;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-button:hover {
+            background: #C19B2F;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .save-button {
+            background: #00AEEF;
+            margin-left: 15px;
+        }
+        
+        .save-button:hover {
+            background: #0094CC;
+        }
+        
+        .form-footer {
+            background: #1A2C4B;
+            color: rgba(255,255,255,0.8);
+            padding: 25px 40px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .submit-button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .save-button {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <img src="mr_dj_logo.png" alt="Mister DJ Logo" class="logo">
+            <h1 class="form-title">Muziekvoorkeuren</h1>
+            <p class="form-subtitle">Bruiloft Emma & Thomas Jansen - 20 juni 2026</p>
+        </div>
+        
+        <div class="form-intro">
+            <p class="intro-text">
+                <strong>Welkom bij het muziekvoorkeuren formulier!</strong> Dit formulier helpt ons om de perfecte muzikale sfeer voor jullie bruiloft te creëren. Neem rustig de tijd om alles in te vullen - hoe meer we weten, hoe beter we jullie wensen kunnen realiseren.
+            </p>
+            <p class="intro-text">
+                ⏱️ <strong>Invultijd:</strong> Ongeveer 15-20 minuten | 💾 <strong>Opslaan:</strong> Je kunt het formulier tussentijds opslaan en later verder gaan
+            </p>
+        </div>
+        
+        <form class="form-content" method="post" action="/submit-muziekvoorkeuren">
+            
+            <!-- Section 1: Event Details -->
+            <div class="section">
+                <h2 class="section-title">1. Event Details</h2>
+                <p class="section-description">Algemene informatie over jullie bruiloft</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Aantal Gasten</label>
+                    <input type="number" class="form-input" name="aantal_gasten" placeholder="Bijv. 120" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Leeftijdsverdeling Gasten</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox-input" name="leeftijd" value="18-25" id="age1">
+                            <label class="checkbox-label" for="age1">18-25 jaar</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox-input" name="leeftijd" value="26-35" id="age2">
+                            <label class="checkbox-label" for="age2">26-35 jaar</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox-input" name="leeftijd" value="36-50" id="age3">
+                            <label class="checkbox-label" for="age3">36-50 jaar</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox-input" name="leeftijd" value="51-65" id="age4">
+                            <label class="checkbox-label" for="age4">51-65 jaar</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox-input" name="leeftijd" value="65+" id="age5">
+                            <label class="checkbox-label" for="age5">65+ jaar</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Gewenste Sfeer</label>
+                    <select class="form-select" name="sfeer" required>
+                        <option value="">Selecteer een sfeer...</option>
+                        <option value="rustig_elegant">Rustig & Elegant</option>
+                        <option value="gezellig_intiem">Gezellig & Intiem</option>
+                        <option value="feestelijk_energiek">Feestelijk & Energiek</option>
+                        <option value="wild_uitbundig">Wild & Uitbundig</option>
+                        <option value="mix">Mix van verschillende sferen</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Section 2: Muziekgenres -->
+            <div class="section">
+                <h2 class="section-title">2. Favoriete Muziekgenres</h2>
+                <p class="section-description">Selecteer alle genres die jullie graag horen (meerdere keuzes mogelijk)</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="pop" id="genre1">
+                        <label class="checkbox-label" for="genre1">Pop</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="dance" id="genre2">
+                        <label class="checkbox-label" for="genre2">Dance / EDM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="house" id="genre3">
+                        <label class="checkbox-label" for="genre3">House</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="rnb" id="genre4">
+                        <label class="checkbox-label" for="genre4">R&B / Soul</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="hiphop" id="genre5">
+                        <label class="checkbox-label" for="genre5">Hip Hop</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="rock" id="genre6">
+                        <label class="checkbox-label" for="genre6">Rock / Alternative</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="disco" id="genre7">
+                        <label class="checkbox-label" for="genre7">Disco / Funk</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="80s" id="genre8">
+                        <label class="checkbox-label" for="genre8">80's Classics</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="90s" id="genre9">
+                        <label class="checkbox-label" for="genre9">90's Hits</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="00s" id="genre10">
+                        <label class="checkbox-label" for="genre10">00's Classics</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="latin" id="genre11">
+                        <label class="checkbox-label" for="genre11">Latin / Reggaeton</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="nederlandstalig" id="genre12">
+                        <label class="checkbox-label" for="genre12">Nederlandstalig</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="schlager" id="genre13">
+                        <label class="checkbox-label" for="genre13">Schlager / Après-ski</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox-input" name="genres" value="jazz" id="genre14">
+                        <label class="checkbox-label" for="genre14">Jazz / Swing</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Must-Play List -->
+            <div class="section">
+                <h2 class="section-title">3. Must-Play Lijst</h2>
+                <p class="section-description">Nummers die absoluut gedraaid moeten worden tijdens jullie bruiloft</p>
+                
+                <div class="info-box">
+                    <p class="info-box-text">
+                        💡 <strong>Tip:</strong> Vermeld artiest en titel. Bijv: "Ed Sheeran - Perfect" of "Whitney Houston - I Wanna Dance With Somebody"
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Must-Play Nummers (1 nummer per regel)</label>
+                    <textarea class="form-textarea" name="must_play" placeholder="Bijv:&#10;Ed Sheeran - Perfect&#10;Bruno Mars - Uptown Funk&#10;Queen - Don't Stop Me Now" rows="10"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 4: Do-Not-Play List -->
+            <div class="section">
+                <h2 class="section-title">4. Do-Not-Play Lijst</h2>
+                <p class="section-description">Nummers of genres die jullie liever niet horen</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Do-Not-Play Nummers/Genres <span class="form-label-optional">(optioneel)</span></label>
+                    <textarea class="form-textarea" name="do_not_play" placeholder="Bijv:&#10;Geen heavy metal&#10;Geen André Hazes&#10;Geen Gangnam Style" rows="8"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 5: Speciale Momenten -->
+            <div class="section">
+                <h2 class="section-title">5. Speciale Momenten</h2>
+                <p class="section-description">Muziek voor belangrijke momenten tijdens jullie bruiloft</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Openingsdans / Eerste Dans</label>
+                    <input type="text" class="form-input" name="openingsdans" placeholder="Artiest - Titel">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vader-Dochter Dans <span class="form-label-optional">(optioneel)</span></label>
+                    <input type="text" class="form-input" name="vader_dochter" placeholder="Artiest - Titel">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Moeder-Zoon Dans <span class="form-label-optional">(optioneel)</span></label>
+                    <input type="text" class="form-input" name="moeder_zoon" placeholder="Artiest - Titel">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Taart Aansnijden <span class="form-label-optional">(optioneel)</span></label>
+                    <input type="text" class="form-input" name="taart" placeholder="Artiest - Titel">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Laatste Nummer van de Avond <span class="form-label-optional">(optioneel)</span></label>
+                    <input type="text" class="form-input" name="laatste_nummer" placeholder="Artiest - Titel">
+                </div>
+            </div>
+            
+            <!-- Section 6: Energie Niveau -->
+            <div class="section">
+                <h2 class="section-title">6. Energie Niveau per Onderdeel</h2>
+                <p class="section-description">Hoe energiek mag de muziek zijn tijdens verschillende momenten?</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Tijdens Diner / Borrel</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_diner" value="achtergrond" id="diner1">
+                            <div>
+                                <label class="radio-label" for="diner1">Rustige Achtergrondmuziek</label>
+                                <div class="radio-description">Zachte muziek waar je overheen kunt praten</div>
+                            </div>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_diner" value="gezellig" id="diner2">
+                            <label class="radio-label" for="diner2">Gezellige Sfeermu ziek</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_diner" value="upbeat" id="diner3">
+                            <label class="radio-label" for="diner3">Upbeat & Vrolijk</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Begin van het Feest (20:00 - 22:00)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_begin" value="rustig" id="begin1">
+                            <label class="radio-label" for="begin1">Rustig Opbouwen</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_begin" value="gemiddeld" id="begin2">
+                            <label class="radio-label" for="begin2">Gemiddeld Tempo</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_begin" value="vol" id="begin3">
+                            <label class="radio-label" for="begin3">Direct Vol Gas!</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Hoogtepunt van het Feest (22:00 - 01:00)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_hoogtepunt" value="gemiddeld" id="hoogtepunt1">
+                            <label class="radio-label" for="hoogtepunt1">Gemiddeld Energiek</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_hoogtepunt" value="hoog" id="hoogtepunt2">
+                            <label class="radio-label" for="hoogtepunt2">Hoog Energiek</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="energie_hoogtepunt" value="maximaal" id="hoogtepunt3">
+                            <label class="radio-label" for="hoogtepunt3">Maximaal Energiek - Non-stop Dansen!</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Extra Wensen -->
+            <div class="section">
+                <h2 class="section-title">7. Extra Wensen & Opmerkingen</h2>
+                <p class="section-description">Alles wat we verder nog moeten weten</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Bijzondere Verzoeken <span class="form-label-optional">(optioneel)</span></label>
+                    <textarea class="form-textarea" name="extra_wensen" placeholder="Bijv: Speciale aankondigingen, verrassingen, thema's, culturele tradities, etc." rows="6"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Zijn er gasten die verzoekjes mogen doen? <span class="form-label-optional">(optioneel)</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="verzoekjes" value="ja" id="verzoek1">
+                            <label class="radio-label" for="verzoek1">Ja, iedereen mag verzoekjes doen</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="verzoekjes" value="beperkt" id="verzoek2">
+                            <label class="radio-label" for="verzoek2">Alleen specifieke personen</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" class="radio-input" name="verzoekjes" value="nee" id="verzoek3">
+                            <label class="radio-label" for="verzoek3">Nee, hou je aan onze lijst</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <div class="highlight-title">🎉 Bijna Klaar!</div>
+                <div class="highlight-text">
+                    Bedankt voor het invullen van dit formulier. We gaan aan de slag met jullie voorkeuren en nemen binnen 3 werkdagen contact op om alles door te nemen!
+                </div>
+            </div>
+            
+        </form>
+        
+        <div class="submit-section">
+            <button type="submit" class="submit-button">✓ Formulier Versturen</button>
+            <button type="button" class="submit-button save-button">💾 Opslaan & Later Verder</button>
+        </div>
+        
+        <div class="form-footer">
+            <strong style="color: #D4AF37;">Mister DJ - 100% Dansgarantie</strong><br>
+            Boekingsnummer: BK-2026-001 | Event: 20 juni 2026<br>
+            Vragen? info@mr-dj.nl | +31 (0) 40 8422594
+        </div>
+    </div>
+</body>
+</html>
+
