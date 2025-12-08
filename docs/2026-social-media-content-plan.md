@@ -418,7 +418,7 @@ node scripts/generate-2026-campaign-banners.js
 
 1. **Run Banner Generator**:
    ```bash
-   export REPLICATE_API_KEY='REDACTED_REPLICATE_API_KEY'
+   export REPLICATE_API_KEY='<your_key_here>'
    node /srv/apps/mr-djv1/scripts/generate-2026-campaign-banners.js
    ```
 

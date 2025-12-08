@@ -22,7 +22,7 @@ Complete redesign en verbetering van de Mr. DJ website met:
 ### 1. Replicate API Integratie
 **Bestand**: `/opt/mr-dj/mr-dj-eds-components/src/services/replicate.js`
 
-**API Key**: `r8_F37uDRCZQ92lMBuJKJ5b5EM0xHH9vnZ2EDXMN`
+**API Key**: `<set via REPLICATE_API_KEY>`
 
 **Features**:
 - ✅ AI-powered hero image generation per stad
