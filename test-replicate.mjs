@@ -1,6 +1,6 @@
 import https from 'https';
 
-const REPLICATE_API_KEY = 'r8_F37uDRCZQ92lMBuJKJ5b5EM0xHH9vnZ2EDXMN';
+const REPLICATE_API_KEY = process.env.REPLICATE_API_KEY || '';
 const REQUEST_TIMEOUT_MS = 30_000;
 
 const data = JSON.stringify({

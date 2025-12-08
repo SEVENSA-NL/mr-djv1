@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const REPLICATE_API_KEY = 'r8_F37uDRCZQ92lMBuJKJ5b5EM0xHH9vnZ2EDXMN';
+const REPLICATE_API_KEY = process.env.REPLICATE_API_KEY || '';
 const REPLICATE_API_URL = 'https://api.replicate.com/v1';
 const OUTPUT_DIR = path.join(__dirname, 'mr-dj-eds-components/public/images');
 

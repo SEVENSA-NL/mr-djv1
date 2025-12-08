@@ -1,0 +1,309 @@
+{
+  "app": {
+    "title": "Mr. DJ boekingshub",
+    "subtitle": "Plan je intake, personaliseer je eventtype en volg real-time de voortgang van je aanvraag.",
+    "bookingSectionLabel": "Boekingsflow en status"
+  },
+  "eventTypes": {
+    "title": "Kies je evenementtype",
+    "subtitle": "Personaliseer je aanvraag. We stemmen muziek, opvolging en CRM-workflows af op jouw keuze.",
+    "selectedBadge": "Geselecteerd",
+    "options": {
+      "bruiloft": {
+        "label": "Bruiloft",
+        "description": "Een romantische avond met live sax en naadloze DJ-overgangen."
+      },
+      "bedrijfsfeest": {
+        "label": "Bedrijfsfeest",
+        "description": "Strakke mixen die passen bij productlaunches en team events."
+      },
+      "verjaardag": {
+        "label": "Verjaardag",
+        "description": "Feel-good classics en verrassende mash-ups voor elke leeftijd."
+      },
+      "festival": {
+        "label": "Festival",
+        "description": "Energieke sets met MC en lichtshow voor grote podia."
+      }
+    }
+  },
+  "hero": {
+    "badge": "✨ 4.9/5 op 180+ reviews",
+    "title": "DJ + Sax die je dansvloer binnen 2 tracks vult",
+    "subtitle": "Live mashups, saxofonist tussen je gasten en realtime setlists afgestemd op jouw publiek.",
+    "supportingCopy": "120+ evenementen per jaar, 4.9/5 beoordeling over 180+ reviews en een dedicated eventmanager die jouw intake voorbereidt.",
+    "ctaPrimaryText": "Plan je intake",
+    "ctaSecondaryText": "Vraag een mixdemo aan",
+    "stats": [
+      {
+        "label": "Gem. reviewscore",
+        "value": "4.9/5"
+      },
+      {
+        "label": "Evenementen per jaar",
+        "value": "120+"
+      },
+      {
+        "label": "Dansvloeractivatie",
+        "value": "98%"
+      }
+    ],
+    "testimonial": {
+      "quote": "Binnen tien minuten zat onze dansvloer vol en hield het team de energie de hele avond vast.",
+      "author": "Lisa & Robbert – Bruiloft Utrecht"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "Bewijs voor elke doelgroep",
+    "title": "Bruidsparen, planners en feestgevers vertrouwen Mr. DJ",
+    "subtitle": "Snelle communicatie voor planners, maatwerkmomenten voor bruidsparen en volle dansvloeren voor private events.",
+    "items": [
+      {
+        "quote": "Onze briefing voor het bruidspaar werd perfect vertaald naar setlist en sax-momenten. Nul stress op de dag zelf.",
+        "author": "Iris — Weddingplanner",
+        "source": "Luxury wedding, Amsterdam",
+        "role": "Bruidsparen & planners",
+        "rating": 5
+      },
+      {
+        "quote": "Heldere tech rider, verzekerd materiaal en een DJ die de room las bij onze productlancering. Stakeholders waren onder de indruk.",
+        "author": "Tom — Event lead",
+        "source": "SaaS launch, Utrecht",
+        "role": "Bedrijfsevenementen",
+        "rating": 5
+      },
+      {
+        "quote": "Onze hiphop, 00s hits en Latin wensen werden strak gemixt. De sax op de dansvloer was het hoogtepunt.",
+        "author": "Sabrina — Gastvrouw",
+        "source": "Birthday, Rotterdam",
+        "role": "Private feest",
+        "rating": 5
+      }
+    ]
+  },
+  "language": {
+    "label": "Taal",
+    "options": {
+      "en": "Engels",
+      "nl": "Nederlands"
+    }
+  },
+  "pricing": {
+    "hero": {
+      "badge": "Prijzen & Pakketten",
+      "title": "Transparante DJ Pakketten",
+      "subtitle": "Kies het pakket dat perfect past bij je event. Van intieme feesten tot grote bruiloften - wij hebben voor elke gelegenheid het juiste aanbod. Inclusief professioneel geluid, sfeerverlichting en optioneel live saxofoon."
+    },
+    "features": {
+      "allIn": {
+        "icon": "✨",
+        "title": "All-in pakketten",
+        "description": "Geen verborgen kosten. Alle prijzen zijn inclusief aankomst, opbouw, uitvoering en afbouw."
+      },
+      "liveSax": {
+        "icon": "🎷",
+        "title": "Live Saxofoon optie",
+        "description": "Upgrade elk pakket met een live saxofonist. Het verschil tussen leuk en legendarisch."
+      },
+      "guarantee": {
+        "icon": "💯",
+        "title": "100% Dansgarantie",
+        "description": "Volle dansvloer of je geld terug. In 500+ events hebben we deze belofte altijd waargemaakt."
+      }
+    },
+    "stats": {
+      "rating": "4.9/5 sterren",
+      "events": "500+ geslaagde events",
+      "guarantee": "100% dansgarantie",
+      "experience": "15+ jaar ervaring"
+    },
+    "packages": {
+      "title": "Onze Pakketten",
+      "brons": {
+        "name": "Brons Pakket",
+        "subtitle": "Perfect voor intieme feesten",
+        "description": "Ideaal voor kleine feesten en evenementen tot 100 gasten"
+      },
+      "zilver": {
+        "name": "Zilver Pakket",
+        "subtitle": "Favoriet van 300+ bruidsparen",
+        "description": "Meest gekozen voor bruiloften en middelgrote events"
+      },
+      "goud": {
+        "name": "Goud Pakket",
+        "subtitle": "Premium All-Inclusive - Stress-vrij feest",
+        "description": "Premium pakket voor grote events en bruiloften"
+      }
+    },
+    "calculator": {
+      "title": "Prijs Calculator",
+      "subtitle": "Bereken direct wat jouw feest gaat kosten",
+      "guestCount": "Aantal Gasten",
+      "choosePackage": "Kies je pakket",
+      "addExtras": "Extra's toevoegen",
+      "total": "Totaal",
+      "getQuote": "Offerte Aanvragen voor",
+      "disclaimer": "* Prijzen zijn indicatief en exclusief BTW. Exacte prijs wordt bevestigd in je offerte.",
+      "recommendation": "💡 Tip: Voor {count} gasten raden we het {package} aan",
+      "popularBadge": "⭐ POPULAIR",
+      "popularAddon": "🔥 POPULAIR"
+    },
+    "comparison": {
+      "title": "Vergelijk Pakketten",
+      "subtitle": "Bekijk in één oogopslag wat elk pakket bevat en maak de beste keuze voor jouw event.",
+      "features": "Features",
+      "choosePackage": "Kies {package}",
+      "showMore": "Bekijk alle features ({count} meer) ↓",
+      "question": "Nog vragen over de verschillen tussen de pakketten?",
+      "cta": "Vraag persoonlijk advies"
+    },
+    "includes": {
+      "title": "Wat zit er in elk pakket?",
+      "sound": {
+        "icon": "🎵",
+        "title": "Professioneel geluid & muziek",
+        "items": [
+          "Club-kwaliteit geluidsinstallatie (geschikt voor jouw locatie)",
+          "Draadloze microfoons voor speeches & ceremonies",
+          "Uitgebreide muziekbibliotheek (alle genres & decennia)",
+          "Persoonlijke muziekwensen intake vooraf"
+        ]
+      },
+      "lighting": {
+        "icon": "💡",
+        "title": "Sfeervolle verlichting",
+        "items": [
+          "Moving heads & LED spots (vanaf pakket Zilver)",
+          "Sfeerverlichting afgestemd op je thema & locatie",
+          "Lichtshow gesynchroniseerd met de muziek",
+          "Dimbare verlichting voor intieme momenten"
+        ]
+      },
+      "service": {
+        "icon": "🎯",
+        "title": "Volledige ontzorging",
+        "items": [
+          "Afstemming met je locatie (technische planning)",
+          "Opbouw ruim voor aanvang (geen stress)",
+          "Ervaren DJ die de vibe aanvoelt & de dansvloer vult",
+          "Backup apparatuur standaard aanwezig"
+        ]
+      },
+      "notSure": {
+        "title": "💡 Weet je niet welk pakket past?",
+        "description": "Vertel ons over je event en we adviseren je graag over het perfecte pakket voor jouw wensen en budget.",
+        "askAdvice": "Vraag persoonlijk advies",
+        "callDirect": "Bel direct"
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Antwoorden voor bruidsparen, planners en feestgevers",
+      "subtitle": "Beschikbaarheid, technische afstemming en hoe we de muziek op jullie publiek tunen.",
+      "items": [
+        {
+          "question": "Hoe snel krijgen we bevestiging van beschikbaarheid?",
+          "answer": "Binnen één werkuur op doordeweekse dagen. Is je datum populair, dan sturen we meteen een backup-DJ + sax optie mee."
+        },
+        {
+          "question": "Kunnen jullie afstemmen met locatie of AV-partner?",
+          "answer": "Ja. We delen onze tech rider, plannen de load-in en stemmen direct met locatie/AV zodat er één aanspreekpunt is."
+        },
+        {
+          "question": "Hoe bepalen we de playlist en do-not-play?",
+          "answer": "We doen een intake van 20 minuten, leggen must-play/do-not-play vast, ceremonie-momenten en houden een WhatsApp-lijn open tot showtime."
+        },
+        {
+          "question": "Is live sax ook voor bedrijfsfeesten of private parties?",
+          "answer": "Ja—sax kan op elk pakket, en percussie is optioneel. Sets worden strak gesynced met de DJ voor vloeiende overgangen."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Klaar om jouw feest onvergetelijk te maken?",
+      "subtitle": "Boek nu en ontvang binnen 24 uur een persoonlijke offerte",
+      "getQuote": "Vraag offerte aan",
+      "callNow": "Bel ons nu",
+      "notSure": "Niet zeker welk pakket bij je past? Neem contact op voor persoonlijk advies!",
+      "whatsapp": "Vraag advies via WhatsApp"
+    },
+    "common": {
+      "perEvent": "/ event",
+      "viewAvailability": "Bekijk beschikbaarheid",
+      "exclVat": "Prijzen zijn exclusief BTW",
+      "from": "Vanaf"
+    }
+  },
+  "nav": {
+    "brand": "Mr. DJ",
+    "brandTag": "Live + DJ",
+    "links": {
+      "services": "Diensten",
+      "packages": "Pakketten",
+      "cities": "Steden",
+      "cta": "Bekijk pakketten",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "highlights": {
+    "eyebrow": "Waarom gasten fan zijn",
+    "title": "Gemaakt om je dansvloer vol te houden",
+    "subtitle": "Strakke voorbereiding, live sax-momenten en perfecte audio zodat je publiek de hele avond blijft.",
+    "cards": [
+      {
+        "title": "Live sax + DJ chemie",
+        "description": "Naadloze overdrachten tussen DJ en sax op de dansvloer met curated mash-ups.",
+        "tag": "Signature"
+      },
+      {
+        "title": "Licht & geluid op niveau",
+        "description": "Premium audio, draadloze microfoons en een compacte lichtset die luxe oogt.",
+        "tag": "Production"
+      },
+      {
+        "title": "Eventmanager op elke boeking",
+        "description": "We bereiden intake, tijdlijn en key tracks voor—geen verrassingen op de avond.",
+        "tag": "Service"
+      }
+    ]
+  },
+  "cities": {
+    "eyebrow": "Bereik",
+    "title": "We draaien in de Randstad en daarbuiten",
+    "subtitle": "Lokale crews, snelle load-ins en venue-vriendelijke planners zodat de locatie relaxed blijft.",
+    "badge": "12+ steden per week",
+    "list": [
+      {
+        "name": "Amsterdam",
+        "highlight": "Bruiloften aan de gracht & rooftops"
+      },
+      {
+        "name": "Rotterdam",
+        "highlight": "Skyline views & industriële settings"
+      },
+      {
+        "name": "Den Haag",
+        "highlight": "Ambassade events & klassieke zalen"
+      },
+      {
+        "name": "Utrecht",
+        "highlight": "Boutique hotels & tuinfeesten"
+      },
+      {
+        "name": "Haarlem",
+        "highlight": "Historische zalen met moderne sound"
+      },
+      {
+        "name": "Eindhoven",
+        "highlight": "Product reveals & tech-feesten"
+      }
+    ]
+  },
+  "footer": {
+    "eyebrow": "Laten we muziek plannen",
+    "title": "Beschikbaarheid of maatwerk offerte nodig?",
+    "subtitle": "App of mail voor een korte check of volledige intake.",
+    "cta": "WhatsApp team",
+    "email": "hello@mrdj.sevensa.nl"
+  }
+}
