@@ -60,8 +60,8 @@
 ### How to Generate All Banners
 
 ```bash
-# Set Replicate API key
-export REPLICATE_API_KEY='REDACTED_REPLICATE_API_KEY'
+# Set Replicate API key (provide via env/secret manager)
+# export REPLICATE_API_KEY='<your_key_here>'
 
 # Run generator
 cd /srv/apps/mr-djv1
