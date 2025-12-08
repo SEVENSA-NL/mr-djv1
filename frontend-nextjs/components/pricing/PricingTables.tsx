@@ -9,26 +9,38 @@ export interface PricingTablesProps {
   locale?: string;
 }
 
-const euroFormatter = new Intl.NumberFormat('nl-NL', {
-  style: 'currency',
-  currency: 'EUR',
-});
+const formatCurrency = (locale?: string) =>
+  new Intl.NumberFormat(locale === 'en' ? 'en-NL' : 'nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+  });
 
-const defaultPackages: PricingFeatureSet[] = PACKAGES.map((pkg) => ({
-  name: pkg.name,
-  subtitle: pkg.subtitle,
-  price: euroFormatter.format(pkg.basePrice),
-  features: pkg.features.slice(0, 6),
-  isFeatured: pkg.isFeatured,
-  buttonText:
-    pkg.id === 'zilver'
-      ? 'Plan je event →'
-      : pkg.id === 'goud'
-        ? 'Vraag vrijblijvende offerte →'
-        : 'Bekijk beschikbaarheid',
-}));
+const buildPackages = (locale?: string): PricingFeatureSet[] => {
+  const fmt = formatCurrency(locale);
+  return PACKAGES.map((pkg) => ({
+    name: locale === 'en' ? pkg.nameEn : pkg.name,
+    subtitle: locale === 'en' ? pkg.subtitleEn : pkg.subtitle,
+    price: fmt.format(pkg.basePrice),
+    features: (locale === 'en' ? pkg.featuresEn : pkg.features).slice(0, 6),
+    isFeatured: pkg.isFeatured,
+    buttonText:
+      locale === 'en'
+        ? pkg.id === 'zilver'
+          ? 'Book your intake →'
+          : pkg.id === 'goud'
+            ? 'Request proposal →'
+            : 'Check availability'
+        : pkg.id === 'zilver'
+          ? 'Plan je event →'
+          : pkg.id === 'goud'
+            ? 'Vraag vrijblijvende offerte →'
+            : 'Bekijk beschikbaarheid',
+  }));
+};
 
-export function PricingTables({ packages = defaultPackages }: PricingTablesProps) {
+export function PricingTables({ packages = [] }: PricingTablesProps) {
+  const fallbackPackages = buildPackages(packages?.length ? undefined : 'nl');
+  const data = packages.length ? packages : fallbackPackages;
   return (
     <section className="py-spacing-3xl bg-neutral-gray-100">
       <div className="container mx-auto px-spacing-md">
@@ -54,7 +66,7 @@ export function PricingTables({ packages = defaultPackages }: PricingTablesProps
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-spacing-xl items-center">
-          {packages.map((pkg) => (
+          {data.map((pkg) => (
             <PricingCard key={pkg.name} pkg={pkg} />
           ))}
         </div>
@@ -75,4 +87,3 @@ export function PricingTables({ packages = defaultPackages }: PricingTablesProps
 }
 
 export default PricingTables;
-

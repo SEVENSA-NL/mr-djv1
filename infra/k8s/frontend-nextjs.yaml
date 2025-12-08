@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mr-dj-frontend
+  labels:
+    app: mr-dj-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mr-dj-frontend
+  template:
+    metadata:
+      labels:
+        app: mr-dj-frontend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-crisisk
+      containers:
+        - name: mr-dj-frontend
+          image: ghcr.io/crisisk/mr-dj-frontend:nextjs-standalone
+          imagePullPolicy: IfNotPresent
+          command: ["node", "server.js"]
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: NEXT_PUBLIC_APP_NAME
+              value: "Mister DJ"
+            - name: NEXT_INTL_CONFIG
+              value: "/app/next-intl.config.js"
+            - name: PORT
+              value: "3000"
+            - name: HOSTNAME
+              value: "0.0.0.0"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mr-dj-frontend
+  labels:
+    app: mr-dj-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: mr-dj-frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mr-dj-frontend
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - staging.sevensa.nl
+        - mr-dj.sevensa.nl
+  rules:
+    - host: staging.sevensa.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mr-dj-frontend
+                port:
+                  number: 80
+    - host: mr-dj.sevensa.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mr-dj-frontend
+                port:
+                  number: 80

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Sparkles } from 'lucide-react';
 import { Metadata } from 'next';
 import { cities, getCitiesByProvince, getCitiesByRegion } from '../../../lib/cities';
 
@@ -30,6 +31,41 @@ export async function generateMetadata({ params }: CitiesOverviewProps): Promise
 
 export default function CitiesOverview({ params }: CitiesOverviewProps) {
   const isNL = params.locale === 'nl';
+  const faqItems = isNL
+    ? [
+        {
+          question: 'Hoe snel horen we of onze stad beschikbaar is?',
+          answer:
+            'Binnen één werkdag. Populaire data krijgen meteen een backup-DJ + sax optie zodat je zeker bent van bezetting.',
+        },
+        {
+          question: 'Komen jullie in contact met onze locatie?',
+          answer:
+            'Ja. We delen tech rider, stemmen load-in tijden en checken geluidslimieten zodat alles soepel loopt.',
+        },
+        {
+          question: 'Kunnen we lokale voorkeuren doorgeven (muziek, leveranciers)?',
+          answer:
+            'Zeker. We verwerken lokale muziekvoorkeuren en schakelen graag met vaste leveranciers voor licht/AV.',
+        },
+      ]
+    : [
+        {
+          question: 'How fast do we get city availability?',
+          answer:
+            'Within one business day. For peak dates we include a backup DJ + sax option so you’re covered.',
+        },
+        {
+          question: 'Will you coordinate with our venue?',
+          answer:
+            'Yes. We share the tech rider, align on load-in timing, and respect sound limits for a smooth event.',
+        },
+        {
+          question: 'Can we share local preferences (music, vendors)?',
+          answer:
+            'Absolutely. We include your music must-haves and will coordinate with preferred lighting/AV vendors.',
+        },
+      ];
 
   // Group cities by region
   const regions = [
@@ -88,9 +124,14 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
       {/* Cities by Region */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            {isNL ? 'Steden per Regio' : 'Cities by Region'}
-          </h2>
+          <div className="mb-12 text-center space-y-2">
+            <p className="eyebrow text-primary inline-flex items-center justify-center gap-2">
+              <Sparkles className="h-4 w-4" /> {isNL ? 'Lokale crew & snel schakelen' : 'Local crews & fast coordination'}
+            </p>
+            <h2 className="text-3xl font-bold text-gray-900 text-center">
+              {isNL ? 'Steden per Regio' : 'Cities by Region'}
+            </h2>
+          </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
             {regions.map((region) => {
@@ -171,6 +212,30 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
         </div>
       </section>
 
+      {/* Persona-aligned FAQ */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="mb-4 text-center text-3xl font-bold text-gray-900">
+            {isNL ? 'FAQ voor steden & planners' : 'FAQ for cities & planners'}
+          </h2>
+          <p className="mb-8 text-center text-base text-gray-700">
+            {isNL
+              ? 'Snel duidelijkheid over beschikbaarheid, locatie-afstemming en lokale voorkeuren.'
+              : 'Fast clarity on availability, venue coordination, and local preferences.'}
+          </p>
+          <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm">
+            {faqItems.map((item) => (
+              <details key={item.question} className="p-6">
+                <summary className="cursor-pointer text-lg font-semibold text-gray-900">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm text-gray-700">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-purple-900 to-indigo-900 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -188,7 +253,7 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
             href={`/${params.locale}/contact`}
             className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            {isNL ? 'Neem Contact Op' : 'Contact Us'}
+            {isNL ? 'Plan een 10-min stadscheck' : 'Book a 10-min city check'}
             <svg
               className="w-5 h-5 ml-2"
               fill="none"

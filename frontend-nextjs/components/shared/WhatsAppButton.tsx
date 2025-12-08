@@ -1,5 +1,7 @@
 'use client';
 
+import { trackEvent } from '@/lib/analytics/trackEvent';
+
 type WhatsAppButtonProps = {
   variant?: 'primary' | 'secondary' | 'floating';
   messageType?: 'general' | 'wedding' | 'party' | 'corporate' | 'pricing' | 'contact';
@@ -29,18 +31,11 @@ export default function WhatsAppButton({
   const whatsappUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodedMessage}`;
 
   const handleClick = () => {
-    try {
-      if (typeof window !== 'undefined' && window.posthog) {
-        window.posthog.capture('whatsapp_button_click', {
-          variant,
-          message_type: messageType,
-          phone_number: PHONE_NUMBER,
-          timestamp: new Date().toISOString(),
-        });
-      }
-    } catch (error) {
-      console.warn('PostHog tracking failed:', error);
-    }
+    trackEvent('whatsapp_button_click', {
+      variant,
+      message_type: messageType,
+      phone_number: PHONE_NUMBER,
+    });
   };
 
   const variantStyles = {
@@ -62,7 +57,7 @@ export default function WhatsAppButton({
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleClick}
-        className={`${variantStyles[variant]} ${className}`}
+        className={`${variantStyles[variant]} ${className} cta`}
         aria-label="Chat met ons via WhatsApp"
         title="Chat via WhatsApp"
       >
@@ -77,7 +72,7 @@ export default function WhatsAppButton({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`${variantStyles[variant]} ${className}`}
+      className={`${variantStyles[variant]} ${className} cta`}
       aria-label={label}
     >
       <WhatsAppIcon />

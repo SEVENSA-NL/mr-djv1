@@ -26,8 +26,7 @@ interface Props {
 export default function DienstenPage({ params: { locale } }: Props) {
   const structuredData = createServiceStructuredData(
     'DJ & Entertainment Diensten',
-    'Professionele DJ diensten voor bruiloften, bedrijfsfeesten en private events met volledige ontzorging',
-    'general'
+    'Professionele DJ diensten voor bruiloften, bedrijfsfeesten en private events met volledige ontzorging'
   );
 
   return (

@@ -2,11 +2,7 @@
 
 import { PACKAGES } from '@/lib/data/pricing';
 
-export interface PackageComparisonProps {
-  locale?: string;
-}
-
-export function PackageComparison(_props: PackageComparisonProps) {
+export function PackageComparison() {
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -109,4 +105,3 @@ export function PackageComparison(_props: PackageComparisonProps) {
 }
 
 export default PackageComparison;
-

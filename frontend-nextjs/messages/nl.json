@@ -54,24 +54,29 @@
     }
   },
   "testimonials": {
-    "title": "Wat klanten zeggen",
+    "eyebrow": "Bewijs voor elke doelgroep",
+    "title": "Bruidsparen, planners en feestgevers vertrouwen Mr. DJ",
+    "subtitle": "Snelle communicatie voor planners, maatwerkmomenten voor bruidsparen en volle dansvloeren voor private events.",
     "items": [
       {
-        "quote": "De combinatie van DJ en saxofonist was het hoogtepunt van onze bruiloft. De sfeer was onvergetelijk!",
-        "author": "Jan & Marieke",
-        "source": "Bruiloft, Amsterdam",
+        "quote": "Onze briefing voor het bruidspaar werd perfect vertaald naar setlist en sax-momenten. Nul stress op de dag zelf.",
+        "author": "Iris — Weddingplanner",
+        "source": "Luxury wedding, Amsterdam",
+        "role": "Bruidsparen & planners",
         "rating": 5
       },
       {
-        "quote": "Professioneel, energiek en ze wisten precies de juiste snaar te raken. Een absolute aanrader voor elk bedrijfsfeest.",
-        "author": "Suzanne van Dijk",
-        "source": "Bedrijfsfeest, Utrecht",
+        "quote": "Heldere tech rider, verzekerd materiaal en een DJ die de room las bij onze productlancering. Stakeholders waren onder de indruk.",
+        "author": "Tom — Event lead",
+        "source": "SaaS launch, Utrecht",
+        "role": "Bedrijfsevenementen",
         "rating": 5
       },
       {
-        "quote": "De muziek was perfect afgestemd op onze gasten. De saxofonist maakte het helemaal af!",
-        "author": "Mark de Vries",
-        "source": "Verjaardagsfeest, Eindhoven",
+        "quote": "Onze hiphop, 00s hits en Latin wensen werden strak gemixt. De sax op de dansvloer was het hoogtepunt.",
+        "author": "Sabrina — Gastvrouw",
+        "source": "Birthday, Rotterdam",
+        "role": "Private feest",
         "rating": 5
       }
     ]
@@ -192,7 +197,27 @@
       }
     },
     "faq": {
-      "title": "Veelgestelde vragen over onze pakketten"
+      "eyebrow": "FAQ",
+      "title": "Antwoorden voor bruidsparen, planners en feestgevers",
+      "subtitle": "Beschikbaarheid, technische afstemming en hoe we de muziek op jullie publiek tunen.",
+      "items": [
+        {
+          "question": "Hoe snel krijgen we bevestiging van beschikbaarheid?",
+          "answer": "Binnen één werkuur op doordeweekse dagen. Is je datum populair, dan sturen we meteen een backup-DJ + sax optie mee."
+        },
+        {
+          "question": "Kunnen jullie afstemmen met locatie of AV-partner?",
+          "answer": "Ja. We delen onze tech rider, plannen de load-in en stemmen direct met locatie/AV zodat er één aanspreekpunt is."
+        },
+        {
+          "question": "Hoe bepalen we de playlist en do-not-play?",
+          "answer": "We doen een intake van 20 minuten, leggen must-play/do-not-play vast, ceremonie-momenten en houden een WhatsApp-lijn open tot showtime."
+        },
+        {
+          "question": "Is live sax ook voor bedrijfsfeesten of private parties?",
+          "answer": "Ja—sax kan op elk pakket, en percussie is optioneel. Sets worden strak gesynced met de DJ voor vloeiende overgangen."
+        }
+      ]
     },
     "cta": {
       "title": "Klaar om jouw feest onvergetelijk te maken?",
@@ -208,5 +233,77 @@
       "exclVat": "Prijzen zijn exclusief BTW",
       "from": "Vanaf"
     }
+  },
+  "nav": {
+    "brand": "Mr. DJ",
+    "brandTag": "Live + DJ",
+    "links": {
+      "services": "Diensten",
+      "packages": "Pakketten",
+      "cities": "Steden",
+      "cta": "Bekijk pakketten",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "highlights": {
+    "eyebrow": "Waarom gasten fan zijn",
+    "title": "Gemaakt om je dansvloer vol te houden",
+    "subtitle": "Strakke voorbereiding, live sax-momenten en perfecte audio zodat je publiek de hele avond blijft.",
+    "cards": [
+      {
+        "title": "Live sax + DJ chemie",
+        "description": "Naadloze overdrachten tussen DJ en sax op de dansvloer met curated mash-ups.",
+        "tag": "Signature"
+      },
+      {
+        "title": "Licht & geluid op niveau",
+        "description": "Premium audio, draadloze microfoons en een compacte lichtset die luxe oogt.",
+        "tag": "Production"
+      },
+      {
+        "title": "Eventmanager op elke boeking",
+        "description": "We bereiden intake, tijdlijn en key tracks voor—geen verrassingen op de avond.",
+        "tag": "Service"
+      }
+    ]
+  },
+  "cities": {
+    "eyebrow": "Bereik",
+    "title": "We draaien in de Randstad en daarbuiten",
+    "subtitle": "Lokale crews, snelle load-ins en venue-vriendelijke planners zodat de locatie relaxed blijft.",
+    "badge": "12+ steden per week",
+    "list": [
+      {
+        "name": "Amsterdam",
+        "highlight": "Bruiloften aan de gracht & rooftops"
+      },
+      {
+        "name": "Rotterdam",
+        "highlight": "Skyline views & industriële settings"
+      },
+      {
+        "name": "Den Haag",
+        "highlight": "Ambassade events & klassieke zalen"
+      },
+      {
+        "name": "Utrecht",
+        "highlight": "Boutique hotels & tuinfeesten"
+      },
+      {
+        "name": "Haarlem",
+        "highlight": "Historische zalen met moderne sound"
+      },
+      {
+        "name": "Eindhoven",
+        "highlight": "Product reveals & tech-feesten"
+      }
+    ]
+  },
+  "footer": {
+    "eyebrow": "Laten we muziek plannen",
+    "title": "Beschikbaarheid of maatwerk offerte nodig?",
+    "subtitle": "App of mail voor een korte check of volledige intake.",
+    "cta": "WhatsApp team",
+    "email": "hello@mrdj.sevensa.nl"
   }
 }

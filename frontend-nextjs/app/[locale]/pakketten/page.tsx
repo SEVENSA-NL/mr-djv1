@@ -9,6 +9,7 @@ import {
   generatePricingFAQStructuredData,
   generateBreadcrumbStructuredData,
 } from '@/lib/utils/structured-data';
+import ScrollDepthTracker from '@/components/analytics/ScrollDepthTracker';
 
 export const metadata: Metadata = {
   title: 'Pakketten & Prijzen - Transparante DJ Pakketten | Mister DJ',
@@ -45,6 +46,8 @@ interface Props {
 export const dynamic = 'force-dynamic';
 
 export default function PakkettenPage({ params: { locale } }: Props) {
+  const isNL = locale === 'nl';
+
   // Generate structured data
   const aggregateOfferData = generateAggregateOfferStructuredData(PACKAGES, locale);
   const serviceData = generateServiceStructuredData(locale);
@@ -56,6 +59,7 @@ export default function PakkettenPage({ params: { locale } }: Props) {
 
   return (
     <>
+      <ScrollDepthTracker page="pakketten" />
       {/* Structured Data */}
       <script
         type="application/ld+json"
@@ -93,15 +97,15 @@ export default function PakkettenPage({ params: { locale } }: Props) {
           {/* Header */}
           <div className="text-center mb-12">
             <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-500">
-              Prijzen & Pakketten
+              {isNL ? 'Prijzen & Pakketten' : 'Pricing & Packages'}
             </p>
             <h1 className="mb-6 text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">
-              Transparante DJ Pakketten
+              {isNL ? 'Transparante DJ Pakketten' : 'Transparent DJ Packages'}
             </h1>
             <p className="mx-auto max-w-3xl text-lg lg:text-xl text-slate-600 leading-relaxed">
-              Kies het pakket dat perfect past bij je event. Van intieme feesten tot grote
-              bruiloften - wij hebben voor elke gelegenheid het juiste aanbod. Inclusief
-              professioneel geluid, sfeerverlichting en optioneel live saxofoon.
+              {isNL
+                ? 'Kies het pakket dat perfect past bij je event. Van intieme feesten tot grote bruiloften - wij hebben voor elke gelegenheid het juiste aanbod. Inclusief professioneel geluid, sfeerverlichting en optioneel live saxofoon.'
+                : 'Pick the package that fits your event. From intimate parties to large weddings—we include pro sound, lighting and optional live saxophone.'}
             </p>
           </div>
 
@@ -171,7 +175,7 @@ export default function PakkettenPage({ params: { locale } }: Props) {
                   href={`/${locale}/contact`}
                   className="inline-flex items-center rounded-lg bg-amber-500 px-6 py-3 font-medium text-white transition hover:bg-amber-600 hover:shadow-lg"
                 >
-                  Vraag persoonlijk advies
+                  {isNL ? 'Vraag persoonlijk advies' : 'Request personal advice'}
                 </a>
                 <a
                   href="tel:+31408422594"
@@ -185,7 +189,7 @@ export default function PakkettenPage({ params: { locale } }: Props) {
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
-                  Bel direct
+                  {isNL ? 'Bel direct' : 'Call us'}
                 </a>
               </div>
             </div>

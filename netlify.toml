@@ -1,26 +1,22 @@
 [build]
-  # Build command - install frontend deps and run the Vite production build
-  command = "npm ci --prefix frontend && npm run build --prefix frontend"
+  # Build command - Next.js production build (reference only; primary deploy runs via Docker/K8s)
+  command = "npm ci --prefix frontend-nextjs && npm run build --prefix frontend-nextjs"
 
-  # Publish directory - where the Vite build outputs production assets
-  publish = "frontend/dist"
+  # Publish directory - Next.js standalone output (Netlify not primary channel)
+  publish = "frontend-nextjs/.next"
 
   # Functions directory (for serverless functions if needed later)
   functions = "backend/functions"
 
 [[build.cache]]
-  # Cache the npm download directory so subsequent installs reuse tarballs
-  path = "frontend/.npm"
+  path = "frontend-nextjs/.npm"
 
 [[build.cache]]
-  # Cache the built node_modules directory for quicker local Netlify CLI runs
-  path = "frontend/node_modules"
+  path = "frontend-nextjs/node_modules"
 
 [build.environment]
-  # Node version
   NODE_VERSION = "18"
-  # Store the npm cache inside the frontend workspace so Netlify can persist it
-  NPM_CONFIG_CACHE = "frontend/.npm"
+  NPM_CONFIG_CACHE = "frontend-nextjs/.npm"
 
 # Redirect rules
 [[redirects]]

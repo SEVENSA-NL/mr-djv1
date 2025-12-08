@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ADD_ONS, PACKAGES, type Package } from '@/lib/data/pricing';
 
 export interface PriceCalculatorProps {
@@ -62,18 +62,18 @@ export const PriceCalculator: React.FC<PriceCalculatorProps> = ({ locale }) => {
     }
   };
 
-  const getRecommendedPackage = (): Package['id'] => {
+  const getRecommendedPackage = useCallback((): Package['id'] => {
     if (guestCount < 80) return 'brons';
     if (guestCount >= 150) return 'goud';
     return 'zilver';
-  };
+  }, [guestCount]);
 
   useEffect(() => {
     const recommended = getRecommendedPackage();
     if (recommended !== selectedPackage) {
       // Reservation for future UX nudges
     }
-  }, [guestCount, selectedPackage]);
+  }, [getRecommendedPackage, selectedPackage]);
 
   const handleGetQuote = () => {
     if (typeof window !== 'undefined' && window.posthog) {
@@ -254,4 +254,3 @@ export const PriceCalculator: React.FC<PriceCalculatorProps> = ({ locale }) => {
 };
 
 export default PriceCalculator;
-

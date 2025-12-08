@@ -75,7 +75,20 @@ const config: Config = {
       },
     },
     extend: {
-      colors: designTokens.colors,
+      colors: {
+        ...designTokens.colors,
+        primary: designTokens.colors.primary,
+        'primary-dark': designTokens.colors['primary-dark'],
+        secondary: designTokens.colors.secondary,
+        'neutral-dark': designTokens.colors['neutral-dark'],
+        'neutral-light': designTokens.colors['neutral-light'],
+        'neutral-gray-100': designTokens.colors['neutral-gray-100'],
+        'neutral-gray-300': designTokens.colors['neutral-gray-300'],
+        'neutral-gray-500': designTokens.colors['neutral-gray-500'],
+        'semantic-success': designTokens.colors['semantic-success'],
+        'semantic-error': designTokens.colors['semantic-error'],
+        'semantic-warning': designTokens.colors['semantic-warning'],
+      },
       spacing: {
         ...designTokens.spacing,
         ...additionalSpacing,

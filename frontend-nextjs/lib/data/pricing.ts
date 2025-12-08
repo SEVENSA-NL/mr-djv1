@@ -8,8 +8,12 @@ export interface Package {
   name: string;
   subtitle: string;
   basePrice: number;
+  nameEn: string;
+  subtitleEn: string;
   description: string;
+  descriptionEn: string;
   features: string[];
+  featuresEn: string[];
   duration: string;
   guestCapacity: string;
   recommended?: boolean;
@@ -35,9 +39,12 @@ export const PACKAGES: Package[] = [
   {
     id: 'brons',
     name: 'Brons Pakket',
+    nameEn: 'Bronze Package',
     subtitle: 'Perfect voor intieme feesten',
+    subtitleEn: 'Perfect for intimate events',
     basePrice: 495,
     description: 'Ideaal voor kleine feesten en evenementen tot 100 gasten',
+    descriptionEn: 'Ideal for smaller events up to 100 guests',
     duration: '4 uur',
     guestCapacity: 'Tot 100 gasten',
     features: [
@@ -48,13 +55,24 @@ export const PACKAGES: Package[] = [
       'Draadloze microfoons voor speeches',
       'Uitgebreide muziekbibliotheek (alle genres)',
     ],
+    featuresEn: [
+      '4 hours of non-stop music and energy',
+      'Club-quality sound for up to 100 guests',
+      'Personal music intake call',
+      'Professional DJ with 15+ years experience',
+      'Wireless microphones for speeches',
+      'Extensive music library (all genres)',
+    ],
   },
   {
     id: 'zilver',
     name: 'Zilver Pakket',
+    nameEn: 'Silver Package',
     subtitle: 'Favoriet van 300+ bruidsparen',
+    subtitleEn: 'Favorite for weddings',
     basePrice: 795,
     description: 'Meest gekozen voor bruiloften en middelgrote events',
+    descriptionEn: 'Most chosen for weddings and mid-sized events',
     duration: '6 uur',
     guestCapacity: '80-150 gasten',
     recommended: true,
@@ -68,13 +86,25 @@ export const PACKAGES: Package[] = [
       'Voor elke groepsgrootte - van 50 tot 500 gasten',
       'Persoonlijk draaiboek vooraf',
     ],
+    featuresEn: [
+      '6 hours of unforgettable party energy',
+      'Spectacular light show',
+      'Moving heads & LED spots',
+      'Option: DJ + Live Saxophone (legendary dance floor)',
+      '100% packed dance floor guarantee or money back',
+      'Fits any group size from 50 to 500 guests',
+      'Personal runbook in advance',
+    ],
   },
   {
     id: 'goud',
     name: 'Goud Pakket',
+    nameEn: 'Gold Package',
     subtitle: 'Premium All-Inclusive - Stress-vrij feest',
+    subtitleEn: 'Premium all-inclusive – zero stress',
     basePrice: 1295,
     description: 'Premium pakket voor grote events en bruiloften',
+    descriptionEn: 'Premium package for large events and weddings',
     duration: '8 uur',
     guestCapacity: '150+ gasten',
     features: [
@@ -85,6 +115,15 @@ export const PACKAGES: Package[] = [
       'Persoonlijk draaiboek + technische regisseur',
       'Venue uplighting (sfeerverlichting)',
       'Backup DJ en apparatuur standaard',
+    ],
+    featuresEn: [
+      '8 hours of complete entertainment',
+      'Concert-quality light & sound',
+      'DJ + Live Saxophonist included',
+      'Ceremony through afterparty covered',
+      'Personal runbook + technical director',
+      'Venue uplighting included',
+      'Backup DJ and equipment by default',
     ],
   },
 ];
@@ -277,4 +316,3 @@ export function calculateTotalPrice(
 
   return packagePrice + addOnsPrice;
 }
-

@@ -4,6 +4,19 @@ All notable changes to the Mr. DJ platform.
 
 ---
 
+## [Phase A Re-activation – Next.js pipeline alignment] - 2025-12-05
+
+**Version**: Next.js consolidation refresh  
+**Status**: ✅ Logged, actions pending execution  
+
+### Summary
+- Re-confirmed `frontend-nextjs/` as the sole production frontend; legacy Vite build still referenced in `docker-compose.yml`, `frontend/Dockerfile`, `deploy.sh`, `netlify.toml`.
+- Added consolidated report `reports/qa/mrdj/R_MASTER_20251205T210212Z.md` and roadmap `docs/roadmap/mrdj-roadmap.md`.
+- Captured migration parity gaps from `frontend-nextjs/VERIFICATION_CHECKLIST.md` (PricingTables/AvailabilityChecker/VideoTestimonial/gallery/FAQ state/loading + analytics hooks).
+- Next steps: switch pipelines to Next.js runtime, add smoke/E2E for locale and service routes, harden pricing/hero experience with new template components.
+
+---
+
 ## [Next.js Migration – Phase A Consolidation] - 2025-12-05
 
 **Release Date**: 2025-12-05  

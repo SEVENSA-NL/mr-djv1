@@ -19,20 +19,22 @@ jobs:
           node-version: "20"
           cache: "npm"
           cache-dependency-path: |
-            package-lock.json
-            frontend/package-lock.json
+            frontend-nextjs/package-lock.json
             backend/package-lock.json
 
       - name: Install root dependencies
-        run: npm ci
+        run: npm install --no-audit --progress=false
 
-      - name: Install frontend dependencies
-        run: npm ci
-        working-directory: frontend
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install backend dependencies
-        run: npm ci
+        run: npm install --no-audit --progress=false
         working-directory: backend
+
+      - name: Install frontend-nextjs dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend-nextjs
 
       - name: Check formatting (Prettier)
         run: npm run fmt
@@ -96,7 +98,7 @@ jobs:
     needs: quality
     defaults:
       run:
-        working-directory: frontend
+        working-directory: frontend-nextjs
     env:
       CI: true
     steps:
@@ -107,14 +109,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
+          cache: "pnpm"
+          cache-dependency-path: frontend-nextjs/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Run tests
-        run: npm test
+        run: pnpm run test:full

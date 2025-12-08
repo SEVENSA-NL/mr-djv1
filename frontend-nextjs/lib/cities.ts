@@ -21,6 +21,12 @@ export const cities: City[] = [
     region: 'south',
   },
   {
+    slug: 'den-bosch',
+    name: 'Den Bosch',
+    province: 'Noord-Brabant',
+    region: 'south',
+  },
+  {
     slug: 'maastricht',
     name: 'Maastricht',
     province: 'Limburg',
@@ -109,4 +115,3 @@ export function getCitiesByProvince(province: string): City[] {
 export function getAllCitySlugs(): string[] {
   return cities.map((city) => city.slug);
 }
-

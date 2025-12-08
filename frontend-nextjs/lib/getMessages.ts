@@ -16,11 +16,13 @@ export type TranslationKey = string;
 /**
  * Helper function to safely access nested translation values
  */
-export function getNestedValue(
-  obj: Record<string, any>,
-  path: string
-): any {
+export function getNestedValue<T = unknown>(obj: Record<string, unknown>, path: string): T | undefined {
   return path
     .split('.')
-    .reduce((current, prop) => current?.[prop], obj);
+    .reduce<unknown>((current, prop) => {
+      if (current && typeof current === 'object' && prop in current) {
+        return (current as Record<string, unknown>)[prop];
+      }
+      return undefined;
+    }, obj) as T | undefined;
 }

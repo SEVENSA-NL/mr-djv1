@@ -58,6 +58,7 @@ export interface ServiceStructuredData {
   provider: {
     '@type': 'Organization';
     name: string;
+    url?: string;
     image?: string;
     address: ServiceStructuredDataProviderAddress;
   };

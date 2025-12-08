@@ -29,6 +29,7 @@ export const config = {
   matcher: [
     // Match all paths except:
     // - _next (Next.js internals)
+    // - api (health + backend routes should bypass locale handling)
     // - .*\\.svg$ (SVG files)
     // - .*\\.png$ (PNG files)
     // - .*\\.jpg$ (JPG files)
@@ -38,9 +39,6 @@ export const config = {
     // - .*\\.webp$ (WebP files)
     // - .*\\.woff$ (WOFF fonts)
     // - .*\\.woff2$ (WOFF2 fonts)
-    '/((?!_next|.*\\.(?:svg|png|jpg|jpeg|ico|gif|webp|woff|woff2)$).*)',
-
-    // Re-include API routes
-    '/(api|trpc)(.*)',
+    '/((?!_next|api|.*\\.(?:svg|png|jpg|jpeg|ico|gif|webp|woff|woff2)$).*)',
   ],
 };

@@ -1,9 +1,35 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { locales, defaultLocale, localeMetadata } from '@/i18n.config';
+import { Space_Grotesk } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://staging.sevensa.nl';
 
 export const dynamic = 'force-dynamic';
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['700'],
+  display: 'swap',
+  variable: '--font-playfair',
+});
 
 /**
  * Generate static parameters for all supported locales
@@ -27,13 +53,14 @@ export async function generateMetadata({
     notFound();
   }
 
-  const messages: any = await getMessages();
+  const messages = (await getMessages()) as { app?: { title?: string; subtitle?: string } };
   const title = messages.app?.title || 'Mr. DJ';
   const description = messages.app?.subtitle || 'DJ + Sax that packs your dance floor';
 
   return {
     title,
     description,
+    metadataBase: new URL(siteUrl),
     alternates: {
       canonical: `/${locale}`,
       languages: locales.reduce(
@@ -65,6 +92,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const messages = await getMessages();
 
   // Validate locale
   if (!locales.includes(locale as typeof locales[number])) {
@@ -76,7 +104,11 @@ export default async function LocaleLayout({
       lang={locale || defaultLocale}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body className={`${spaceGrotesk.className} ${inter.variable} ${playfair.variable}`}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

@@ -8,17 +8,19 @@ import { ServiceStructuredData } from '@/lib/types/service';
 export function createServiceStructuredData(
   serviceName: string,
   serviceDescription: string,
-  _eventType: string
+  locale: string = 'nl'
 ): ServiceStructuredData {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: serviceName,
     description: serviceDescription,
+    inLanguage: locale === 'nl' ? 'nl-NL' : 'en-US',
     provider: {
       '@type': 'Organization',
       name: 'Mister DJ',
-      image: 'https://mr-dj.sevensa.nl/assets/logo.png',
+      url: 'https://mr-dj.sevensa.nl',
+      image: 'https://mr-dj.sevensa.nl/logo.png',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Eindhoven',
@@ -65,8 +67,9 @@ export function createOrganizationStructuredData() {
     name: 'Mister DJ',
     alternateName: 'Mr. DJ',
     url: 'https://mr-dj.sevensa.nl',
-    logo: 'https://mr-dj.sevensa.nl/assets/logo.png',
-    description: 'Professionele DJ en entertainment voor bruiloften, bedrijfsfeesten en private events in Brabant en Limburg.',
+    logo: 'https://mr-dj.sevensa.nl/logo.png',
+    description:
+      'Premium DJ + sax for weddings, corporate events and private parties across Brabant and Limburg. Fast availability checks, venue alignment and a packed dance floor.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Eindhoven',

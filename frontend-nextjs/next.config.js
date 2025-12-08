@@ -1,6 +1,14 @@
+const path = require('path');
+const createNextIntlPlugin = require('next-intl/plugin');
+
+// Ensure next-intl config is resolved in standalone/runtime builds
+const withNextIntl = createNextIntlPlugin('./next-intl.config.ts');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: path.join(__dirname),
+  output: 'standalone',
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -26,13 +34,9 @@ const nextConfig = {
       },
     ];
   },
-  typescript: {
-    strict: true,
-    tsconfigPath: './tsconfig.json',
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

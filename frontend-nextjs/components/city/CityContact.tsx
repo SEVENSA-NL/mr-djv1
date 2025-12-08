@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { trackEvent } from '@/lib/analytics/trackEvent';
 import type { City } from '../../types/city';
+import { Phone, Mail } from 'lucide-react';
 
 interface CityContactProps {
   city: City;
@@ -18,13 +20,62 @@ export default function CityContact({ city, locale }: CityContactProps) {
     message: '',
     city: city.slug,
   });
+  const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const isNL = locale === 'nl';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setStatus(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, locale }),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      trackEvent('lead_submitted', {
+        source: 'city_page',
+        city: city.slug,
+        eventType: formData.eventType,
+        page: 'city',
+        locale,
+        ga4_event: 'lead_submitted',
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        eventType: '',
+        eventDate: '',
+        message: '',
+        city: city.slug,
+      });
+      setStatus({
+        type: 'success',
+        text: isNL
+          ? 'Bedankt! We nemen binnen 24 uur contact op met opties.'
+          : 'Thanks! We will contact you within 24 hours with options.',
+      });
+    } catch (error) {
+      setStatus({
+        type: 'error',
+        text: isNL ? 'Er ging iets mis. Probeer opnieuw.' : 'Something went wrong. Please try again.',
+      });
+      trackEvent('lead_submit_error', {
+        source: 'city_page',
+        error: (error as Error).message,
+        ga4_event: 'lead_submit_error',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (
@@ -165,10 +216,29 @@ export default function CityContact({ city, locale }: CityContactProps) {
 
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  disabled={loading}
+                  className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-70"
                 >
-                  {isNL ? 'Verstuur Aanvraag' : 'Send Request'}
+                  {loading
+                    ? isNL
+                      ? 'Versturen...'
+                      : 'Sending...'
+                    : isNL
+                      ? 'Verstuur Aanvraag'
+                      : 'Send Request'}
                 </button>
+                {status && (
+                  <div
+                    role="status"
+                    className={`rounded-lg px-4 py-3 text-sm ${
+                      status.type === 'success'
+                        ? 'bg-emerald-50 text-emerald-800'
+                        : 'bg-red-50 text-red-700'
+                    }`}
+                  >
+                    {status.text}
+                  </div>
+                )}
               </form>
             </div>
 
@@ -179,51 +249,27 @@ export default function CityContact({ city, locale }: CityContactProps) {
                   {isNL ? 'Direct Contact' : 'Direct Contact'}
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold mb-1">
-                        {isNL ? 'Telefoon' : 'Phone'}
-                      </p>
-                      <a
-                        href="tel:+31612345678"
-                        className="text-purple-200 hover:text-white"
-                      >
-                        +31 6 12 34 56 78
-                      </a>
-                    </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6" />
                   </div>
+                  <div>
+                    <p className="font-semibold mb-1">
+                      {isNL ? 'Telefoon' : 'Phone'}
+                    </p>
+                    <a
+                      href="tel:+31612345678"
+                      className="text-purple-200 hover:text-white"
+                    >
+                      +31 6 12 34 56 78
+                    </a>
+                  </div>
+                </div>
 
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6" />
+                  </div>
                     <div>
                       <p className="font-semibold mb-1">Email</p>
                       <a

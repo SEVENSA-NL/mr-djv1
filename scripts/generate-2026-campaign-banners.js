@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { execFile } = require('child_process');
 const Replicate = require('replicate');
 
 const REPLICATE_API_KEY = process.env.REPLICATE_API_KEY;
@@ -25,20 +26,17 @@ const replicate = new Replicate({
 });
 
 /**
- * Download image from URL
+ * Download image from URL with redirect + status handling
  */
 function downloadImage(url, filepath) {
   return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(filepath);
-    https.get(url, (response) => {
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close();
-        resolve(filepath);
-      });
-    }).on('error', (err) => {
-      fs.unlink(filepath, () => {});
-      reject(err);
+    const args = ['-L', '--fail', '--silent', '--show-error', '-o', filepath, url];
+    execFile('curl', args, (error) => {
+      if (error) {
+        fs.unlink(filepath, () => {});
+        return reject(new Error(`curl download failed: ${error.message}`));
+      }
+      resolve(filepath);
     });
   });
 }

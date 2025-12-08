@@ -54,24 +54,29 @@
     }
   },
   "testimonials": {
-    "title": "What Clients Say",
+    "eyebrow": "Proof for every persona",
+    "title": "Couples, corporate planners, and party hosts trust Mr. DJ",
+    "subtitle": "Fast comms for planners, curated moments for couples, and dance-floor energy for private events.",
     "items": [
       {
-        "quote": "The DJ and saxophonist duo was the highlight of our wedding. The atmosphere was unforgettable!",
-        "author": "John & Mary",
-        "source": "Wedding, Amsterdam",
+        "quote": "Our bride & groom brief was translated into a perfect set list and sax moments. Zero stress on the day.",
+        "author": "Iris — Wedding planner",
+        "source": "Luxury wedding, Amsterdam",
+        "role": "Couples & planners",
         "rating": 5
       },
       {
-        "quote": "Professional, energetic, and they knew exactly how to keep the crowd engaged. Perfect for any corporate event.",
-        "author": "Susan van Dijk",
-        "source": "Corporate Party, Utrecht",
+        "quote": "Clear tech rider, insured gear, and a DJ who read the room at our product launch. Stakeholders were impressed.",
+        "author": "Tom — Event lead",
+        "source": "SaaS corporate launch, Utrecht",
+        "role": "Corporate events",
         "rating": 5
       },
       {
-        "quote": "The music was perfectly tailored to our guests. The saxophonist took it to the next level!",
-        "author": "Mark de Vries",
-        "source": "Birthday Celebration, Eindhoven",
+        "quote": "They mixed our hip-hop, 00s hits, and Latin picks seamlessly. The sax on the dance floor was the highlight.",
+        "author": "Sabrina — Party host",
+        "source": "Birthday, Rotterdam",
+        "role": "Private parties",
         "rating": 5
       }
     ]
@@ -192,7 +197,27 @@
       }
     },
     "faq": {
-      "title": "Frequently asked questions about our packages"
+      "eyebrow": "FAQ",
+      "title": "Answers for couples, event managers, and party hosts",
+      "subtitle": "Availability, tech coordination, and how we tailor the music and moments to your crowd.",
+      "items": [
+        {
+          "question": "How quickly do we get availability confirmation?",
+          "answer": "Within one business hour on weekdays. If your date is hot, we include a backup DJ + sax option in the same reply."
+        },
+        {
+          "question": "Can you align with our venue or AV partner?",
+          "answer": "Yes. We share our tech rider, handle load-in timing, and sync with venue/AV so your planner has one point of contact."
+        },
+        {
+          "question": "How do couples and planners shape the playlist?",
+          "answer": "We run a 20-minute intake, capture must-play/do-not-play, ceremony moments, and keep a WhatsApp thread open until showtime."
+        },
+        {
+          "question": "Is live sax available for corporate or private parties?",
+          "answer": "Yes—sax is available on all packages, and we can add percussion on request. Sets are synced to the DJ for tight transitions."
+        }
+      ]
     },
     "cta": {
       "title": "Ready to make your party unforgettable?",
@@ -208,5 +233,77 @@
       "exclVat": "Prices exclude VAT",
       "from": "From"
     }
+  },
+  "nav": {
+    "brand": "Mr. DJ",
+    "brandTag": "Live + DJ",
+    "links": {
+      "services": "Services",
+      "packages": "Packages",
+      "cities": "Cities",
+      "cta": "View packages",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "highlights": {
+    "eyebrow": "Why guests rave",
+    "title": "Designed to keep the dance floor full",
+    "subtitle": "Tight preparation, live sax moments and flawless audio so your crowd stays engaged all night.",
+    "cards": [
+      {
+        "title": "Live sax + DJ chemistry",
+        "description": "Seamless hand-offs between DJ and sax on the dance floor with curated mash-ups.",
+        "tag": "Signature"
+      },
+      {
+        "title": "Lighting & sound done right",
+        "description": "Premium audio, wireless mics, and a compact lighting rig that looks luxe, not loud.",
+        "tag": "Production"
+      },
+      {
+        "title": "Event manager on every booking",
+        "description": "We prep your intake, timeline, and key tracks—no surprises on the night.",
+        "tag": "Service"
+      }
+    ]
+  },
+  "cities": {
+    "eyebrow": "Coverage",
+    "title": "We play across the Randstad and beyond",
+    "subtitle": "Local crews, fast load-ins, and vendor-friendly planners so your venue is at ease.",
+    "badge": "12+ cities weekly",
+    "list": [
+      {
+        "name": "Amsterdam",
+        "highlight": "Canalside weddings & rooftop launches"
+      },
+      {
+        "name": "Rotterdam",
+        "highlight": "Skyline view corporate & warehouse vibes"
+      },
+      {
+        "name": "Den Haag",
+        "highlight": "Embassy events & classic venues"
+      },
+      {
+        "name": "Utrecht",
+        "highlight": "Boutique hotels & garden parties"
+      },
+      {
+        "name": "Haarlem",
+        "highlight": "Historic halls with modern sound"
+      },
+      {
+        "name": "Eindhoven",
+        "highlight": "Product reveals & tech company parties"
+      }
+    ]
+  },
+  "footer": {
+    "eyebrow": "Let’s talk music",
+    "title": "Need availability or a tailored quote?",
+    "subtitle": "Ping us for a 10-min check or a full intake.",
+    "cta": "WhatsApp team",
+    "email": "hello@mrdj.sevensa.nl"
   }
 }
