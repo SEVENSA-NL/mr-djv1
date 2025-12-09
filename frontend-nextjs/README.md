@@ -1,115 +1,20 @@
-# Mister DJ - Next.js Frontend
+# Mister DJ – Dev Kit Z03–Z06 (All-in-one)
 
-Next.js 14 migration van de Mister DJ frontend applicatie.
+Doel:
+Eén ZIP met alles wat je nodig hebt om mr-dj.sevensa.nl om te bouwen naar een
+brochure-consistente, lead-gedreven Next.js site:
 
-## Vereisten
+- Z03 – Formulieren & datamodellen (Availability, IntroCall, WeddingIntake, FairOffer, OpeningDanceMix)
+- Z04 – Design tokens, layout & brochure-sections (Hero, Services, Packages, Testimonials, Gallery, Contact)
+- Z05 – NL-page skeletons (/nl, /nl/bruiloften, /nl/bedrijfsfeesten, etc.)
+- Z06 – Integratiehooks voor Z03-formulieren in alle relevante pagina’s
 
-- Node.js 20.x
-- npm
-
-## Aan de slag
-
-### Installatie
-
-```bash
-npm install
-```
-
-### Development
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in je browser.
-
-### Build
-
-```bash
-npm run build
-```
-
-### Productie
-
-```bash
-npm start
-```
-
-## Projectstructuur
-
-```
-src/
-├── app/                    # Next.js App Router paginas
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home pagina
-│   ├── not-found.tsx      # 404 pagina
-│   └── error.tsx          # Foutpagina
-├── components/            # React componenten
-│   ├── atoms/             # Kleine herbruikbare componenten
-│   ├── molecules/         # Combinaties van componenten
-│   └── organisms/         # Complexe componenten
-├── hooks/                 # Custom React hooks
-├── lib/                   # Utility functies
-├── types/                 # TypeScript definities
-├── utils/                 # Algemene utilities
-├── constants/             # Applicatie constanten
-└── styles/                # Globale styles
-public/                    # Statische bestanden
-```
-
-## Technologie Stack
-
-- **Framework**: Next.js 14.2.0
-- **Taal**: TypeScript 5.9.3
-- **Styling**: Tailwind CSS 4.1.14
-- **Node**: 20.x
-
-## Design Systeem
-
-### Kleuren
-- Primary: #00AEEF (Mister DJ Blauw)
-- Primary Dark: #0096D6
-- Secondary: #D4AF37 (Goud)
-- Neutral Dark: #1A2C4B
-
-### Typografie
-- Sans: Montserrat, Inter
-- Serif: Playfair Display
-
-## Configuratie
-
-### TypeScript
-Strict mode is ingeschakeld.
-
-### Environment Variabelen
-```bash
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
-
-## Scripts
-
-- `npm run dev` - Development server
-- `npm run build` - Production build
-- `npm start` - Production server
-- `npm run lint` - ESLint
-- `npm run type-check` - TypeScript check
-- `npm run format` - Code formatting
-
-## Best Practices
-
-1. Kleine, gefocuste componenten
-2. Proper TypeScript typing
-3. Beschrijvende namen
-4. Folderstructuur volgen
-5. Next.js Image component gebruiken
-6. SEO metadata toevoegen
-
-## Migratie Opmerkingen
-
-Dit is een migratie van Vite naar Next.js:
-- Gebruikt App Router
-- Built-in Image optimisatie
-- Server Components standaard
-- Geïntegreerde API routes
-- Beter SEO out-of-the-box
+Gebruik:
+1. Plaats deze ZIP in je frontend-nextjs repo (bijv. /srv/apps/mr-dj-site/frontend-nextjs).
+2. Pak hem uit in de root van het frontend-project.
+3. Gebruik `scripts/apply-mr-dj-dev-kit-Z03-Z06.md` als superprompt voor je agent
+   (Codex/Claude/…); die zorgt voor:
+   - het aanpassen van imports naar jouw alias-structuur,
+   - het mergen/hernoemen van page-skeletons,
+   - het koppelen van formulieren aan API/mail/CRM,
+   - en een basis QA-run.
