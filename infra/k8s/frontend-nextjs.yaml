@@ -18,7 +18,7 @@ spec:
         - name: ghcr-crisisk
       containers:
         - name: mr-dj-frontend
-          image: ghcr.io/crisisk/mr-dj-frontend:nextjs-standalone-20251209a
+          image: ghcr.io/crisisk/mr-dj-frontend:nextjs-standalone-20251209b
           imagePullPolicy: IfNotPresent
           command: ["node", "server.js"]
           ports:
