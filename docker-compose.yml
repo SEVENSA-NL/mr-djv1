@@ -1,16 +1,16 @@
 version: '3.8'
 
 services:
-  # Frontend (Nginx serving static files) - Renamed to eds-frontend as per user context
-  eds-frontend:
+  # Frontend (Next.js runtime)
+  mrdj-frontend:
     build:
-      context: ./frontend
+      context: ./frontend-nextjs
       dockerfile: Dockerfile
-    container_name: mr-dj-eds-frontend
+    container_name: mr-dj-frontend
     restart: unless-stopped
     environment:
-      VITE_WHATSAPP_NUMBER: ${VITE_WHATSAPP_NUMBER:-31123456789}
-      VITE_WHATSAPP_MESSAGE: ${VITE_WHATSAPP_MESSAGE:-Hoi! Ik wil graag meer informatie over jullie DJ services.}
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: 1
     depends_on:
       mr-dj-backend:
         condition: service_healthy
@@ -18,14 +18,12 @@ services:
       - web # Use the existing 'web' network
     labels:
       - "traefik.enable=true"
-      # Service definition - single service for both routers
-      - "traefik.http.services.mrdj-eds-frontend.loadbalancer.server.port=80"
-      # Main router - Host rule for staging.sevensa.nl root
-      - "traefik.http.routers.mrdj-eds-frontend.rule=Host(`staging.sevensa.nl`)"
-      - "traefik.http.routers.mrdj-eds-frontend.service=mrdj-eds-frontend"
-      - "traefik.http.routers.mrdj-eds-frontend.entrypoints=websecure"
-      - "traefik.http.routers.mrdj-eds-frontend.tls=true"
-      - "traefik.http.routers.mrdj-eds-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.mrdj-frontend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mrdj-frontend.rule=Host(`staging.sevensa.nl`)"
+      - "traefik.http.routers.mrdj-frontend.service=mrdj-frontend"
+      - "traefik.http.routers.mrdj-frontend.entrypoints=websecure"
+      - "traefik.http.routers.mrdj-frontend.tls=true"
+      - "traefik.http.routers.mrdj-frontend.tls.certresolver=letsencrypt"
 
   # Backend API (FastAPI)
   mr-dj-backend:
@@ -102,4 +100,3 @@ networks:
 volumes:
   postgres_data:
     driver: local
-

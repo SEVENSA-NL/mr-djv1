@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mr-dj-sevensa-certificate
+  namespace: default
+spec:
+  secretName: mr-dj-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - mr-dj.sevensa.nl
+    - staging.sevensa.nl
+

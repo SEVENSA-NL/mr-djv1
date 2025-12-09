@@ -11,6 +11,7 @@ const routes = [
   '/nl/diensten/feest-dj',
   '/nl/pakketten',
   '/nl/steden',
+  '/nl/eindhoven',
   '/en/diensten',
   '/en/diensten/bruiloft-dj',
   '/en/diensten/bedrijfsfeest-dj',

@@ -30,15 +30,8 @@ export const config = {
     // Match all paths except:
     // - _next (Next.js internals)
     // - api (health + backend routes should bypass locale handling)
-    // - .*\\.svg$ (SVG files)
-    // - .*\\.png$ (PNG files)
-    // - .*\\.jpg$ (JPG files)
-    // - .*\\.jpeg$ (JPEG files)
-    // - .*\\.ico$ (ICO files)
-    // - .*\\.gif$ (GIF files)
-    // - .*\\.webp$ (WebP files)
-    // - .*\\.woff$ (WOFF fonts)
-    // - .*\\.woff2$ (WOFF2 fonts)
-    '/((?!_next|api|.*\\.(?:svg|png|jpg|jpeg|ico|gif|webp|woff|woff2)$).*)',
+    // - any path that contains a dot (.) -> static assets like .css, .js, .mp4, .png, etc.
+    //   This prevents locale rewriting for /assets/** and other static files.
+    '/((?!_next|api|.*\\..*).*)',
   ],
 };

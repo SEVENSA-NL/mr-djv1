@@ -24,9 +24,13 @@ interface Props {
 }
 
 export default function DienstenPage({ params: { locale } }: Props) {
+  const isNL = locale === 'nl';
   const structuredData = createServiceStructuredData(
-    'DJ & Entertainment Diensten',
-    'Professionele DJ diensten voor bruiloften, bedrijfsfeesten en private events met volledige ontzorging'
+    isNL ? 'DJ & Entertainment Diensten' : 'DJ & Entertainment Services',
+    isNL
+      ? 'Professionele DJ-diensten voor bruiloften, bedrijfsfeesten en private events met volledige ontzorging.'
+      : 'Professional DJ services for weddings, corporate events and private parties with full-service support.',
+    locale
   );
 
   return (
@@ -41,15 +45,15 @@ export default function DienstenPage({ params: { locale } }: Props) {
 
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-amber-500">
-            Wat we doen
+            {isNL ? 'Wat we doen' : 'What we do'}
           </p>
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            DJ & Entertainment voor elk event
+            {isNL ? 'DJ & Entertainment voor elk event' : 'DJ & Entertainment for every event'}
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Van intieme bruiloften tot grote bedrijfsfeesten - wij creëren onvergetelijke momenten met
-            professioneel geluid, sfeervolle verlichting en optioneel live muzikanten. Volledige ontzorging
-            van A tot Z.
+            {isNL
+              ? 'Van intieme bruiloften tot grote bedrijfsfeesten – wij creëren onvergetelijke momenten met professioneel geluid, sfeervolle verlichting en optioneel live muzikanten. Volledige ontzorging van A tot Z.'
+              : 'From intimate weddings to large corporate parties – we create unforgettable moments with premium sound, atmospheric lighting and optional live musicians. Full-service support from first intake to last track.'}
           </p>
         </div>
 
@@ -60,7 +64,9 @@ export default function DienstenPage({ params: { locale } }: Props) {
         </div>
 
         <div className="mb-16">
-          <h2 className="mb-6 text-center text-2xl font-bold text-slate-900">Extra diensten</h2>
+          <h2 className="mb-6 text-center text-2xl font-bold text-slate-900">
+            {isNL ? 'Extra diensten' : 'Additional services'}
+          </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {additionalServices.map((service) => (
               <ServiceCard key={service.slug} service={service} variant="static" />
@@ -72,50 +78,54 @@ export default function DienstenPage({ params: { locale } }: Props) {
       <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-0">
           <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">
-            Wat maakt Mister DJ anders?
+            {isNL ? 'Wat maakt Mister DJ anders?' : 'What makes Mister DJ different?'}
           </h2>
           <div className="grid gap-8 sm:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <span className="text-2xl">⭐</span>
-                15+ jaar ervaring
+                {isNL ? '15+ jaar ervaring' : '15+ years of experience'}
               </h3>
               <p className="text-sm text-slate-600">
-                Meer dan 500 geslaagde events voor particulieren en bedrijven zoals Philips, ASML en VDL. We
-                weten precies hoe we elke dansvloer vol krijgen.
+                {isNL
+                  ? 'Meer dan 500 geslaagde events voor particulieren en bedrijven zoals Philips, ASML en VDL. We weten precies hoe we elke dansvloer vol krijgen.'
+                  : 'Over 500 successful events for private clients and brands like Philips, ASML and VDL. We know exactly how to keep every dance floor full.'}
               </p>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <span className="text-2xl">💯</span>
-                100% Dansgarantie
+                {isNL ? '100% Dansgarantie' : '100% Dance floor guarantee'}
               </h3>
               <p className="text-sm text-slate-600">
-                We garanderen een volle dansvloer of je geld terug. In al die jaren hebben we deze belofte
-                altijd waar kunnen maken. Dat is ons track record.
+                {isNL
+                  ? 'We garanderen een volle dansvloer of je geld terug. In al die jaren hebben we deze belofte altijd waar kunnen maken. Dat is ons track record.'
+                  : 'We guarantee a packed dance floor or your money back. In all those years we have never had to break that promise.'}
               </p>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <span className="text-2xl">📍</span>
-                Lokale specialist
+                {isNL ? 'Lokale specialist' : 'Local specialist'}
               </h3>
               <p className="text-sm text-slate-600">
-                Gevestigd in Eindhoven, actief in heel Brabant & Limburg. We kennen alle venues en locaties.
-                Geen reiskosten binnen de regio.
+                {isNL
+                  ? 'Gevestigd in Eindhoven, actief in heel Brabant & Limburg. We kennen alle venues en locaties. Geen reiskosten binnen de regio.'
+                  : 'Based in Eindhoven, active across Brabant & Limburg. We know the venues, crews and sound limits – with no travel costs inside the region.'}
               </p>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <span className="text-2xl">✨</span>
-                Volledige ontzorging
+                {isNL ? 'Volledige ontzorging' : 'Full-service support'}
               </h3>
               <p className="text-sm text-slate-600">
-                Van intake tot afbouw: wij regelen alles. Afstemming met locatie, muziekwensen, planning,
-                opbouw - jij hoeft alleen maar te genieten.
+                {isNL
+                  ? 'Van intake tot afbouw: wij regelen alles. Afstemming met locatie, muziekwensen, planning, opbouw – jij hoeft alleen maar te genieten.'
+                  : 'From intake to breakdown: we handle everything. Venue coordination, music briefing, planning and setup – you just enjoy the night.'}
               </p>
             </div>
           </div>
@@ -124,23 +134,31 @@ export default function DienstenPage({ params: { locale } }: Props) {
 
       <section className="bg-gradient-to-br from-amber-500 to-amber-600 py-16 text-white">
         <div className="mx-auto max-w-4xl px-4 text-center lg:px-0">
-          <h2 className="mb-4 text-3xl font-bold">Klaar voor een onvergetelijk event?</h2>
+          <h2 className="mb-4 text-3xl font-bold">
+            {isNL ? 'Klaar voor een onvergetelijk event?' : 'Ready for an unforgettable event?'}
+          </h2>
           <p className="mb-8 text-lg text-amber-50">
-            Ontvang binnen 24 uur een offerte op maat. Vrijblijvend kennismaken en sparren over je event.
+            {isNL
+              ? 'Ontvang binnen 24 uur een offerte op maat. Vrijblijvend kennismaken en sparren over je event.'
+              : 'Get a tailored quote within 24 hours. No‑obligation intro call to shape the perfect night for your crowd.'}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href={`/${locale}/pakketten`}
               className="inline-flex items-center rounded-lg bg-white px-8 py-4 text-sm font-semibold text-amber-600 shadow-lg transition hover:bg-amber-50"
             >
-              Bekijk pakketten & prijzen
+              {isNL ? 'Bekijk pakketten & prijzen' : 'View packages & pricing'}
             </a>
-            <WhatsAppButton variant="secondary" messageType="general" label="Chat via WhatsApp" />
+            <WhatsAppButton
+              variant="secondary"
+              messageType="general"
+              label={isNL ? 'Chat via WhatsApp' : 'Chat via WhatsApp'}
+            />
             <a
               href={`/${locale}/contact`}
               className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-8 py-4 text-sm font-semibold text-white transition hover:bg-white hover:text-amber-600"
             >
-              Vraag offerte aan
+              {isNL ? 'Vraag offerte aan' : 'Request a quote'}
             </a>
           </div>
         </div>
@@ -148,48 +166,64 @@ export default function DienstenPage({ params: { locale } }: Props) {
 
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-0">
-          <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">Veelgestelde vragen</h2>
+          <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">
+            {isNL ? 'Veelgestelde vragen' : 'Frequently asked questions'}
+          </h2>
           <div className="space-y-4">
             <details className="rounded-lg border border-slate-200 p-5">
               <summary className="cursor-pointer font-medium text-slate-900">
-                Hoeveel kost een DJ voor mijn event?
+                {isNL ? 'Hoeveel kost een DJ voor mijn event?' : 'How much does a DJ cost for my event?'}
               </summary>
               <p className="mt-3 text-sm text-slate-600">
-                Onze pakketten starten vanaf €495 voor 4 uur (pakket Brons), tot €1295 voor een complete
-                8-uur show met live saxofonist (pakket Goud). Bekijk de volledige prijslijst op onze{' '}
-                <a href={`/${locale}/pakketten`} className="text-amber-600 underline">
-                  pakketten pagina
-                </a>
-                .
+                {isNL ? (
+                  <>
+                    Onze pakketten starten vanaf €495 voor 4 uur (pakket Brons), tot €1295 voor een complete
+                    8-uur show met live saxofonist (pakket Goud). Bekijk de volledige prijslijst op onze{' '}
+                    <a href={`/${locale}/pakketten`} className="text-amber-600 underline">
+                      pakketten pagina
+                    </a>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Packages start at €495 for 4 hours (Bronze) up to €1295 for a full 8‑hour show with live
+                    sax (Gold). See all details on our{' '}
+                    <a href={`/${locale}/pakketten`} className="text-amber-600 underline">
+                      packages page
+                    </a>
+                    .
+                  </>
+                )}
               </p>
             </details>
             <details className="rounded-lg border border-slate-200 p-5">
               <summary className="cursor-pointer font-medium text-slate-900">
-                Kunnen jullie ook ceremonies en speeches verzorgen?
+                {isNL ? 'Kunnen jullie ook ceremonies en speeches verzorgen?' : 'Do you also handle ceremonies and speeches?'}
               </summary>
               <p className="mt-3 text-sm text-slate-600">
-                Ja, absoluut! Alle pakketten inclusief professionele draadloze microfoons voor speeches,
-                ceremonies en presentaties. We zorgen voor heldere audio zodat iedereen alles kan verstaan.
+                {isNL
+                  ? 'Ja, absoluut! Alle pakketten zijn inclusief professionele draadloze microfoons voor speeches, ceremonies en presentaties. We zorgen voor heldere audio zodat iedereen alles kan verstaan.'
+                  : 'Absolutely. All packages include professional wireless microphones for speeches, ceremonies and presentations, with clear audio so every guest can follow along.'}
               </p>
             </details>
             <details className="rounded-lg border border-slate-200 p-5">
               <summary className="cursor-pointer font-medium text-slate-900">
-                Hoe ver van tevoren moet ik boeken?
+                {isNL ? 'Hoe ver van tevoren moet ik boeken?' : 'How far in advance should we book?'}
               </summary>
               <p className="mt-3 text-sm text-slate-600">
-                Voor bruiloften adviseren we 6-12 maanden van tevoren (vooral voor populaire datums in het
-                weekend). Voor bedrijfsfeesten en private events kan het soms ook met kortere doorlooptijd.
-                Check altijd even onze beschikbaarheid!
+                {isNL
+                  ? 'Voor bruiloften adviseren we 6–12 maanden van tevoren (vooral voor populaire weekenden). Voor bedrijfsfeesten en private events kan het vaak met minder doorlooptijd. Check altijd even onze beschikbaarheid.'
+                  : 'For weddings we recommend booking 6–12 months ahead (especially popular weekends). Corporate and private events can often be booked on a shorter timeline – always check our availability first.'}
               </p>
             </details>
             <details className="rounded-lg border border-slate-200 p-5">
               <summary className="cursor-pointer font-medium text-slate-900">
-                Wat voor muziekstijlen kunnen jullie draaien?
+                {isNL ? 'Wat voor muziekstijlen kunnen jullie draaien?' : 'What music styles can you play?'}
               </summary>
               <p className="mt-3 text-sm text-slate-600">
-                Onze DJ's beheersen alle genres: van 80s/90s hits tot moderne Top 40, van dance/house tot
-                R&B, van Latin tot Nederlands. We stemmen de muziek altijd af op jouw wensen en de vibe van je
-                gasten.
+                {isNL
+                  ? "Onze DJ's beheersen alle genres: van 80s/90s hits tot moderne Top 40, van dance/house tot R&B, van Latin tot Nederlands. We stemmen de muziek altijd af op jouw wensen en de vibe van je gasten."
+                  : 'Our DJs cover all genres: from 80s/90s hits to modern Top 40, from dance/house to R&B and Latin. We always tune the playlist to your brief and the energy on the floor.'}
               </p>
             </details>
           </div>

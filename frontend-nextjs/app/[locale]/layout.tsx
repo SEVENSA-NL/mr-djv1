@@ -6,7 +6,7 @@ import { locales, defaultLocale, localeMetadata } from '@/i18n.config';
 import { Space_Grotesk } from 'next/font/google';
 import { Inter, Playfair_Display } from 'next/font/google';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://staging.sevensa.nl';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mr-dj.sevensa.nl';
 
 export const dynamic = 'force-dynamic';
 

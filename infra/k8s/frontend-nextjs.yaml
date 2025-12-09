@@ -18,7 +18,7 @@ spec:
         - name: ghcr-crisisk
       containers:
         - name: mr-dj-frontend
-          image: ghcr.io/crisisk/mr-dj-frontend:nextjs-standalone
+          image: ghcr.io/crisisk/mr-dj-frontend:nextjs-standalone-20251209a
           imagePullPolicy: IfNotPresent
           command: ["node", "server.js"]
           ports:
@@ -83,7 +83,8 @@ metadata:
 spec:
   ingressClassName: traefik
   tls:
-    - hosts:
+    - secretName: mr-dj-tls
+      hosts:
         - staging.sevensa.nl
         - mr-dj.sevensa.nl
   rules:

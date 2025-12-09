@@ -2,32 +2,38 @@
 
 This runbook documents how to capture reproducible release artifacts, determine whether to execute a rollback or a hotfix, and safely restore the previous production version of Mister DJ services.
 
-## 1. Capture Release Artifacts Before Deploying
+## 1. Capture Release Artifacts Before Deploying (k3s + GHCR)
 
 Always create a restorable snapshot of the release you are about to ship. This ensures you can promote the same artifact again or quickly roll back.
 
-1. **Tag Docker images locally before pushing**
+1. **Tag and push Docker images to GHCR**
    ```bash
-   docker compose build
-   docker tag mr-dj-backend:latest registry.example.com/mr-dj-backend:${RELEASE_TAG}
-   docker tag mr-dj-frontend:latest registry.example.com/mr-dj-frontend:${RELEASE_TAG}
-   docker push registry.example.com/mr-dj-backend:${RELEASE_TAG}
-   docker push registry.example.com/mr-dj-frontend:${RELEASE_TAG}
-   ```
-   - Choose a semantic version or timestamp-based `${RELEASE_TAG}`.
-   - Record the tag in the deployment notes so rollback targets are unambiguous.
+   export REGISTRY_IMAGE_FE="ghcr.io/crisisk/mr-dj-frontend"
+   export REGISTRY_IMAGE_BE="ghcr.io/crisisk/misterdj-backend"
+   export RELEASE_TAG="nextjs-standalone-YYYYMMDDHHMM"
 
-2. **Archive the compose bundle and environment files**
-   ```bash
-   tar -czf artifacts/${RELEASE_TAG}-compose.tar.gz \
-       docker-compose.yml \
-       backend/.env \
-       frontend/.env \
-       docs/operations/deployment-rollback.md
-   sha256sum artifacts/${RELEASE_TAG}-compose.tar.gz >> artifacts/SHA256SUMS.txt
+   # Frontend (from /srv/apps/mr-djv1/frontend-nextjs)
+   docker build -t ${REGISTRY_IMAGE_FE}:${RELEASE_TAG} .
+   docker push ${REGISTRY_IMAGE_FE}:${RELEASE_TAG}
+
+   # Backend (from backend repo)
+   docker build -t ${REGISTRY_IMAGE_BE}:${RELEASE_TAG} .
+   docker push ${REGISTRY_IMAGE_BE}:${RELEASE_TAG}
    ```
-   - Store archives in the `artifacts/` bucket or a secure offsite location.
-   - Include any migration scripts or manual change logs referenced by the release.
+   - Kies een semantische versie of tijdstempel-gebaseerde `${RELEASE_TAG}`.
+   - Noteer de gebruikte tags in het deploymentlogboek.
+
+2. **Archive relevante configuratie en documentatie**
+   ```bash
+   mkdir -p artifacts
+   tar -czf artifacts/${RELEASE_TAG}-k3s-config.tar.gz \
+       infra/k8s/frontend-nextjs.yaml \
+       docs/deployment-guide.md \
+       docs/operations/deployment-rollback.md
+   sha256sum artifacts/${RELEASE_TAG}-k3s-config.tar.gz >> artifacts/SHA256SUMS.txt
+   ```
+   - Sla archives op in een `artifacts/` bucket of andere veilige offsite locatie.
+   - Voeg eventuele migratiescripts of handmatige wijzigingslogs toe die voor deze release gelden.
 
 3. **Snapshot database and stateful services**
    - Trigger managed backups or run `pg_dump` against the production database.
@@ -75,36 +81,52 @@ Use the decision tree below to choose the correct recovery strategy.
 | Regression present in prior release | ⚪ | ✅ |
 | Regression isolated to new infrastructure change | ✅ | ⚪ |
 
-## 3. Rollback Procedure
+## 3. Rollback Procedure (k3s)
 
-1. **Switch traffic to maintenance (if required)**
+1. **Schakel indien nodig naar maintenance modus**
+   - Voor puur frontend-gerelateerde issues volstaat meestal een image rollback zonder expliciete maintenance pagina.
+   - Bij kritieke backendproblemen: volg de backend-specifieke runbooks (onder `backend/docs/` indien aanwezig) om een maintenance modus te activeren.
+
+2. **Zet de frontend terug naar een vorige image tag**
+
    ```bash
-   ssh ${VPS_USER}@${VPS_HOST}
-   cd /opt/mr-dj
-   docker-compose run --rm mr-dj-backend npm run maintenance:on
+   export REGISTRY_IMAGE_FE="ghcr.io/crisisk/mr-dj-frontend"
+   export PREVIOUS_TAG="nextjs-standalone-<known-good>"
+   export PREVIOUS_IMAGE="${REGISTRY_IMAGE_FE}:${PREVIOUS_TAG}"
+
+   kubectl -n default set image deployment/mr-dj-frontend \
+     mr-dj-frontend="${PREVIOUS_IMAGE}"
+
+   kubectl -n default rollout status deployment/mr-dj-frontend
+   kubectl -n default get pods -l app=mr-dj-frontend
    ```
 
-2. **Restore previous compose bundle**
-   ```bash
-   ssh ${VPS_USER}@${VPS_HOST}
-   cd /opt/mr-dj
-   docker-compose down
-   tar -xzf /opt/artifacts/${PREVIOUS_TAG}-compose.tar.gz -C /opt/mr-dj
-   docker load < /opt/artifacts/${PREVIOUS_TAG}-images.tar
-   ```
-   - If images are stored in a registry, pull by `${PREVIOUS_TAG}` instead of loading a tarball.
+   - Gebruik de laatst bekende werkende tag uit het deploymentlogboek.
 
-3. **Redeploy previous version**
-   ```bash
-   docker-compose pull  # optional if using registry tags
-   docker-compose up -d
-   docker-compose exec -T mr-dj-backend npm run migrate:rollback -- --to ${PREVIOUS_MIGRATION}
-   ```
-   - Skip the migration rollback if the change was backward-compatible.
+3. **(Optioneel) Backend rollback**
 
-4. **Re-enable traffic**
+   Indien de regressie door een backend image wordt veroorzaakt:
+
    ```bash
-   docker-compose run --rm mr-dj-backend npm run maintenance:off
+   export REGISTRY_IMAGE_BE="ghcr.io/crisisk/misterdj-backend"
+   export PREVIOUS_BE_TAG="<known-good>"
+   export PREVIOUS_BE_IMAGE="${REGISTRY_IMAGE_BE}:${PREVIOUS_BE_TAG}"
+
+   kubectl -n misterdj set image deployment/misterdj-backend \
+     misterdj-backend="${PREVIOUS_BE_IMAGE}"
+
+   kubectl -n misterdj rollout status deployment/misterdj-backend
+   ```
+
+   - MIGRATIE-rollback alleen uitvoeren als deze expliciet vereist is in de backend runbooks; standaard backwards-compatibel houden.
+
+4. **Controleer routing en health na rollback**
+
+   ```bash
+   curl -k https://mr-dj.sevensa.nl/api/health
+   curl -k https://staging.sevensa.nl/api/health
+   kubectl -n default logs deploy/mr-dj-frontend --tail=100
+   kubectl -n misterdj logs deploy/misterdj-backend --tail=100
    ```
 
 ## 4. Hotfix Procedure (if chosen)
@@ -117,19 +139,22 @@ Use the decision tree below to choose the correct recovery strategy.
 
 ## 5. Post-Rollback Verification
 
-Run the following checks immediately after containers are healthy:
+Run the following checks immediately after deployments are healthy:
 
 ```bash
-docker-compose ps
-docker-compose logs --tail=50
+kubectl -n default get deploy,po | grep mr-dj-frontend
+kubectl -n misterdj get deploy,po | grep misterdj-backend
+
 curl -f https://staging.sevensa.nl/api/health | jq
-npm run smoke:test --prefix backend
-npm run smoke:test --prefix frontend
+curl -f https://mr-dj.sevensa.nl/api/health | jq
+
+cd /srv/apps/mr-djv1/frontend-nextjs
+pnpm test:e2e-staging
 ```
 
-- Confirm health endpoints return `200` and expected JSON payloads.
-- Execute manual smoke tests for booking and contact flows.
-- Review Grafana dashboards for error-rate regression.
+- Bevestig dat health endpoints `200` en het verwachte JSON-payload retourneren.
+- Voer handmatige smoke-tests uit voor booking- en contactflows op staging en productie.
+- Review monitoring dashboards voor error-rate regressies.
 
 ## 6. Communication & Follow-Up
 

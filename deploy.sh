@@ -36,8 +36,8 @@ echo "🧪 Executing backend test suite..."
 npm test -- --runInBand
 popd >/dev/null
 
-echo "🧱 Building production frontend bundle..."
-pushd "$ROOT_DIR/frontend" >/dev/null
+echo "🧱 Building production frontend bundle (Next.js)..."
+pushd "$ROOT_DIR/frontend-nextjs" >/dev/null
 echo "📦 Installing frontend dependencies via npm ci..."
 npm ci --no-audit --progress=false
 echo "🏗️ Running frontend build..."
@@ -51,13 +51,11 @@ tar -czf "$ROOT_DIR/$PACKAGE_NAME" \
     --exclude='backend/node_modules' \
     --exclude='backend/.env' \
     --exclude='backend/.env.*' \
-    --exclude='frontend/node_modules' \
-    --exclude='frontend/dist' \
-    --exclude='frontend/build' \
-    --exclude='frontend/.next' \
+    --exclude='frontend-nextjs/node_modules' \
+    --exclude='frontend-nextjs/.next' \
     -C "$ROOT_DIR" \
     docker-compose.yml \
-    frontend \
+    frontend-nextjs \
     backend \
     database
 
@@ -168,9 +166,9 @@ echo "Running database migrations..."
 echo "Container Status:"
 "${DOCKER_COMPOSE[@]}" ps
 
-# Show logs for the frontend service (eds-frontend)
-echo "Recent logs for eds-frontend:"
-"${DOCKER_COMPOSE[@]}" logs eds-frontend --tail=50
+# Show logs for the frontend service (Next.js runtime)
+echo "Recent logs for mrdj-frontend:"
+"${DOCKER_COMPOSE[@]}" logs mrdj-frontend --tail=50
 
 echo "✅ Deployment complete!"
 echo "🌐 Website should be available at: ${SITE_URL}"
@@ -189,4 +187,3 @@ echo "📊 Post-deploy: Import docs/observability/grafana.json into Grafana via 
 
 # Cleanup local tar
 rm -f "$ROOT_DIR/$PACKAGE_NAME"
-

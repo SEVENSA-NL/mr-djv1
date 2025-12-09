@@ -82,3 +82,67 @@ Mock server details en failure-simulaties vind je in [`docs/RENTGUY-MOCK-SERVER.
 - [ ] Grafana/monitoring ingest ingesteld op `/metrics/queues` voor alerting.【F:backend/src/docs/openapi.yaml†L200-L212】
 
 Door deze checklist te volgen is de RentGuy-integratie reproduceerbaar te deployen en blijft de business flow bewaakt van lead tot CRM-sync.
+
+## 8. Fase A–C Roadmap: Marketing-site vs. RentGuy Onboarding
+
+Voor Mister DJ is de marketing-site (`https://mr-dj.sevensa.nl`, Next.js) leidend. De RentGuy onboarding-portal (`https://mr-dj.rentguy.nl`) wordt in drie fases gekoppeld, zodat een kapotte onboarding-API nooit de marketing-ervaring breekt.
+
+### Fase A – Marketing-site isoleren van gebroken RentGuy-calls
+
+- Frontend-code (Next.js) bevat geen directe verwijzingen naar `mr-dj.rentguy.nl` of `/api/session` (gevalideerd via `rg "mr-dj.rentguy" frontend-nextjs`).
+- GTM / consent:
+  - Schakel in GTM alle tags uit die `mr-dj.rentguy.nl` of `frame_ant.js` aanspreken (zie `docs/marketing-consent-tracking.md`, sectie *Phase A*).
+  - Zet eventuele CMP/Complianz services die scripts naar `mr-dj.rentguy.nl` injecteren op *uit* voor de marketing-site.
+- Verificatie (prod of staging):
+  - In een incognito-venster: geen Netwerk- of Console-entries meer richting `mr-dj.rentguy.nl`.
+  - Marketing-routes `/nl`, `/nl/diensten/*`, `/nl/pakketten`, `/nl/steden/*` blijven volledig functioneren zonder CORS-fouten.
+
+Fase A is geslaagd zodra de marketing-site stabiel draait, zonder browsercalls naar RentGuy.
+
+### Fase B – Onboarding-/RentGuy-API correct maken (backend-gericht, toekomstige sprint)
+
+Doel: een robuuste onboarding-API die veilig via backend/proxy wordt aangesproken.
+
+- API-contract voor upstream `GET /api/session` op `mr-dj.rentguy.nl`:
+  - Response type: JSON (geen HTML) wanneer de onboarding-portal klaar is.
+  - Aanbevolen schema: sessie-ID, expiry, onboarding-URL, optionele statusvelden.
+  - CORS headers toevoegen indien direct vanuit de browser benaderd wordt, maar **niet vereist** wanneer uitsluitend via server-side proxy wordt gewerkt.
+- Server-side proxy op Mister DJ (✅ geïmplementeerd in Next.js frontend):
+  - Nieuwe route: `GET /api/onboarding-session` in `frontend-nextjs/app/api/onboarding-session/route.ts`.
+  - Configuratie via omgevingsvariabelen:
+    - `RENTGUY_ONBOARDING_SESSION_URL` – volledige URL naar de sessie-endpoint.
+    - of `RENTGUY_ONBOARDING_BASE_URL` – basis-URL; proxy gebruikt dan `${base}/api/session`.
+  - Gedrag van `/api/onboarding-session`:
+    - Bij ontbrekende configuratie → `503` met `{ "status": "error", "reason": "not-configured" }`.
+    - Bij upstream-fout → `502` of `504` met `reason` (`upstream-<status>`, `timeout`, `upstream-error`).
+    - Bij geldige JSON-response met `sessionId`/`id` en `onboardingUrl`/`url` → `200` met:
+      - `{ "status": "ok", "sessionId", "onboardingUrl", "expiresAt"?: string }` en eventuele extra velden doorgelaten.
+  - Timeouts/retries:
+    - Upstream-call heeft een timeout van 5 seconden (AbortController).
+    - Fouten worden gelogd via `console.error` met beperkte preview van de upstream-response.
+- Tests:
+  - Unit-tests voor de proxy/SDK (happy path + timeouts/errors).
+  - Integratietest tegen een mock of staging van `mr-dj.rentguy.nl`.
+  - Monitoring op error-ratio en latency voor onboarding-calls.
+
+De frontend zal in deze fase nog geen nieuwe onboarding-widgets tonen; we richten ons eerst op een stabiele backend-laag.
+
+### Fase C – Functioneel & UX-QA na (her)koppeling
+
+Zodra Fase B staat en de backend/proxy stabiel is:
+
+- Frontend-integratie:
+  - Bouw een discrete onboarding-module (of CTA) die uitsluitend met `/api/onboarding-session` praat.
+  - Houd foutafhandeling vriendelijk: duidelijke statusmeldingen, geen blokkerende spinners.
+  - Zorg dat de marketing-flow bruikbaar blijft zelfs als onboarding tijdelijk niet beschikbaar is (fallback CTA, e-mailcontact).
+- Live QA op `https://mr-dj.sevensa.nl`:
+  - Hoofdflows testen: home, diensten, pakketten, steden, contact/availability én onboarding CTA.
+  - DevTools controleren:
+    - Geen CORS-fouten.
+    - Geen 4xx/5xx voor `_next/static/*`, `/assets/*`, `/api/*`.
+  - UX-controle: consistent design met de marketing-site (typografie, spacing, knoppen, video testimonials).
+- Rapportage:
+  - Resultaten van deze fases vastleggen in `STAGING-VALIDATION-STATUS.md` en `DEPLOYMENT_LOG.md`.
+  - Bekende beperkingen en next steps toevoegen aan `SALES_READY_REPORT.md`.
+
+Deze roadmap borgt dat RentGuy/onboarding pas weer in de browser verschijnt nadat de API en proxy-laag productierijp zijn, terwijl de marketing-site nu al stabiel en klantgericht blijft.
