@@ -1,35 +1,33 @@
 # Quick Start Guide - Mr. DJ Frontend i18n
 
 ## Installation
-
 ```bash
 cd /srv/apps/mr-djv1/frontend-nextjs
-npm install
+pnpm install   # pnpm-lock.yaml is authoritative (npm install also works)
 ```
 
 ## Development
-
 ```bash
-npm run dev
+pnpm dev
 ```
-
 Server runs on `http://localhost:3000`
 
 ## Access Your Application
-
 - Dutch (default): `http://localhost:3000/nl`
 - English: `http://localhost:3000/en`
+- NL brochure shortcuts (no locale prefix): `/`, `/bruiloften`, `/bedrijfsfeesten`, `/feesten-overig`, `/impressies`, `/mister-dj`, `/veelgestelde-vragen`, `/contact`
 
 ## Key Files
 
 ### Configuration
 - `i18n.config.ts` - Locale configuration (nl, en)
-- `middleware.ts` - Automatic locale detection and routing
+- `middleware.ts` - Locale detection/routing (excludes brochure slugs above)
 - `next.config.ts` - Next.js configuration with i18n plugin
 
 ### Pages
 - `app/[locale]/page.tsx` - Home page
 - `app/[locale]/layout.tsx` - Locale-specific layout
+- `app/(nl)/*` - NL brochure pages (hero/services/packages/testimonials/contact)
 
 ### Components
 - `components/LocaleSwitcher.tsx` - Language switcher dropdown
@@ -62,39 +60,34 @@ export default async function MyComponent() {
 ```
 
 ## Adding New Pages
-
-Create files in `app/[locale]/` directory:
+Create files in `app/[locale]/`:
 
 ```
 app/[locale]/services/page.tsx
 ```
 
-Automatically available at:
+Available at:
 - `/nl/services`
 - `/en/services`
 
 ## Building for Production
-
 ```bash
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 ## Environment Variables
-
 Copy and configure `.env.local.example`:
 ```bash
 cp .env.local.example .env.local
 ```
-
 Edit variables as needed.
 
 ## Locale Switcher
-
 The language switcher is a client component that:
 - Displays dropdown with language options
 - Maintains current page URL structure
-- Persists user's choice
+- Persists user choice
 - Shows loading state during transition
 
 ```typescript
@@ -106,7 +99,6 @@ export default function Header() {
 ```
 
 ## Translation Structure
-
 Translations are organized by feature:
 - `app.*` - Application metadata
 - `hero.*` - Hero section content
@@ -127,7 +119,7 @@ Translations are organized by feature:
 - `/en/services` - Services
 - `/en/booking` - Booking
 
-Default locale (Dutch) URLs can also be accessed without locale prefix internally.
+Default locale (Dutch) URLs can also be accessed without a prefix by the middleware exceptions listed above.
 
 ## Common Tasks
 
@@ -152,6 +144,9 @@ if (isValidLocale(locale)) {
 }
 ```
 
-## For More Information
+## Leads & API stub
+- Form components use `src/forms/submitLead.ts` to POST to `/api/mr-dj/lead` (stubbed, logs + 200).
+- RentGuy session requests are stubbed in `app/[locale]/layout.tsx`; wire up mail/CRM/RentGuy before production.
 
+## For More Information
 See `I18N_SETUP.md` for comprehensive documentation.
