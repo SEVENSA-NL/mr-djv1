@@ -37,6 +37,11 @@ export default function BlogArticleContent({ post }: Props) {
     dateModified: post.publishedAt,
     wordCount: post.content.split(/\s+/).length,
     inLanguage: "nl",
+    keywords: `DJ, ${post.category}, Mister DJ, Brabant, Eindhoven, Veldhoven, bruiloft DJ, feest DJ`,
+    about: [
+      { "@type": "Thing", name: post.category },
+      { "@type": "Place", name: "Noord-Brabant", address: { "@type": "PostalAddress", addressRegion: "Noord-Brabant", addressCountry: "NL" } },
+    ],
     author: {
       "@type": "Organization",
       name: "Mister DJ",

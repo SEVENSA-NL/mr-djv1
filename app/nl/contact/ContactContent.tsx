@@ -158,7 +158,7 @@ export default function ContactContent() {
         <h2 className="mb-4 text-lg font-semibold text-gray-900 md:text-xl">Onze locatie</h2>
         <div className="overflow-hidden rounded-2xl border border-gray-200">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2490.5!2d5.3892!3d51.4156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6d8e5c5c5c5c5%3A0x0!2sKapteijnlaan+17%2C+5505+AV+Veldhoven!5e0!3m2!1snl!2snl!4v1"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2490.5!2d5.3850!3d51.4200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6d8e5c5c5c5c5%3A0x0!2sKapteijnlaan+17%2C+5505+AV+Veldhoven!5e0!3m2!1snl!2snl!4v1"
             width="100%"
             height="350"
             style={{ border: 0 }}

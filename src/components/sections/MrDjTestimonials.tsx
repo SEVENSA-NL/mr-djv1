@@ -51,10 +51,45 @@ export const MrDjTestimonials: React.FC<MrDjTestimonialsProps> = ({
 
   items = items.slice(0, maxItems);
 
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Mister DJ",
+    url: "https://mr-dj.nl",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kapteijnlaan 17",
+      addressLocality: "Veldhoven",
+      postalCode: "5505 AV",
+      addressRegion: "Noord-Brabant",
+      addressCountry: "NL",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "9.8",
+      bestRating: "10",
+      worstRating: "1",
+      ratingCount: "76",
+    },
+    review: items.map((item) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: item.name },
+      datePublished: `${item.date}-01`,
+      reviewBody: item.quote,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: String(item.rating),
+        bestRating: "10",
+      },
+      ...(item.location ? { about: { "@type": "Event", name: item.eventType, location: { "@type": "Place", name: item.location } } } : {}),
+    })),
+  };
+
   if (items.length === 0) return <EmptyState message="Binnenkort meer reviews..." />;
 
   return (
     <section className="py-14 md:py-20 lg:py-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }} />
       <div ref={ref} className={`mx-auto max-w-6xl px-4 md:px-6 transition-opacity ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="mb-8 max-w-lg">
           <p className="mb-1 font-script text-2xl text-yellow-600 md:text-3xl">

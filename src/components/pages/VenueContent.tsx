@@ -136,6 +136,13 @@ export const VenueContent: React.FC<VenueContentProps> = ({ venue }) => {
                 addressRegion: venue.region,
                 addressCountry: "NL",
               },
+              ...(venue.latitude && venue.longitude ? {
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: venue.latitude,
+                  longitude: venue.longitude,
+                },
+              } : {}),
             },
           }),
         }}

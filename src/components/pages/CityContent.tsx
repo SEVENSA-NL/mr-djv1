@@ -46,18 +46,36 @@ export default function CityContent({ city }: CityContentProps) {
     url: `https://mr-dj.nl/nl/dj-${city.slug}`,
     telephone: "+31408422594",
     email: "info@mr-dj.nl",
+    image: "https://mr-dj.nl/images/logo.png",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Kapteijnlaan 17",
       addressLocality: "Veldhoven",
       postalCode: "5505 AV",
+      addressRegion: "Noord-Brabant",
       addressCountry: "NL",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: city.latitude,
+      longitude: city.longitude,
     },
     areaServed: {
       "@type": "City",
       name: city.name,
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: city.latitude,
+        longitude: city.longitude,
+      },
     },
     priceRange: "$$",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "9.8",
+      bestRating: "10",
+      ratingCount: "76",
+    },
   };
 
   return (

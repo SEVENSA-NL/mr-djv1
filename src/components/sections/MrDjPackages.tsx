@@ -23,6 +23,7 @@ interface AddOn {
   price: string;
   description: string;
   image?: string;
+  imageAlt?: string;
 }
 
 const featureTooltips: Record<string, string> = {
@@ -127,15 +128,15 @@ const defaultPackages: PackageCard[] = [
 ];
 
 const addOns: AddOn[] = [
-  { name: "PhotoBooth met props", price: "\u20AC400,-", description: "Fotostrips, digitale galerij en props", image: "/images/gallery/addon-photobooth.jpg" },
-  { name: "LED dansvloer (3x4m)", price: "\u20AC500,-", description: "Verlichte dansvloer, vanaf 12 M\u00B2", image: "/images/gallery/addon-led-dansvloer.jpg" },
-  { name: "Openingsdans mix", price: "\u20AC75,-", description: "Gepersonaliseerde mix van meerdere nummers" },
-  { name: "Live muziek", price: "Op aanvraag", description: "Saxofonist, vocalist of pianist", image: "/images/gallery/addon-live-muziek.jpg" },
-  { name: "Partyfotograaf", price: "\u20AC500,-", description: "120 feestfoto\u2019s op USB" },
-  { name: "Sparkulars FX", price: "\u20AC250,-", description: "Koud vuurwerk, veilig voor binnen", image: "/images/gallery/addon-sparkulars.jpg" },
-  { name: "LED uplights (4x)", price: "\u20AC100,-", description: "Sfeerverlichting in elke kleur" },
-  { name: "Lasershow", price: "\u20AC120,-", description: "Kleurrijke lichtstralen op de muziek", image: "/images/gallery/addon-lasershow.jpg" },
-  { name: "TV scherm 50\"", price: "\u20AC100,-", description: "50 inch TV op statief incl. HDMI" },
+  { name: "PhotoBooth met props", price: "\u20AC400,-", description: "Fotostrips, digitale galerij en props", image: "/images/gallery/addon-photobooth.jpg", imageAlt: "PhotoBooth huren bij Mister DJ Veldhoven — fotostrips en props op bruiloft" },
+  { name: "LED dansvloer (3x4m)", price: "\u20AC500,-", description: "Verlichte dansvloer, vanaf 12 M\u00B2", image: "/images/gallery/addon-led-dansvloer.jpg", imageAlt: "LED dansvloer huren voor feest — verlichte dansvloer van Mister DJ Brabant" },
+  { name: "Openingsdans mix", price: "\u20AC75,-", description: "Gepersonaliseerde mix van meerdere nummers", image: "/images/gallery/addon-openingsdans.webp", imageAlt: "Openingsdans bruidspaar op bruiloft met DJ — eerste dans mix door Mister DJ" },
+  { name: "Live muziek", price: "Op aanvraag", description: "Saxofonist, vocalist of pianist", image: "/images/gallery/addon-live-muziek.jpg", imageAlt: "Live saxofonist en zanger bij DJ booth — live muziek op feest Mister DJ" },
+  { name: "Partyfotograaf", price: "\u20AC500,-", description: "120 feestfoto\u2019s op USB", image: "/images/gallery/addon-partyfotograaf.webp", imageAlt: "Partyfotograaf op feest — dansende gasten gefotografeerd door Mister DJ" },
+  { name: "Sparkulars FX", price: "\u20AC250,-", description: "Koud vuurwerk, veilig voor binnen", image: "/images/gallery/addon-sparkulars.jpg", imageAlt: "Sparkulars koud vuurwerk op bruiloft — vonkenregen effect Mister DJ Eindhoven" },
+  { name: "LED uplights (4x)", price: "\u20AC100,-", description: "Sfeerverlichting in elke kleur", image: "/images/gallery/addon-led-uplights.webp", imageAlt: "LED uplights sfeerverlichting in feestlocatie — kleurverlichting door Mister DJ" },
+  { name: "Lasershow", price: "\u20AC120,-", description: "Kleurrijke lichtstralen op de muziek", image: "/images/gallery/addon-lasershow.jpg", imageAlt: "Lasershow op feest met dansende gasten — professionele laser van Mister DJ" },
+  { name: "TV scherm 50\"", price: "\u20AC100,-", description: "50 inch TV op statief incl. HDMI", image: "/images/gallery/addon-tv-scherm.webp", imageAlt: "TV scherm 50 inch op statief bij DJ booth — beeldscherm huren Mister DJ" },
 ];
 
 interface MrDjPackagesProps {
@@ -253,7 +254,7 @@ export const MrDjPackages: React.FC<MrDjPackagesProps> = ({
                   <div className="relative aspect-[3/2] w-full overflow-hidden">
                     <Image
                       src={addon.image}
-                      alt={addon.name}
+                      alt={addon.imageAlt || addon.name}
                       fill
                       className="object-cover"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -284,6 +285,63 @@ export const MrDjPackages: React.FC<MrDjPackagesProps> = ({
         </div>
         <BrochureModal isOpen={brochureOpen} onClose={() => setBrochureOpen(false)} />
       </div>
+
+      {/* JSON-LD: OfferCatalog for packages + add-ons */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "OfferCatalog",
+            name: "Mister DJ Pakketten & Extra Opties",
+            description: "DJ pakketten en extra opties voor bruiloften, feesten en evenementen in Brabant en omgeving",
+            provider: {
+              "@type": "LocalBusiness",
+              name: "Mister DJ",
+              url: "https://mr-dj.nl",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Kapteijnlaan 17",
+                addressLocality: "Veldhoven",
+                postalCode: "5505 AV",
+                addressCountry: "NL",
+              },
+              areaServed: {
+                "@type": "GeoCircle",
+                geoMidpoint: { "@type": "GeoCoordinates", latitude: 51.42, longitude: 5.385 },
+                geoRadius: "80000",
+              },
+            },
+            itemListElement: [
+              ...packages.map((pkg) => ({
+                "@type": "Offer",
+                name: `Mister DJ ${pkg.name} pakket`,
+                priceCurrency: "EUR",
+                price: pkg.priceFrom.replace(/[^\d]/g, ""),
+                description: pkg.features.join(", "),
+                itemOffered: {
+                  "@type": "Service",
+                  name: `DJ ${pkg.name} pakket`,
+                  serviceType: "DJ Entertainment",
+                },
+              })),
+              ...addOns.filter((a) => a.price !== "Op aanvraag").map((addon) => ({
+                "@type": "Offer",
+                name: addon.name,
+                priceCurrency: "EUR",
+                price: addon.price.replace(/[^\d]/g, ""),
+                description: addon.description,
+                image: addon.image ? `https://mr-dj.nl${addon.image}` : undefined,
+                itemOffered: {
+                  "@type": "Service",
+                  name: addon.name,
+                  serviceType: "DJ Entertainment Add-on",
+                },
+              })),
+            ],
+          }),
+        }}
+      />
     </section>
   );
 };

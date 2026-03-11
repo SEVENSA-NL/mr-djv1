@@ -436,6 +436,11 @@ export const MrDjLayout: React.FC<MrDjLayoutProps> = ({ children }) => {
                 <a href="/nl/dj-helmond" className="transition-colors hover:text-yellow-600">DJ Helmond</a>
                 <a href="/nl/dj-weert" className="transition-colors hover:text-yellow-600">DJ Weert</a>
                 <a href="/nl/dj-veldhoven" className="transition-colors hover:text-yellow-600">DJ Veldhoven</a>
+                <a href="/nl/dj-oss" className="transition-colors hover:text-yellow-600">DJ Oss</a>
+                <a href="/nl/dj-roosendaal" className="transition-colors hover:text-yellow-600">DJ Roosendaal</a>
+                <a href="/nl/dj-best" className="transition-colors hover:text-yellow-600">DJ Best</a>
+                <a href="/nl/dj-oirschot" className="transition-colors hover:text-yellow-600">DJ Oirschot</a>
+                <a href="/nl/dj-waalwijk" className="transition-colors hover:text-yellow-600">DJ Waalwijk</a>
               </nav>
             </div>
           </div>

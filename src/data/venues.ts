@@ -11,6 +11,8 @@ export interface VenueData {
   region: string;
   type: "Trouwlocatie" | "Feestlocatie" | "Evenementenlocatie" | "Restaurant" | "Uitgaanslocatie" | "Kasteel";
   capacity: string;
+  latitude?: number;
+  longitude?: number;
   description: string;
   tips: string[];
   metaTitle: string;
@@ -27,6 +29,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-300 personen",
+    latitude: 51.4089,
+    longitude: 5.4988,
     description: "De Mispelhoef in Eindhoven is een sfeervolle trouwlocatie met prachtige tuinen en meerdere zalen. De combinatie van landelijke charme en moderne faciliteiten maakt het een toplocatie voor een onvergetelijk trouwfeest met DJ.",
     tips: [
       "De grote zaal heeft een houten vloer die perfect is als dansvloer — zorg voor voldoende basgeluid zonder te veel trillingen",
@@ -46,6 +50,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-200 personen",
+    latitude: 51.3900,
+    longitude: 5.3600,
     description: "Boscafe de Molenvelden in Veldhoven is een idyllische trouwlocatie midden in het bos. De rustieke sfeer en het groene uitzicht maken het een droomlocatie voor een romantische bruiloft met live muziek of DJ.",
     tips: [
       "De houten zaal heeft warme akoestiek — gebruik geen overdadig hoog volume, de ruimte draagt het geluid goed",
@@ -65,6 +71,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-250 personen",
+    latitude: 51.4195,
+    longitude: 5.3920,
     description: "Cafe zaal Sint Joris in Veldhoven is een gezellige feestlocatie met een echte Brabantse sfeer. De ruime zaal en het podium maken het uitermate geschikt voor feesten met een DJ of live band.",
     tips: [
       "Het podium is verhoogd en biedt voldoende ruimte voor een complete DJ-setup met lichtshow",
@@ -84,6 +92,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-200 personen",
+    latitude: 51.4219,
+    longitude: 5.5596,
     description: "Kasteelhoeve Geldrop is een monumentale trouwlocatie met een rijke geschiedenis. De authentieke hoeve bij het kasteel biedt een romantische en landelijke ambiance voor bruiloften en feesten.",
     tips: [
       "De stenen muren in de historische ruimtes zorgen voor extra galm — stem je geluid daarop af met lichte demping",
@@ -103,6 +113,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-150 personen",
+    latitude: 51.3800,
+    longitude: 5.3100,
     description: "Mout & Hout in Vessem is een sfeervolle trouwlocatie met een stoere, ambachtelijke uitstraling. De combinatie van hout, steen en groen maakt het een unieke plek om te trouwen met een feest dat tot in de late uurtjes doorgaat.",
     tips: [
       "De ruimte heeft veel hout en natuurlijke materialen — dit absorbeert geluid, dus kies voor iets meer vermogen",
@@ -122,6 +134,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Evenementenlocatie",
     capacity: "100-500 personen",
+    latitude: 51.4450,
+    longitude: 5.4600,
     description: "Het Ketelhuis op Landgoed de Grote Beek in Eindhoven is een indrukwekkende evenementenlocatie met industrieel karakter. De hoge plafonds en ruwe materialen bieden een uniek decor voor feesten en evenementen.",
     tips: [
       "De hoge plafonds veroorzaken galm — gebruik line-array speakers of richt speakers naar beneden voor helder geluid",
@@ -141,6 +155,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Kasteel",
     capacity: "50-200 personen",
+    latitude: 51.5667,
+    longitude: 5.4583,
     description: "Kasteel Henkenshage in Sint Oedenrode is een sprookjesachtig kasteel omgeven door grachten en tuinen. Deze exclusieve trouw- en feestlocatie biedt een koninklijke ambiance voor een onvergetelijke dag.",
     tips: [
       "De ridderzaal heeft stenen muren en een gewelfd plafond — gebruik gerichte speakers om echo te beperken",
@@ -160,6 +176,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-250 personen",
+    latitude: 51.5100,
+    longitude: 5.3900,
     description: "'T Boshuys in Best is een gezellige feestlocatie midden in de natuur. Met een sfeervolle zaal en een groot terras is het de perfecte plek voor een feest in een groene omgeving.",
     tips: [
       "De feestzaal heeft een warme houten afwerking — het geluid klinkt hier vol en warm",
@@ -179,6 +197,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Kasteel",
     capacity: "50-200 personen",
+    latitude: 51.6553,
+    longitude: 5.2914,
     description: "Kasteel Maurick in Vught is een historisch kasteel met een romantische gracht en prachtige tuinen. Deze kasteellocatie is ideaal voor exclusieve bruiloften en feesten in een koninklijke setting.",
     tips: [
       "De kasteelzalen hebben stenen vloeren en muren — gebruik vloerkleden of gerichte speakers om galm te verminderen",
@@ -198,6 +218,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Restaurant",
     capacity: "30-100 personen",
+    latitude: 51.3900,
+    longitude: 5.4300,
     description: "Brasserie Meester Keeman in Waalre is een stijlvol restaurant met een warme sfeer. De locatie is ideaal voor een intiem trouwfeest of verjaardagsfeest met een DJ die het geluidsniveau perfect afstemt.",
     tips: [
       "De restaurantruimte is compact — kies voor een compacte DJ-setup zodat de dansvloer maximaal benut wordt",
@@ -217,6 +239,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-250 personen",
+    latitude: 51.3880,
+    longitude: 5.4350,
     description: "De Leemerhoef in Waalre is een veelzijdige feestlocatie met een grote zaal en een gezellig terras. Perfect voor bruiloften, jubilea en verjaardagen waar de dansschoenen uit de kast mogen.",
     tips: [
       "De grote zaal heeft een goede dansvloer — zorg voor speakers op oorhoogte voor optimale spreiding",
@@ -236,6 +260,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Evenementenlocatie",
     capacity: "100-500 personen",
+    latitude: 51.4000,
+    longitude: 5.7500,
     description: "Innesto in Asten is een moderne evenementenlocatie met flexibele zalen en state-of-the-art faciliteiten. Ideaal voor zakelijke evenementen, bruiloften en grote feesten waar geluid en licht het verschil maken.",
     tips: [
       "De hoofdzaal heeft hoge plafonds — gebruik extra speakers op statieven voor een gelijkmatige geluidsverspreiding",
@@ -255,6 +281,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-200 personen",
+    latitude: 51.4200,
+    longitude: 5.3850,
     description: "Gasterij 't Dorpsgenot in Veldhoven is een gezellige dorpslocatie met een warme Brabantse sfeer. De zaal is geschikt voor feesten van alle soorten, van verjaardagen tot jubilea.",
     tips: [
       "De zaal is niet al te groot — een compact maar krachtig geluidssysteem werkt hier het best",
@@ -274,6 +302,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-200 personen",
+    latitude: 51.5900,
+    longitude: 5.3200,
     description: "Boerderij 't Dommeltje in Boxtel is een authentieke boerderijlocatie aan de Dommel. De landelijke uitstraling en het groene uitzicht maken het een romantische keuze voor trouwfeesten met een persoonlijke touch.",
     tips: [
       "De houten balken en vloeren geven een warme akoestiek — het geluid klinkt hier aangenaam vol",
@@ -293,6 +323,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-300 personen",
+    latitude: 51.3700,
+    longitude: 5.2200,
     description: "MFA Hart van Hapert is een multifunctionele locatie in het hart van Hapert. De moderne zaal is geschikt voor uiteenlopende feesten en evenementen, van dorpsfeesten tot verjaardagen.",
     tips: [
       "De grote zaal is multifunctioneel — controleer de akoestische panelen en pas je geluid aan op de zaalindeling",
@@ -312,6 +344,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-200 personen",
+    latitude: 51.3600,
+    longitude: 5.2700,
     description: "Tramhalte Duizel is een karakteristieke feestlocatie in het Brabantse dorp Duizel. De nostalgische sfeer van het voormalige tramstation maakt het een bijzondere plek voor feesten en partijen.",
     tips: [
       "De zaal heeft een uniek karakter — gebruik sfeerverlichting om de nostalgische ambiance te versterken",
@@ -331,6 +365,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "50-200 personen",
+    latitude: 51.3920,
+    longitude: 5.4280,
     description: "'t Brabants Genot in Waalre is een gastvrije feestlocatie met een echte Brabantse gezelligheid. De warme sfeer en persoonlijke bediening maken het een populaire keuze voor feesten en partijen.",
     tips: [
       "De feestzaal is overzichtelijk — één set speakers op statieven dekt de hele ruimte",
@@ -350,6 +386,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "30-100 personen",
+    latitude: 51.4210,
+    longitude: 5.3870,
     description: "Eetcafe de Kers in Veldhoven is een gezellig eetcafe dat ook feesten verzorgt. De informele sfeer maakt het ideaal voor verjaardagen en kleinere feesten met een DJ.",
     tips: [
       "De ruimte is compact — kies voor een kleine DJ-setup met compacte speakers",
@@ -369,6 +407,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Uitgaanslocatie",
     capacity: "100-400 personen",
+    latitude: 51.4215,
+    longitude: 5.3875,
     description: "Uitgaanscentrum de Kers in Veldhoven is de plek voor een avondje uit en feesten in het centrum van Veldhoven. Met een professioneel geluidssysteem en dansvloer is het dé uitgaanslocatie van de stad.",
     tips: [
       "De locatie heeft een eigen geluidssysteem — overleg of je je eigen systeem meebrengt of aansluit op het huissysteem",
@@ -388,6 +428,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Feestlocatie",
     capacity: "30-100 personen",
+    latitude: 51.4205,
+    longitude: 5.3860,
     description: "Wheelybar in Veldhoven is een bruisend cafe met een gezellige sfeer, perfect voor kleinere feesten en verjaardagen. De informele setting maakt het laagdrempelig en leuk.",
     tips: [
       "De ruimte is intiem — een kleine maar krachtige set speakers is voldoende",
@@ -407,6 +449,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Evenementenlocatie",
     capacity: "100-400 personen",
+    latitude: 51.4617,
+    longitude: 5.7917,
     description: "Natuurpoort de Peel in Deurne is een unieke evenementenlocatie aan de rand van de Peel. De combinatie van natuur en moderne faciliteiten maakt het een bijzondere plek voor evenementen en feesten.",
     tips: [
       "De locatie grenst aan een natuurgebied — houd rekening met strikte geluidsnormen, vooral na 22:00",
@@ -426,6 +470,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-250 personen",
+    latitude: 51.6550,
+    longitude: 5.2800,
     description: "Landgoed Huize Bergen in Vught is een stijlvolle trouwlocatie op een prachtig landgoed. De elegante zalen en de groene omgeving maken het een droomlocatie voor bruiloften en feesten.",
     tips: [
       "De feestzaal heeft parketvloer — gebruik viltjes onder je speakerstandaards om krassen te voorkomen",
@@ -445,6 +491,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-150 personen",
+    latitude: 51.3810,
+    longitude: 5.3120,
     description: "De Vessumse Hoeve in Vessem is een landelijke trouwlocatie met authentieke Brabantse charme. De hoeve biedt een warme en persoonlijke sfeer voor een intiem trouwfeest.",
     tips: [
       "De hoeve heeft lage plafonds en houten balken — kies voor compacte speakers die goed verspreiden",
@@ -464,6 +512,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Kasteel",
     capacity: "50-200 personen",
+    latitude: 51.5000,
+    longitude: 5.3100,
     description: "Kasteel Bijstervelt in Oirschot is een historisch kasteel met een imposante uitstraling. De kasteelzalen en de omliggende tuinen bieden een koninklijk decor voor trouwfeesten en bijzondere evenementen.",
     tips: [
       "Stenen kasteelmuren veroorzaken reflecties — richt speakers naar de dansvloer en weg van harde wanden",
@@ -483,6 +533,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Kasteel",
     capacity: "50-200 personen",
+    latitude: 51.6900,
+    longitude: 5.7700,
     description: "Kasteel Tongelaar in Mill is een monumentaal kasteel met een rijke geschiedenis. De sfeervolle kasteelzalen en de prachtige omgeving maken het een exclusieve locatie voor bruiloften en feesten.",
     tips: [
       "De kasteelzalen hebben gewelfde plafonds — test de akoestiek vooraf en gebruik waar nodig extra demping",
@@ -502,6 +554,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Kasteel",
     capacity: "50-200 personen",
+    latitude: 51.6850,
+    longitude: 5.7650,
     description: "Kasteel Aldendriel in Mill is een schilderachtig kasteel omgeven door bossen en water. De exclusieve ligging en de elegante kasteelzalen maken het een toplocatie voor intieme bruiloften.",
     tips: [
       "De intimiteit van de kasteelzalen vraagt om een geluidssysteem dat helder is op laag volume",
@@ -521,6 +575,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Evenementenlocatie",
     capacity: "100-500 personen",
+    latitude: 51.5150,
+    longitude: 5.4000,
     description: "Beachclub Sunrise bij Aquabest in Best biedt een unieke strandsfeer midden in Brabant. De beachclub is perfect voor zomerse feesten, festivals en bruiloften met de voeten in het zand.",
     tips: [
       "Buitenlocatie: alle apparatuur moet weerbestendig zijn of onder een overkapping staan",
@@ -540,6 +596,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-200 personen",
+    latitude: 51.5050,
+    longitude: 5.6300,
     description: "Herberg de Brabantse Kluis in Aarle-Rixtel is een sfeervolle herberg met een prachtige tuin. De warme, landelijke uitstraling maakt het een populaire trouwlocatie in de regio Helmond.",
     tips: [
       "De herbergzaal heeft een intieme sfeer — kies voor speakers op oor hoogte voor een gelijkmatige verdeling",
@@ -559,6 +617,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Evenementenlocatie",
     capacity: "100-500 personen",
+    latitude: 51.4400,
+    longitude: 5.4750,
     description: "Fifth NRE in Eindhoven is een hippe evenementenlocatie op het NRE-terrein. De industriële uitstraling gecombineerd met een stijlvol interieur maakt het ideaal voor feesten, bruiloften en bedrijfsevents.",
     tips: [
       "De industriële ruimte heeft hoge plafonds en harde oppervlakken — gebruik gerichte speakers en voorkom loze galm",
@@ -578,6 +638,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Trouwlocatie",
     capacity: "50-150 personen",
+    latitude: 51.4600,
+    longitude: 5.5300,
     description: "De Opwettense Watermolen in Nuenen is een historische watermolen met een romantische uitstraling. Op de plek waar Van Gogh al schilderde, vier je nu een onvergetelijk trouwfeest.",
     tips: [
       "De historische ruimtes zijn compact — kies voor een strakke DJ-setup zonder overbodige apparatuur",
@@ -597,6 +659,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Restaurant",
     capacity: "30-100 personen",
+    latitude: 51.3700,
+    longitude: 5.2200,
     description: "Hotel Restaurant de Tipmast in Bladel is een gastvrij hotel-restaurant met sfeervolle feestzalen. De combinatie van overnachtingsmogelijkheden en een goed restaurant maakt het een complete feestlocatie.",
     tips: [
       "De feestzaal is geschikt voor een DJ-setup; controleer de beschikbare ruimte voor je meubel en speakers",
@@ -616,6 +680,8 @@ export const venues: VenueData[] = [
     region: "Noord-Brabant",
     type: "Restaurant",
     capacity: "30-80 personen",
+    latitude: 51.3570,
+    longitude: 5.3150,
     description: "Restaurant NU in Eersel is een modern restaurant met een stijlvol interieur. De locatie is ideaal voor intieme feesten en diners waar een DJ voor de muzikale omlijsting zorgt.",
     tips: [
       "De restaurantruimte is intiem — gebruik compacte speakers en houd het volume laag tijdens het diner",

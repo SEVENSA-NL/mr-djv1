@@ -44,6 +44,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Mister DJ" />
+        {/* Geo meta tags */}
+        <meta name="geo.region" content="NL-NB" />
+        <meta name="geo.placename" content="Veldhoven, Noord-Brabant" />
+        <meta name="geo.position" content="51.4200;5.3850" />
+        <meta name="ICBM" content="51.4200, 5.3850" />
+        {/* hreflang */}
+        <link rel="alternate" hrefLang="nl" href="https://mr-dj.nl" />
+        <link rel="alternate" hrefLang="x-default" href="https://mr-dj.nl" />
         <link rel="preload" href="/images/logo.png" as="image" />
         <link rel="dns-prefetch" href="https://api.whatsapp.com" />
         <link rel="dns-prefetch" href="https://www.facebook.com" />

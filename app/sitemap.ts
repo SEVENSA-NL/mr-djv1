@@ -2,15 +2,14 @@ import { MetadataRoute } from 'next';
 import { blogPosts } from '@/src/data/blog-posts';
 import { seoPages } from '@/src/data/seo-pages';
 import { venues } from '@/src/data/venues';
+import { cities } from '@/src/data/cities';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://mr-dj.nl';
   const today = new Date('2026-03-11');
 
-  const cityPages = [
-    'eindhoven', 'tilburg', 'den-bosch', 'breda', 'helmond', 'weert', 'veldhoven',
-  ].map((city) => ({
-    url: `${baseUrl}/nl/dj-${city}`,
+  const cityPages = cities.map((city) => ({
+    url: `${baseUrl}/nl/dj-${city.slug}`,
     lastModified: today,
     changeFrequency: 'monthly' as const,
     priority: 0.8,
