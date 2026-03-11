@@ -1,0 +1,13 @@
+export { HeadphonesIcon } from "./HeadphonesIcon";
+export { MusicNoteIcon } from "./MusicNoteIcon";
+export { SaxophoneIcon } from "./SaxophoneIcon";
+export { PartyIcon } from "./PartyIcon";
+export { DancerIcon } from "./DancerIcon";
+export { SpotlightIcon } from "./SpotlightIcon";
+export { CameraIcon } from "./CameraIcon";
+export { HandshakeIcon } from "./HandshakeIcon";
+export { DocumentIcon } from "./DocumentIcon";
+export { CheckBadgeIcon } from "./CheckBadgeIcon";
+export { ClipboardIcon } from "./ClipboardIcon";
+export { PhoneIcon } from "./PhoneIcon";
+export { SparklesIcon } from "./SparklesIcon";
