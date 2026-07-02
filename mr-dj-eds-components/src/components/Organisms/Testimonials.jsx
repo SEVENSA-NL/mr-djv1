@@ -1,25 +1,25 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import IconBase from '../ui/icon-base';
 
-const testimonialsData = [
+const defaultTestimonials = [
   {
-    quote:
+    reviewBody:
       'De combinatie van DJ en Saxofonist was het hoogtepunt van onze bruiloft. De sfeer was onvergetelijk!',
     author: 'Jan & Marieke',
-    source: 'Bruiloft, Amsterdam',
+    event: 'Bruiloft, Amsterdam',
     rating: 5,
   },
   {
-    quote:
+    reviewBody:
       'Professioneel, energiek en ze wisten precies de juiste snaar te raken. Een absolute aanrader voor elk bedrijfsfeest.',
     author: 'Suzanne van Dijk',
-    source: 'Bedrijfsfeest, Utrecht',
+    event: 'Bedrijfsfeest, Utrecht',
     rating: 5,
   },
   {
-    quote: 'De muziek was perfect afgestemd op onze gasten. De saxofonist maakte het helemaal af!',
+    reviewBody: 'De muziek was perfect afgestemd op onze gasten. De saxofonist maakte het helemaal af!',
     author: 'Mark de Vries',
-    source: 'Verjaardagsfeest, Eindhoven',
+    event: 'Verjaardagsfeest, Eindhoven',
     rating: 5,
   },
 ];

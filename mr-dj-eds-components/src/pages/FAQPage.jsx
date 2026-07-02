@@ -3,12 +3,15 @@ import { Helmet } from 'react-helmet';
 import Header from '../components/Molecules/Header.jsx';
 import Footer from '../components/Organisms/Footer.jsx';
 import HeroSection from '../components/Organisms/HeroSection.jsx';
-import { generateBreadcrumbSchema } from '../utils/schemaOrg.js';
+import {
+  generateBreadcrumbSchema,
+  generateFAQSchema,
+  generateWebPageSchema,
+} from '../utils/schemaOrg.js';
 import { createSimpleBreadcrumbs } from '../utils/breadcrumbs.js';
 
 const FAQPage = () => {
   const breadcrumbs = createSimpleBreadcrumbs('FAQ', '/faq');
-  const breadcrumbSchema = JSON.stringify(generateBreadcrumbSchema(breadcrumbs));
 
   const faqs = [
     {
@@ -142,10 +145,6 @@ const FAQPage = () => {
   const metaTitle = 'Veelgestelde Vragen | FAQ | Mr. DJ';
   const metaDescription =
     'Veelgestelde vragen over DJ huren, prijzen, pakketten en praktische zaken. Vind snel antwoord op je vraag!';
-  const breadcrumbs = [
-    { name: 'Home', url: '/' },
-    { name: 'FAQ', url: '/faq' }
-  ];
   const faqSchemaData = generateFAQSchema(
     faqs.flatMap(category =>
       category.questions.map(faq => ({
@@ -171,7 +170,7 @@ const FAQPage = () => {
           name="description"
           content="Veelgestelde vragen over DJ huren, prijzen, pakketten en praktische zaken. Vind snel antwoord op je vraag!"
         />
-        <script type="application/ld+json">{breadcrumbSchema}</script>
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
 
       <Header />

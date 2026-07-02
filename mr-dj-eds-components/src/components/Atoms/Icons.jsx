@@ -13,7 +13,6 @@ import {
   PartyPopper,
   Saxophone,
   Sparkles,
-  Spotify,
   Star,
   Youtube,
 } from 'lucide-react';
@@ -50,7 +49,7 @@ const iconGroups = [
       { label: 'Facebook', Icon: Facebook },
       { label: 'Instagram', Icon: Instagram },
       { label: 'LinkedIn', Icon: Linkedin },
-      { label: 'Spotify', Icon: Spotify },
+      { label: 'Spotify', Icon: Music2 },
       { label: 'YouTube', Icon: Youtube },
     ],
   },

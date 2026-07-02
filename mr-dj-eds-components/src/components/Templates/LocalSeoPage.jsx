@@ -312,11 +312,6 @@ const LocalSeoPage = ({ data, pricingSection, testimonialsSection, variant, loca
     return JSON.stringify(schema);
   }, [city, hasData, isBruiloftPage, seoDescription]);
 
-  const breadcrumbSchema = useMemo(
-    () => JSON.stringify(generateBreadcrumbSchema(breadcrumbs)),
-    [breadcrumbs],
-  );
-
   const webPageSchema = useMemo(
     () =>
       JSON.stringify(
@@ -343,7 +338,6 @@ const LocalSeoPage = ({ data, pricingSection, testimonialsSection, variant, loca
         <meta name="description" content={seoDescription} />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{webPageSchema}</script>
-        <script type="application/ld+json">{breadcrumbSchema}</script>
         {serviceSchema && <script type="application/ld+json">{serviceSchema}</script>}
         {localBusinessSchema && <script type="application/ld+json">{localBusinessSchema}</script>}
         {eventSchema && <script type="application/ld+json">{eventSchema}</script>}

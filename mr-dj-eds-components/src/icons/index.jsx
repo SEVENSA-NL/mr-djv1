@@ -24,7 +24,6 @@ import {
   RefreshCw,
   SlidersHorizontal,
   Sparkles,
-  Spotify,
   Star as LucideStar,
   Tent,
   Volume2,
@@ -160,7 +159,7 @@ export const LightbulbIcon = createLucideIcon(Lightbulb, 'LightbulbIcon');
 export const QuoteIcon = createLucideIcon(MessageSquareQuote, 'QuoteIcon');
 export const FacebookIcon = createLucideIcon(Facebook, 'FacebookIcon');
 export const LinkedinIcon = createLucideIcon(Linkedin, 'LinkedinIcon');
-export const SpotifyIcon = createLucideIcon(Spotify, 'SpotifyIcon');
+export const SpotifyIcon = createLucideIcon(Music, 'SpotifyIcon');
 export const YoutubeIcon = createLucideIcon(Youtube, 'YoutubeIcon');
 
 export const icons = {
