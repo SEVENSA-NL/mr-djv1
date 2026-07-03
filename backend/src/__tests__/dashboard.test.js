@@ -502,6 +502,9 @@ describe('configuration dashboard', () => {
   });
 
   it('exposes conversion metrics through the dashboard API', async () => {
+    context = await setupDashboardTest();
+    const personalizationService = context.services.personalizationService;
+    const { baseUrl, authHeader } = context;
     const match = await personalizationService.getVariantForRequest({
       keywords: ['feest dj'],
       keyword: 'feest dj'
@@ -559,6 +562,9 @@ describe('configuration dashboard', () => {
   });
 
   it('flushes the sevensa queue via the dashboard API', async () => {
+    context = await setupDashboardTest();
+    const sevensaService = context.services.sevensaService;
+    const { baseUrl, authHeader } = context;
     await sevensaService.submitLead({
       id: 'lead-sevensa-1',
       email: 'queued@example.com',
