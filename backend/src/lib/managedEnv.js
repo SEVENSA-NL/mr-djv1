@@ -11,6 +11,10 @@ function getStorePath() {
 }
 
 function loadFromDiskSync() {
+  if (process.env.NODE_ENV === 'test' && !process.env.CONFIG_DASHBOARD_STORE_PATH) {
+    return {};
+  }
+
   const filePath = getStorePath();
 
   if (!fs.existsSync(filePath)) {
@@ -35,7 +39,7 @@ function loadToProcessEnv() {
   const values = loadFromDiskSync();
 
   for (const [key, value] of Object.entries(values)) {
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && process.env[key] === undefined) {
       process.env[key] = value;
     }
   }

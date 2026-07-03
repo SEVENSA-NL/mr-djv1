@@ -79,6 +79,10 @@ function getCurrentValues() {
  * @param {Object<string, string>} values
  * @returns {DashboardState}
  */
+function relativeStorePath(filePath) {
+  return path.relative(process.cwd(), filePath).split(path.sep).join('/');
+}
+
 function buildState(values) {
   const entryMap = new Map();
   const entries = config.dashboard.managedKeys.map((key) => {
@@ -116,7 +120,7 @@ function buildState(values) {
     entries,
     groups,
     metadata: {
-      storePath: path.relative(process.cwd(), storePath),
+      storePath: relativeStorePath(storePath),
       lastModified
     },
     roles: roleState.roles,
@@ -182,7 +186,7 @@ function ping() {
     ok: true,
     enabled: Boolean(config.dashboard.enabled),
     managedKeyCount: config.dashboard.managedKeys.length,
-    storePath: path.relative(process.cwd(), config.dashboard.storePath)
+    storePath: relativeStorePath(config.dashboard.storePath)
   };
 }
 

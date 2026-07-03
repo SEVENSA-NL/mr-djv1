@@ -2,7 +2,9 @@ const Joi = require('joi');
 const managedEnv = require('./lib/managedEnv');
 
 managedEnv.loadToProcessEnv();
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'test') {
+  require('dotenv').config();
+}
 const featureFlags = require('./lib/featureFlags');
 
 function logStructured(level, message, meta = {}) {
