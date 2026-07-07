@@ -182,15 +182,8 @@ describe('dashboard management route validations', () => {
       .set('Authorization', authHeader)
       .send({ entries: ['not', 'an', 'object'] });
 
-    expect(response.status).toBe(422);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        error: 'Validatie mislukt',
-        details: expect.arrayContaining([
-          expect.objectContaining({ field: 'entries', message: 'entries moet een object zijn' })
-        ])
-      })
-    );
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ error: 'Invalid payload' });
     expect(configDashboardService.updateValues).not.toHaveBeenCalled();
   });
 

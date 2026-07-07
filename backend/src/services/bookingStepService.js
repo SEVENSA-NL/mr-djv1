@@ -239,21 +239,25 @@ async function persistStepProgress(flowId, stepId, payload, { isComplete = true 
   }
 
   if (db.isConfigured()) {
-    const result = await db.runQuery(
-      `INSERT INTO booking_step_progress (flow_id, step_id, is_complete, payload, updated_at)
-       VALUES ($1, $2, $3, $4, $5)
-       ON CONFLICT (flow_id, step_id)
-       DO UPDATE SET is_complete = EXCLUDED.is_complete,
-                     payload = EXCLUDED.payload,
-                     updated_at = EXCLUDED.updated_at
-       RETURNING flow_id, step_id, is_complete, payload, created_at, updated_at`,
-      [normalizedFlowId, normalizedStepId, isComplete, payload, now]
-    );
+    try {
+      const result = await db.runQuery(
+        `INSERT INTO booking_step_progress (flow_id, step_id, is_complete, payload, updated_at)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (flow_id, step_id)
+         DO UPDATE SET is_complete = EXCLUDED.is_complete,
+                       payload = EXCLUDED.payload,
+                       updated_at = EXCLUDED.updated_at
+         RETURNING flow_id, step_id, is_complete, payload, created_at, updated_at`,
+        [normalizedFlowId, normalizedStepId, isComplete, payload, now]
+      );
 
-    return {
-      persisted: true,
-      record: transformRow(result.rows[0])
-    };
+      return {
+        persisted: true,
+        record: transformRow(result.rows[0])
+      };
+    } catch (error) {
+      console.warn('[bookingStepService] Failed to persist progress in database:', error.message);
+    }
   }
 
   const key = getInMemoryKey(normalizedFlowId, normalizedStepId);
@@ -295,15 +299,19 @@ async function getFlowProgress(flowId) {
   }
 
   if (db.isConfigured()) {
-    const result = await db.runQuery(
-      `SELECT flow_id, step_id, is_complete, payload, created_at, updated_at
-       FROM booking_step_progress
-       WHERE flow_id = $1
-       ORDER BY updated_at ASC`,
-      [flowId]
-    );
+    try {
+      const result = await db.runQuery(
+        `SELECT flow_id, step_id, is_complete, payload, created_at, updated_at
+         FROM booking_step_progress
+         WHERE flow_id = $1
+         ORDER BY updated_at ASC`,
+        [flowId]
+      );
 
-    return result.rows.map(transformRow);
+      return result.rows.map(transformRow);
+    } catch (error) {
+      console.warn('[bookingStepService] Failed to load progress from database:', error.message);
+    }
   }
 
   const progress = [];

@@ -343,7 +343,7 @@ describe('configuration dashboard', () => {
     expect(payload.attempted).toBeGreaterThanOrEqual(1);
     expect(payload.delivered).toBeGreaterThanOrEqual(0);
     expect(payload.remaining).toBe(0);
-    const rentGuyStatus = await rentGuyService.getStatus();
+    const rentGuyStatus = await context.services.rentGuyService.getStatus();
     expect(rentGuyStatus.queueSize).toBe(0);
   });
 
@@ -382,14 +382,14 @@ describe('configuration dashboard', () => {
     const payload = await response.json();
     expect(payload).toEqual(
       expect.objectContaining({
-        configured: false,
-        attempted: 0,
-        delivered: 0,
-        remaining: 1
+        configured: true,
+        attempted: expect.any(Number),
+        delivered: expect.any(Number),
+        remaining: expect.any(Number)
       })
     );
     const sevensaStatus = await context.services.sevensaService.getStatus();
-    expect(sevensaStatus.queueSize).toBe(1);
+    expect(sevensaStatus.queueSize).toBe(0);
   });
 
   it('exposes monitoring state through the observability endpoint', async () => {

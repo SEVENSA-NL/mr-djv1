@@ -38,7 +38,8 @@ function hasValue(value) {
 const envValidationSchema = Joi.object({
   DATABASE_URL: Joi.string()
     .uri({ allowRelative: false })
-    .required()
+    .allow('', null)
+    .optional()
     .messages({
       'any.required': 'DATABASE_URL is required to establish a database connection.',
       'string.uri': 'DATABASE_URL must be a valid connection string.'
@@ -55,7 +56,8 @@ const envValidationSchema = Joi.object({
   }),
   SEVENSA_SUBMIT_URL: Joi.string()
     .uri({ allowRelative: false })
-    .required()
+    .allow('', null)
+    .optional()
     .messages({
       'any.required': 'SEVENSA_SUBMIT_URL is required for Sevensa automation.',
       'string.uri': 'SEVENSA_SUBMIT_URL must be a valid URL.'
@@ -159,6 +161,7 @@ const DEFAULT_RENTGUY_TIMEOUT_MS = 5000;
 const DEFAULT_SEVENSA_RETRY_DELAY_MS = 15000;
 const DEFAULT_SEVENSA_MAX_ATTEMPTS = 5;
 const DEFAULT_ALERT_THROTTLE_MS = 2 * 60 * 1000;
+const DEFAULT_CIRCUIT_BREAKER = { failureThreshold: 3, cooldownMs: 2 * 60 * 1000 };
 const DEFAULT_PUBLIC_CORS_ORIGINS = [
   'https://*.netlify.app',
   'https://*.netlify.com',
@@ -533,7 +536,7 @@ function buildDashboardSections(managedKeys) {
 function buildConfig() {
   const tracker = createDefaultTracker();
 
-  const corsOrigin = parseCorsOrigin(process.env.CORS_ORIGIN, tracker);
+  const corsConfig = buildCorsConfig();
   const dashboardAllowedIps = parseList(process.env.CONFIG_DASHBOARD_ALLOWED_IPS);
   const configuredDashboardKeys = parseList(process.env.CONFIG_DASHBOARD_KEYS);
   const managedKeys = configuredDashboardKeys.length ? configuredDashboardKeys : DEFAULT_MANAGED_KEYS;
@@ -551,9 +554,22 @@ function buildConfig() {
     env: withDefault(process.env.NODE_ENV, 'development', 'NODE_ENV', tracker),
     port: parseNumber(process.env.PORT, DEFAULT_PORT, 'PORT', tracker),
     host: withDefault(process.env.HOST, DEFAULT_HOST, 'HOST', tracker),
-    cors: {
-      origin: corsOrigin,
-      credentials: corsOrigin !== '*'
+    cors: corsConfig,
+    security: {
+      referrerPolicy: withDefault(
+        process.env.REFERRER_POLICY,
+        DEFAULT_REFERRER_POLICY,
+        'REFERRER_POLICY',
+        tracker
+      ),
+      csp: {
+        directives: parseCspDirectives(process.env.CSP_DIRECTIVES)
+      },
+      hsts: {
+        maxAge: parseNumber(process.env.HSTS_MAX_AGE, DEFAULT_HSTS_MAX_AGE, 'HSTS_MAX_AGE', tracker),
+        includeSubDomains: parseBoolean(process.env.HSTS_INCLUDE_SUBDOMAINS, true),
+        preload: parseBoolean(process.env.HSTS_PRELOAD, false)
+      }
     },
     logging: hasValue(process.env.LOG_FORMAT)
       ? process.env.LOG_FORMAT
@@ -601,7 +617,8 @@ function buildConfig() {
           'RENTGUY_TIMEOUT_MS',
           tracker
         ),
-        webhookSecrets: parseList(process.env.RENTGUY_WEBHOOK_SECRETS)
+        webhookSecrets: parseList(process.env.RENTGUY_WEBHOOK_SECRETS),
+        circuitBreaker: { ...DEFAULT_CIRCUIT_BREAKER }
       },
       sevensa: {
         enabled: sevensaConfigured && sevensaFlagEnabled,
@@ -617,7 +634,8 @@ function buildConfig() {
           DEFAULT_SEVENSA_MAX_ATTEMPTS,
           'SEVENSA_QUEUE_MAX_ATTEMPTS',
           tracker
-        )
+        ),
+        circuitBreaker: { ...DEFAULT_CIRCUIT_BREAKER }
       },
       instagram: {
         enabled: Boolean(process.env.META_IG_BUSINESS_ID && process.env.META_IG_ACCESS_TOKEN),
@@ -810,7 +828,9 @@ const config = buildConfig();
 
 function reload() {
   managedEnv.loadToProcessEnv();
-  require('dotenv').config({ override: false });
+  if (process.env.NODE_ENV !== 'test') {
+    require('dotenv').config({ override: false });
+  }
   featureFlags.clearCache();
   const next = buildConfig();
 

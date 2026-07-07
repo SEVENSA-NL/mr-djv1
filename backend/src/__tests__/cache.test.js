@@ -42,6 +42,8 @@ describe('in-memory cache helper', () => {
   });
 
   it('wraps factories with remember to prevent duplicate work', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(0);
     const factory = jest.fn().mockResolvedValue('computed');
 
     const first = await cache.remember('remembered', 250, factory);

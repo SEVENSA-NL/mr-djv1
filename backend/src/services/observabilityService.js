@@ -387,6 +387,46 @@ function normalizeRate(numerator, denominator) {
   return Number(((numerator / denominator) * 100).toFixed(2));
 }
 
+function recordRequestMetric(serviceName, latencyMs) {
+  const key = serviceName || 'unknown';
+  const current = requestMetrics.get(key) || {
+    count: 0,
+    totalLatencyMs: 0,
+    minLatencyMs: null,
+    maxLatencyMs: null,
+    lastLatencyMs: null,
+    lastRecordedAt: null
+  };
+  const safeLatency = Number.isFinite(latencyMs) ? latencyMs : 0;
+
+  current.count += 1;
+  current.totalLatencyMs += safeLatency;
+  current.minLatencyMs =
+    current.minLatencyMs === null ? safeLatency : Math.min(current.minLatencyMs, safeLatency);
+  current.maxLatencyMs =
+    current.maxLatencyMs === null ? safeLatency : Math.max(current.maxLatencyMs, safeLatency);
+  current.lastLatencyMs = Number(safeLatency.toFixed(2));
+  current.lastRecordedAt = nowIso();
+
+  requestMetrics.set(key, current);
+}
+
+function getRequestMetricsSummary() {
+  return Object.fromEntries(
+    Array.from(requestMetrics.entries()).map(([serviceName, metric]) => [
+      serviceName,
+      {
+        count: metric.count,
+        averageLatencyMs: Number((metric.totalLatencyMs / Math.max(metric.count, 1)).toFixed(2)),
+        minLatencyMs: metric.minLatencyMs === null ? 0 : Number(metric.minLatencyMs.toFixed(2)),
+        maxLatencyMs: metric.maxLatencyMs === null ? 0 : Number(metric.maxLatencyMs.toFixed(2)),
+        lastLatencyMs: metric.lastLatencyMs || 0,
+        lastRecordedAt: metric.lastRecordedAt
+      }
+    ])
+  );
+}
+
 /**
  * Aggregates personalization variant engagement metrics.
  *
@@ -518,6 +558,93 @@ async function getVariantAnalytics() {
 }
 
 /**
+ * Summarises CRO conversion events across funnel steps and variants.
+ *
+ * @returns {Promise<Object>}
+ */
+async function getConversionStats() {
+  await ensureInitialized();
+  const eventLog = getEventLog();
+  const variantBuckets = new Map();
+  const funnelCounts = {
+    impressions: 0,
+    ctaClicks: 0,
+    formStarts: 0,
+    formSubmits: 0,
+    conversions: 0
+  };
+
+  for (const entry of eventLog) {
+    const variantId = entry.variantId || 'unknown';
+    if (!variantBuckets.has(variantId)) {
+      variantBuckets.set(variantId, {
+        variantId,
+        impressions: 0,
+        ctaClicks: 0,
+        formStarts: 0,
+        formSubmits: 0,
+        conversions: 0
+      });
+    }
+    const bucket = variantBuckets.get(variantId);
+
+    switch (entry.type) {
+      case 'impression':
+        funnelCounts.impressions += 1;
+        bucket.impressions += 1;
+        break;
+      case 'cta_click':
+        funnelCounts.ctaClicks += 1;
+        bucket.ctaClicks += 1;
+        break;
+      case 'form_start':
+        funnelCounts.formStarts += 1;
+        bucket.formStarts += 1;
+        break;
+      case 'form_submit':
+        funnelCounts.formSubmits += 1;
+        bucket.formSubmits += 1;
+        break;
+      case 'conversion':
+        funnelCounts.conversions += 1;
+        bucket.conversions += 1;
+        break;
+      default:
+        break;
+    }
+  }
+
+  const denominator = funnelCounts.impressions || funnelCounts.ctaClicks || funnelCounts.formStarts || 0;
+  const funnel = [
+    { id: 'impressions', label: 'Impressions', count: funnelCounts.impressions },
+    { id: 'cta-clicks', label: 'CTA clicks', count: funnelCounts.ctaClicks },
+    { id: 'form-starts', label: 'Form starts', count: funnelCounts.formStarts },
+    { id: 'form-submits', label: 'Form submits', count: funnelCounts.formSubmits },
+    { id: 'conversions', label: 'Conversions', count: funnelCounts.conversions }
+  ];
+  const topVariants = Array.from(variantBuckets.values()).sort((a, b) => b.conversions - a.conversions);
+  const recentConversions = eventLog
+    .filter((entry) => entry.type === 'conversion')
+    .slice(-10)
+    .reverse();
+
+  return {
+    updatedAt: nowIso(),
+    totals: {
+      impressionEvents: funnelCounts.impressions,
+      ctaClickEvents: funnelCounts.ctaClicks,
+      formStartEvents: funnelCounts.formStarts,
+      formSubmitEvents: funnelCounts.formSubmits,
+      conversionEvents: funnelCounts.conversions,
+      conversionRate: normalizeRate(funnelCounts.conversions, denominator)
+    },
+    funnel,
+    topVariants,
+    recentConversions
+  };
+}
+
+/**
  * Clears all runtime state (used during tests).
  *
  * @returns {void}
@@ -545,6 +672,9 @@ module.exports = {
   scheduleRun,
   getMonitoringState,
   getVariantAnalytics,
+  getConversionStats,
+  recordRequestMetric,
+  getRequestMetricsSummary,
   reset,
   ping
 };

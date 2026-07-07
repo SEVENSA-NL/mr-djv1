@@ -40,7 +40,10 @@ router.get('/', async (_req, res, next) => {
           customMessage: '/integrations/whatsapp/custom-message'
         }
       },
-      metrics: '/metrics/queues',
+      metrics: {
+        queues: '/metrics/queues',
+        contactBacklog: '/metrics/contact-backlog'
+      },
       personalization: {
         keyword: '/personalization/keyword',
         events: '/personalization/events'
@@ -78,6 +81,7 @@ router.use('/feedback', rateLimiter, feedbackRouter);
 router.use('/integrations', integrationsRouter);
 router.use('/personalization', featureFlags.guard('personalization'), personalizationRouter);
 router.use('/metrics', metricsRouter);
+router.use('/session', sessionRouter);
 
 if (config.dashboard.enabled) {
   router.use('/dashboard', dashboardRouter);

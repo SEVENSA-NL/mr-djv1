@@ -14,20 +14,21 @@ jest.mock('../lib/db', () => ({
   }))
 }));
 
-jest.mock('../lib/logger', () => ({
-  logger: {
+jest.mock('../lib/logger', () => {
+  const logger = {
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
-  },
-  createLogger: jest.fn(() => ({
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    debug: jest.fn()
-  }))
-}));
+    debug: jest.fn(),
+    child: jest.fn()
+  };
+  logger.child.mockReturnValue(logger);
+
+  return {
+    logger,
+    createLogger: jest.fn(() => logger)
+  };
+});
 
 jest.mock('../services/rentGuyService', () => ({
   syncLead: jest.fn(() =>
@@ -62,6 +63,16 @@ const rentGuyService = require('../services/rentGuyService');
 const sevensaService = require('../services/sevensaService');
 const { logger } = require('../lib/logger');
 
+beforeEach(() => {
+  db.isConfigured.mockReturnValue(false);
+  db.getStatus.mockReturnValue({
+    connected: false,
+    lastError: null,
+    lastSuccessfulAt: null,
+    lastFailureAt: null
+  });
+});
+
 function mockConsole(method = 'error') {
   return jest.spyOn(console, method).mockImplementation(() => {});
 }
@@ -85,8 +96,8 @@ describe('contactService', () => {
 
   it('persists contact submissions in the database when configured', async () => {
     const createdAt = new Date('2024-01-01T10:00:00Z');
-    db.isConfigured.mockReturnValueOnce(true);
-    db.getStatus.mockReturnValueOnce({ connected: true, lastError: null });
+    db.isConfigured.mockReturnValue(true);
+    db.getStatus.mockReturnValue({ connected: true, lastError: null });
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -149,7 +160,7 @@ describe('contactService', () => {
   });
 
   it('falls back to in-memory storage when the database fails', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockRejectedValueOnce(new Error('insert failed'));
     logger.error.mockClear();
     logger.warn.mockClear();
@@ -236,8 +247,9 @@ describe('contactService', () => {
       { captchaToken: 'valid-token', remoteIp: '127.0.0.1' }
     );
 
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [url, options] = fetchSpy.mock.calls[0];
+    const hcaptchaCall = fetchSpy.mock.calls.find(([url]) => url === 'https://hcaptcha.com/siteverify');
+    expect(hcaptchaCall).toBeDefined();
+    const [url, options] = hcaptchaCall;
     expect(url).toBe('https://hcaptcha.com/siteverify');
     expect(options.method).toBe('POST');
     expect(options.body).toBeInstanceOf(URLSearchParams);
@@ -308,7 +320,7 @@ describe('callbackRequestService', () => {
 
   it('persists callback requests when the database is available', async () => {
     const createdAt = new Date('2024-03-01T12:00:00Z');
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -356,7 +368,7 @@ describe('callbackRequestService', () => {
   });
 
   it('uses in-memory storage when the database insert fails', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockRejectedValueOnce(new Error('boom'));
     const errorSpy = mockConsole('error');
 
@@ -397,7 +409,7 @@ describe('bookingService', () => {
 
   it('creates bookings via the database when available', async () => {
     const createdAt = new Date('2024-02-02T20:00:00Z');
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -441,7 +453,7 @@ describe('bookingService', () => {
 
   it('normalizes same-day event times using the provided timezone', async () => {
     const createdAt = new Date('2024-05-01T12:00:00Z');
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -477,7 +489,7 @@ describe('bookingService', () => {
 
   it('normalizes overnight events that span into the next day', async () => {
     const createdAt = new Date('2024-05-02T12:00:00Z');
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -512,6 +524,14 @@ describe('bookingService', () => {
 
   it('returns in-memory bookings when the database is unavailable', async () => {
     db.isConfigured.mockReturnValue(false);
+    config.mail = {
+      provider: null,
+      apiKey: null,
+      from: null,
+      replyTo: null,
+      stream: null,
+      templates: { contact: {}, booking: {} }
+    };
 
     const created = await bookingService.createBooking({
       name: 'Local Booker',
@@ -534,7 +554,7 @@ describe('bookingService', () => {
   });
 
   it('exposes database backed bookings', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -587,7 +607,7 @@ describe('catalog services', () => {
   });
 
   it('returns database backed packages when available', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -621,7 +641,7 @@ describe('catalog services', () => {
   });
 
   it('falls back to static packages when the database errors', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockRejectedValueOnce(new Error('select failed'));
     const errorSpy = mockConsole('error');
 
@@ -659,7 +679,7 @@ describe('catalog services', () => {
   });
 
   it('returns database backed reviews when available', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -693,7 +713,7 @@ describe('catalog services', () => {
   });
 
   it('falls back to static reviews when the database errors', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockRejectedValueOnce(new Error('select failed'));
     const errorSpy = mockConsole('error');
 
@@ -739,7 +759,7 @@ describe('catalog services', () => {
   it('loads pending testimonials from the database', async () => {
     const createdAt = new Date('2024-05-10T12:00:00Z');
     db.runQuery.mockClear();
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -773,7 +793,7 @@ describe('catalog services', () => {
   it('approves a testimonial and clears the cache', async () => {
     const createdAt = new Date('2024-05-01T08:30:00Z');
     db.runQuery.mockClear();
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rowCount: 1,
       rows: [
@@ -812,7 +832,7 @@ describe('catalog services', () => {
   it('rejects a testimonial and clears the cache', async () => {
     const createdAt = new Date('2024-05-02T09:15:00Z');
     db.runQuery.mockClear();
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockResolvedValueOnce({
       rowCount: 1,
       rows: [

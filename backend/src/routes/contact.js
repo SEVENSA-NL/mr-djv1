@@ -104,6 +104,45 @@ const suspiciousAgentPatterns = new Set(
     agent.toLowerCase()
   )
 );
+const spamKeywordPattern = /\b(seo|backlinks?|crypto|bitcoin|casino|marketing services?)\b/i;
+const linkPattern = /\b(?:https?:\/\/|www\.)\S+/i;
+
+function rejectSpammyName(value) {
+  if (!value) {
+    return true;
+  }
+
+  const normalized = String(value).trim();
+  if (spamKeywordPattern.test(normalized)) {
+    throw new Error('Naam lijkt spam te bevatten');
+  }
+
+  return true;
+}
+
+function rejectLinksInMessage(value) {
+  if (!value) {
+    return true;
+  }
+
+  if (linkPattern.test(String(value))) {
+    throw new Error('Bericht mag geen links bevatten');
+  }
+
+  return true;
+}
+
+function rejectSpammyMessage(value) {
+  if (!value) {
+    return true;
+  }
+
+  if (spamKeywordPattern.test(String(value))) {
+    throw new Error('Bericht lijkt spam te bevatten');
+  }
+
+  return true;
+}
 
 function detectAutomation(req, res, next) {
   const userAgentRaw = req.get('user-agent') || '';
@@ -161,10 +200,23 @@ function ensureCaptchaPresence(req, res, next) {
 }
 
 const validations = [
-  body('name').trim().notEmpty().withMessage('Naam is vereist'),
+  body('name')
+    .trim()
+    .notEmpty()
+    .withMessage('Naam is vereist')
+    .bail()
+    .custom(rejectSpammyName),
   body('email').trim().isEmail().withMessage('Ongeldig e-mailadres'),
   body('phone').trim().isLength({ min: 6 }).withMessage('Telefoonnummer is te kort'),
-  body('message').optional().trim().isLength({ max: 2000 }).withMessage('Bericht is te lang'),
+  body('message')
+    .optional()
+    .trim()
+    .isLength({ max: 2000 })
+    .withMessage('Bericht is te lang')
+    .bail()
+    .custom(rejectLinksInMessage)
+    .bail()
+    .custom(rejectSpammyMessage),
   body('eventType')
     .trim()
     .notEmpty()

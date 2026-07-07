@@ -7,6 +7,7 @@ const rentGuyService = require('../services/rentGuyService');
 const sevensaService = require('../services/sevensaService');
 const observabilityService = require('../services/observabilityService');
 const reviewService = require('../services/reviewService');
+const featureFlags = require('../lib/featureFlags');
 const { logger } = require('../lib/logger');
 
 const DASHBOARD_LIMIT_BOUNDS = { min: 1, max: 500 };
@@ -98,6 +99,15 @@ function handleValidation(req, res, next) {
       error: 'Validatie mislukt',
       details
     });
+    return;
+  }
+
+  next();
+}
+
+function rejectMalformedVariablesPayload(req, res, next) {
+  if (!ensurePlainObject(req.body) || !ensurePlainObject(req.body.entries)) {
+    res.status(400).json({ error: 'Invalid payload' });
     return;
   }
 
@@ -2928,7 +2938,7 @@ router.get('/api/variables', async (_req, res, next) => {
   }
 });
 
-router.post('/api/variables', variablesValidations, handleValidation, async (req, res, next) => {
+router.post('/api/variables', rejectMalformedVariablesPayload, variablesValidations, handleValidation, async (req, res, next) => {
   try {
     const data = matchedData(req, { includeOptionals: true, locations: ['body'] });
     const entries = data.entries || {};
@@ -3182,6 +3192,15 @@ router.get('/api/observability/variants', async (_req, res, next) => {
   try {
     const analytics = await observabilityService.getVariantAnalytics();
     res.json(analytics);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/api/observability/conversions', async (_req, res, next) => {
+  try {
+    const stats = await observabilityService.getConversionStats();
+    res.json(stats);
   } catch (error) {
     next(error);
   }

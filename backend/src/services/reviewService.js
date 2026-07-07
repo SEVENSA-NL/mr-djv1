@@ -95,17 +95,22 @@ function normalizeReviewRow(row, fallbackState = 'pending') {
   const createdAt = row.createdAt || row.created_at || null;
   const approved = typeof row.approved === 'boolean' ? row.approved : undefined;
 
-  return {
+  const normalized = {
     id: row.id,
     name: row.name || null,
     eventType: row.eventType || row.event_type || null,
-    city: row.city || null,
     rating: Number.isFinite(numericRating) ? numericRating : null,
     reviewText: row.reviewText || row.review_text || null,
     createdAt,
     moderationState:
       approved === true ? 'approved' : approved === false ? 'pending' : fallbackState
   };
+
+  if (row.city) {
+    normalized.city = row.city;
+  }
+
+  return normalized;
 }
 
 /**
@@ -129,8 +134,6 @@ async function getApprovedReviews(limit = 12, { forceRefresh = false } = {}) {
     source: 'static'
   };
 
-  const surveyFeedback = await getApprovedFeedback(limit);
-
   if (db.isConfigured()) {
     try {
       const result = await db.runQuery(
@@ -150,6 +153,15 @@ async function getApprovedReviews(limit = 12, { forceRefresh = false } = {}) {
       }
     } catch (error) {
       console.error('[reviewService] Failed to load reviews from database:', error.message);
+    }
+  }
+
+  let surveyFeedback = [];
+  if (response.source !== 'database') {
+    try {
+      surveyFeedback = await getApprovedFeedback(limit);
+    } catch (error) {
+      console.error('[reviewService] Failed to load survey feedback:', error.message);
     }
   }
 

@@ -3,6 +3,19 @@ const { buildRequiredEnv } = require('../testUtils/env');
 const ORIGINAL_ENV = { ...process.env };
 process.env = { ...ORIGINAL_ENV, ...buildRequiredEnv() };
 
+jest.mock('../lib/db', () => ({
+  isConfigured: jest.fn(() => false),
+  runQuery: jest.fn()
+}));
+
+jest.mock('../services/rentGuyService', () => ({
+  syncPersonalizationEvent: jest.fn(() =>
+    Promise.resolve({ delivered: false, queued: true, reason: 'unit-test', queueSize: 1 })
+  )
+}));
+
+const config = require('../config');
+const db = require('../lib/db');
 const {
   getVariantForRequest,
   resetLogs,
@@ -20,6 +33,7 @@ describe('personalizationService', () => {
   beforeEach(async () => {
     resetLogs();
     await resetCache();
+    await resetAutomationQueue();
   });
 
   afterAll(() => {

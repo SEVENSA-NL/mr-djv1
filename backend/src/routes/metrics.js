@@ -6,6 +6,20 @@ const contactService = require('../services/contactService');
 
 const router = express.Router();
 
+function normalizeQueueStatus(status = {}) {
+  const metrics = status.metrics || {};
+  const counts = metrics.counts || {};
+
+  return {
+    configured: Boolean(status.configured),
+    queueSize: Number(status.queueSize || 0),
+    activeJobs: Number(status.activeJobs || counts.active || 0),
+    retryAgeP95: Number(metrics.retryAgeP95 || status.retryAgeP95 || 0),
+    counts,
+    deadLetterCount: Number(status.deadLetterCount || 0)
+  };
+}
+
 async function trackServiceCall(serviceName, fn) {
   const start = process.hrtime.bigint();
   try {
@@ -26,22 +40,8 @@ router.get('/queues', async (_req, res, next) => {
 
     const payload = {
       queues: {
-        rentguy: {
-          configured: rentGuy.configured,
-          queueSize: rentGuy.queueSize,
-          activeJobs: rentGuy.activeJobs,
-          retryAgeP95: rentGuy.metrics.retryAgeP95,
-          counts: rentGuy.metrics.counts,
-          deadLetterCount: rentGuy.deadLetterCount
-        },
-        sevensa: {
-          configured: sevensa.configured,
-          queueSize: sevensa.queueSize,
-          activeJobs: sevensa.activeJobs,
-          retryAgeP95: sevensa.metrics.retryAgeP95,
-          counts: sevensa.metrics.counts,
-          deadLetterCount: sevensa.deadLetterCount
-        }
+        rentguy: normalizeQueueStatus(rentGuy),
+        sevensa: normalizeQueueStatus(sevensa)
       },
       requestMetrics: observabilityService.getRequestMetricsSummary(),
       generatedAt: new Date().toISOString()
@@ -58,8 +58,8 @@ router.get('/contact-backlog', (_req, res) => {
   res.json({
     generatedAt: new Date().toISOString(),
     queueSize: snapshot.queueSize,
-    queue: snapshot.items,
-    metrics: snapshot.metrics
+    queue: snapshot.items || snapshot.entries || [],
+    metrics: snapshot.metrics || contactService.getQueueMetrics()
   });
 });
 

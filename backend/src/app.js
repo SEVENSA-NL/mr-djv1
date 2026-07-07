@@ -74,12 +74,7 @@ const helmetMiddleware = (() => {
     referrerPolicy: {
       policy: config.security?.referrerPolicy
     },
-    hsts: {
-      maxAge: config.security?.hsts?.maxAge,
-      includeSubDomains: config.security?.hsts?.includeSubDomains,
-      preload: config.security?.hsts?.preload,
-      setIf: (req) => req.secure || req.get('x-forwarded-proto') === 'https'
-    },
+    hsts: false,
     frameguard: { action: 'sameorigin' },
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: { policy: 'same-origin' },
@@ -91,6 +86,20 @@ const helmetMiddleware = (() => {
 })();
 
 app.use(helmetMiddleware);
+app.use((req, res, next) => {
+  const hstsConfig = config.security?.hsts;
+  if (hstsConfig && (req.secure || req.get('x-forwarded-proto') === 'https')) {
+    const directives = [`max-age=${hstsConfig.maxAge}`];
+    if (hstsConfig.includeSubDomains) {
+      directives.push('includeSubDomains');
+    }
+    if (hstsConfig.preload) {
+      directives.push('preload');
+    }
+    res.set('Strict-Transport-Security', directives.join('; '));
+  }
+  next();
+});
 app.use(
   cors({
     origin: config.cors.origin,

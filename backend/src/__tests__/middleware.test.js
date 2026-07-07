@@ -1,3 +1,6 @@
+const express = require('express');
+const http = require('http');
+
 function setupLoggerMock() {
   const childLogger = {
     debug: jest.fn(),
@@ -25,15 +28,35 @@ function setupLoggerMock() {
 describe('rateLimiter middleware', () => {
   let rateLimiter;
   let loggerMocks;
+  let server;
+  let baseUrl;
 
   beforeEach(async () => {
     jest.resetModules();
-    jest.useFakeTimers();
+    jest.useRealTimers();
     loggerMocks = setupLoggerMock();
     jest.doMock('../config', () => ({
       rateLimit: { windowMs: 100, max: 2 }
     }));
     rateLimiter = require('../middleware/rateLimiter');
+
+    const app = express();
+    app.use((req, _res, next) => {
+      Object.defineProperty(req, 'ip', { value: '10.0.0.1', configurable: true });
+      next();
+    });
+    app.get('/test', rateLimiter, (_req, res) => {
+      res.json({ ok: true });
+    });
+
+    await new Promise((resolve) => {
+      server = http.createServer(app);
+      server.listen(0, '127.0.0.1', () => {
+        const address = server.address();
+        baseUrl = `http://127.0.0.1:${address.port}`;
+        resolve();
+      });
+    });
   });
 
   afterEach(async () => {

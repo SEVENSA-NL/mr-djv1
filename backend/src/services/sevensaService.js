@@ -43,6 +43,16 @@ const DEFAULT_MAX_ATTEMPTS = 5;
 let lastSubmitSuccess = null;
 let lastSubmitError = null;
 
+function assertSubmitUrlConfigured() {
+  if (!process.env.SEVENSA_SUBMIT_URL) {
+    throw new Error(
+      'Missing required environment variable "SEVENSA_SUBMIT_URL" for Sevensa lead automation (SEVENSA_SUBMIT_URL).'
+    );
+  }
+}
+
+assertSubmitUrlConfigured();
+
 function getSettings() {
   return config.integrations?.sevensa || {};
 }

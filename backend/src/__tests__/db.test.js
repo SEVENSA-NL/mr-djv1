@@ -50,6 +50,7 @@ describe('database helper', () => {
 
     const db = require('../lib/db');
     await flushPromises();
+    warnSpy.mockClear();
 
     expect(db.isConfigured()).toBe(true);
     expect(db.getPool()).toBeDefined();

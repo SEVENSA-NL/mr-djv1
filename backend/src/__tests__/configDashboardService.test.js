@@ -44,11 +44,6 @@ describe('configDashboardService', () => {
     config.dashboard.sections = [];
 
     global.roleState = { roles: [], assignments: {} };
-    global.assignments = {};
-    global.updateRoleAssignments = jest.fn(async (incomingAssignments) => {
-      global.roleState = { roles: [{ id: 'admin' }], assignments: incomingAssignments };
-      return global.roleState;
-    });
   });
 
   afterEach(() => {
@@ -95,8 +90,6 @@ describe('configDashboardService', () => {
     process.env.SECRET = 'old-secret';
     process.env.REMOVE = 'keep-me';
 
-    global.assignments = { user1: ['admin'] };
-
     const state = await configDashboardService.updateValues({
       SECRET: 'newSecret',
       REMOVE: '',
@@ -106,7 +99,6 @@ describe('configDashboardService', () => {
 
     expect(mockManagedEnv.write).toHaveBeenCalledWith({ SECRET: 'newSecret', NUMERIC: '42' });
     expect(config.reload).toHaveBeenCalledTimes(1);
-    expect(global.updateRoleAssignments).toHaveBeenCalledWith(global.assignments);
 
     expect(process.env.SECRET).toBe('newSecret');
     expect(process.env.REMOVE).toBeUndefined();

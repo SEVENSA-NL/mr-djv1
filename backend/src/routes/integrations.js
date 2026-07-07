@@ -126,6 +126,54 @@ function verifyWhatsappSignature(req, res, next) {
   }
 }
 
+function verifySignatureWithSecrets(secrets, req, res, next) {
+  try {
+    const header = req.get('x-mrdj-signature') || req.get('x-integration-signature');
+    const payload = req.rawBody?.length ? req.rawBody : Buffer.from(JSON.stringify(req.body ?? {}));
+    assertValidSignature({ header, payload, secrets });
+    next();
+  } catch (error) {
+    if (error instanceof SignatureVerificationError) {
+      res.status(error.statusCode || 401).json({ error: 'Invalid webhook signature', code: error.code });
+      return;
+    }
+
+    next(error);
+  }
+}
+
+function verifyRentGuySignature(req, res, next) {
+  verifySignatureWithSecrets(config.integrations?.rentGuy?.webhookSecrets || [], req, res, next);
+}
+
+function verifyPersonalizationSignature(req, res, next) {
+  verifySignatureWithSecrets(config.personalization?.incomingWebhookSecrets || [], req, res, next);
+}
+
+router.post('/rentguy/webhook', verifyRentGuySignature, (req, res) => {
+  logger.info(
+    {
+      event: 'rentguy.webhook.received',
+      type: req.body?.type || null,
+      bookingId: req.body?.bookingId || null
+    },
+    'RentGuy webhook accepted'
+  );
+  res.status(204).end();
+});
+
+router.post('/personalization/webhook', verifyPersonalizationSignature, (req, res) => {
+  logger.info(
+    {
+      event: 'personalization.webhook.received',
+      type: req.body?.type || null,
+      status: req.body?.status || null
+    },
+    'Personalization webhook accepted'
+  );
+  res.status(204).end();
+});
+
 router.post('/whatsapp/booking-confirmation', verifyWhatsappSignature, async (req, res, next) => {
   if (!ensureWhatsappConfigured(res)) {
     return;

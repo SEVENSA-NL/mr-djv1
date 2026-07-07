@@ -559,22 +559,28 @@ async function getApprovedFeedback(limit = 12) {
     return responses;
   }
 
-  const result = await db.runQuery(
-    `SELECT
-       id,
-       name,
-       event_type AS "eventType",
-       rating,
-       review_text AS "reviewText",
-       submitted_at AS "submittedAt",
-       created_at AS "createdAt"
-     FROM survey_feedback
-     WHERE approved = TRUE
-       AND status = 'submitted'
-     ORDER BY submitted_at DESC NULLS LAST, created_at DESC
-     LIMIT $1`,
-    [limit]
-  );
+  let result;
+  try {
+    result = await db.runQuery(
+      `SELECT
+         id,
+         name,
+         event_type AS "eventType",
+         rating,
+         review_text AS "reviewText",
+         submitted_at AS "submittedAt",
+         created_at AS "createdAt"
+       FROM survey_feedback
+       WHERE approved = TRUE
+         AND status = 'submitted'
+       ORDER BY submitted_at DESC NULLS LAST, created_at DESC
+       LIMIT $1`,
+      [limit]
+    );
+  } catch (error) {
+    console.error('[surveyService] Failed to load approved feedback from database:', error.message);
+    return [];
+  }
 
   if (!result || !Array.isArray(result.rows)) {
     return [];
