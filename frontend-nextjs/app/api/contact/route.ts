@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendGa4Event } from '@/lib/analytics/ga4';
+import { randomUUID } from 'node:crypto';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,14 +25,17 @@ export async function POST(request: Request) {
       clearTimeout(timeout);
       if (!res.ok) {
         console.error('[contact] backend responded non-200', res.status);
+        return NextResponse.json({ status: 'error' }, { status: 502 });
       }
     } else {
-      console.info('[contact] lead received (no BACKEND_API_URL set)', payload);
+      console.warn('[contact] backend unavailable');
+      return NextResponse.json({ status: 'error' }, { status: 503 });
     }
 
-    // Fire GA4 lead event when configured
+    const suppliedEventId = request.headers.get('x-event-id') || '';
+    const eventId = /^[0-9a-f-]{36}$/i.test(suppliedEventId) ? suppliedEventId : randomUUID();
     await sendGa4Event(
-      'lead_contact',
+      'generate_lead',
       {
         lead_type: 'contact',
         city: payload.city,
@@ -45,10 +49,12 @@ export async function POST(request: Request) {
           request.headers.get('x-client-id') ||
           request.headers.get('x-ga-cid') ||
           undefined,
+        analyticsConsent: request.headers.get('x-analytics-consent') === 'granted',
+        eventId,
       }
     );
-  } catch (error) {
-    console.error('[contact] failed to forward', error);
+  } catch {
+    console.error('[contact] failed to forward');
     return NextResponse.json({ status: 'error' }, { status: 500 });
   }
 

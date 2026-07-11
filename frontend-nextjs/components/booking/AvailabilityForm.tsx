@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { trackEvent } from '@/lib/analytics/trackEvent';
+import { analyticsConsentHeader } from '@/lib/analytics/consent';
 
 type AvailabilityFormProps = {
   locale: string;
@@ -44,12 +45,24 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
     setLoading(true);
     setMessage(null);
 
-    trackEvent('availability_check_started', { locale, ...form, ga4_event: 'availability_check_started' });
+    const guestCountBucket = form.guests < 50 ? '10_49' : form.guests < 100 ? '50_99' : form.guests < 200 ? '100_199' : '200_plus';
+    const eventId = globalThis.crypto?.randomUUID?.() || `evt_${Date.now()}`;
+    trackEvent('availability_check_started', {
+      locale,
+      event_type: form.eventType,
+      guest_count_bucket: guestCountBucket,
+      form_id: 'availability',
+      ga4_event: 'availability_check_started',
+    });
 
     try {
       const res = await fetch('/api/availability', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Event-Id': eventId,
+          ...analyticsConsentHeader(),
+        },
         body: JSON.stringify(form),
       });
 
@@ -62,18 +75,21 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
           : 'Thanks! We will confirm availability within 24 hours.',
       });
       setForm(defaultState);
-      trackEvent('availability_check_success', {
+      trackEvent('generate_lead', {
         locale,
-        date: form.date,
-        eventType: form.eventType,
-        ga4_event: 'availability_check_success',
+        event_id: eventId,
+        event_type: form.eventType,
+        guest_count_bucket: guestCountBucket,
+        form_id: 'availability',
+        lead_intent: 'availability',
+        ga4_event: 'generate_lead',
       });
-    } catch (error) {
+    } catch {
       setMessage({
         type: 'error',
         text: isNL ? 'Er ging iets mis. Probeer het opnieuw.' : 'Something went wrong. Please try again.',
       });
-      trackEvent('availability_check_error', { locale, error: (error as Error).message, ga4_event: 'availability_check_error' });
+      trackEvent('availability_check_error', { locale, form_id: 'availability', ga4_event: 'availability_check_error' });
     } finally {
       setLoading(false);
     }

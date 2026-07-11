@@ -39,7 +39,7 @@ export default function TestimonialCarousel({ items }: Props) {
             transition={{ duration: 0.25 + idx * 0.05, ease: 'easeOut' }}
             className="flex h-full flex-col justify-between rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur"
             onViewportEnter={() => {
-              trackEvent('testimonial_impression', { quote: item.quote });
+              trackEvent('testimonial_impression', { placement: 'pricing', id: idx });
               trackMediaEngagement('carousel', 'testimonial-carousel', 'view');
             }}
           >

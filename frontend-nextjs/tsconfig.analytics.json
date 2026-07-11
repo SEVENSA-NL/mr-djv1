@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "types": ["node"]
+  },
+  "files": [
+    "app/[locale]/layout.tsx",
+    "app/api/availability/route.ts",
+    "app/api/contact/route.ts",
+    "components/analytics/ConsentManager.tsx",
+    "components/booking/AvailabilityForm.tsx",
+    "components/city/CityContact.tsx",
+    "components/sections/TestimonialCarousel.tsx",
+    "lib/analytics/consent.ts",
+    "lib/analytics/ga4.ts",
+    "lib/analytics/trackEvent.ts"
+  ],
+  "include": [],
+  "exclude": ["**/__tests__/**", "tests/**", "playwright*.config.ts", "node_modules", ".next"]
+}

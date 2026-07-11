@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
+    "type-check:analytics": "tsc --noEmit -p tsconfig.analytics.json",
     "test:e2e-smoke": "node ../node_modules/@playwright/test/cli.js test -c playwright.smoke.config.ts",
     "test:e2e-staging": "BASE_URL=https://staging.sevensa.nl NODE_TLS_REJECT_UNAUTHORIZED=0 node ../node_modules/@playwright/test/cli.js test -c playwright.staging.config.ts",
     "test:full": "npm run test && npm run build && npm run test:e2e-smoke",

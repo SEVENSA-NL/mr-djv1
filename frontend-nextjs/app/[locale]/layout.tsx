@@ -5,8 +5,12 @@ import { getMessages } from 'next-intl/server';
 import { locales, defaultLocale, localeMetadata } from '@/i18n.config';
 import { Space_Grotesk } from 'next/font/google';
 import { Inter, Playfair_Display } from 'next/font/google';
+import Script from 'next/script';
+import ConsentManager from '@/components/analytics/ConsentManager';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mr-dj.sevensa.nl';
+const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID || '';
+const gtmId = /^GTM-[A-Z0-9]+$/.test(configuredGtmId) ? configuredGtmId : undefined;
 
 export const dynamic = 'force-dynamic';
 
@@ -104,9 +108,13 @@ export default async function LocaleLayout({
       lang={locale || defaultLocale}
       suppressHydrationWarning
     >
+      <Script id="mrdj-consent-default" strategy="beforeInteractive">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=window.gtag||gtag;gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});`}
+      </Script>
       <body className={`${spaceGrotesk.className} ${inter.variable} ${playfair.variable}`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <ConsentManager locale={locale} gtmId={gtmId} />
         </NextIntlClientProvider>
       </body>
     </html>
