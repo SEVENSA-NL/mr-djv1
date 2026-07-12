@@ -75,14 +75,14 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
           : 'Thanks! We will confirm availability within 24 hours.',
       });
       setForm(defaultState);
-      trackEvent('generate_lead', {
+      trackEvent('form_submit', {
         locale,
         event_id: eventId,
         event_type: form.eventType,
         guest_count_bucket: guestCountBucket,
         form_id: 'availability',
         lead_intent: 'availability',
-        ga4_event: 'generate_lead',
+        ga4_event: 'form_submit',
       });
     } catch {
       setMessage({

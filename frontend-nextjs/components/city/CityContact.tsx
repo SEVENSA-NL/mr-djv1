@@ -45,7 +45,7 @@ export default function CityContact({ city, locale }: CityContactProps) {
 
       if (!res.ok) throw new Error('Request failed');
 
-      trackEvent('generate_lead', {
+      trackEvent('form_submit', {
         event_id: eventId,
         source: 'city_page',
         city: city.slug,
@@ -54,7 +54,7 @@ export default function CityContact({ city, locale }: CityContactProps) {
         locale,
         form_id: 'city_contact',
         lead_intent: 'quote',
-        ga4_event: 'generate_lead',
+        ga4_event: 'form_submit',
       });
 
       setFormData({
