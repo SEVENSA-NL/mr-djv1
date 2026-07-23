@@ -1,6 +1,7 @@
 # Verification-only Woodpecker dual-run. GitHub Actions remains authoritative.
-# Deliberately excluded: backend CI needs RentGuy configuration; performance
-# needs the GitHub artifact upload replacement; no credential/deploy jobs here.
+# Deliberately excluded: backend/release CI needs managed RentGuy configuration;
+# performance needs the GitHub artifact upload replacement; no credential/deploy
+# jobs are introduced here.
 when:
   - event: [push, pull_request]
 
@@ -21,41 +22,6 @@ steps:
       - event: [push, pull_request]
         path:
           include: [frontend/**, .github/workflows/frontend-tests.yml]
-    backend_options:
-      docker:
-        user: "1000:1000"
-      kubernetes:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop: [ALL]
-          seccompProfile:
-            type: RuntimeDefault
-
-  release-readiness:
-    image: docker.io/library/node@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5
-    environment:
-      CI: "true"
-      HOME: /woodpecker/src/.home
-      NPM_CONFIG_CACHE: /woodpecker/src/.npm-cache
-    commands:
-      - command -v node
-      - command -v npm
-      - cd frontend && npm ci
-      - cd ../backend && npm ci
-      - cd .. && node scripts/check-release-readiness.mjs
     backend_options:
       docker:
         user: "1000:1000"
