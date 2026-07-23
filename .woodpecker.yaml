@@ -7,7 +7,13 @@ when:
 steps:
   frontend-structured-data:
     image: docker.io/library/node@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5
+    environment:
+      CI: "true"
+      HOME: /woodpecker/src/.home
+      NPM_CONFIG_CACHE: /woodpecker/src/.npm-cache
     commands:
+      - command -v node
+      - command -v npm
       - cd frontend
       - npm ci
       - npm test -- --runInBand
@@ -31,6 +37,7 @@ steps:
           runAsUser: 1000
           runAsGroup: 1000
           fsGroup: 1000
+          readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
           capabilities:
             drop: [ALL]
@@ -39,7 +46,13 @@ steps:
 
   release-readiness:
     image: docker.io/library/node@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5
+    environment:
+      CI: "true"
+      HOME: /woodpecker/src/.home
+      NPM_CONFIG_CACHE: /woodpecker/src/.npm-cache
     commands:
+      - command -v node
+      - command -v npm
       - cd frontend && npm ci
       - cd ../backend && npm ci
       - cd .. && node scripts/check-release-readiness.mjs
@@ -59,6 +72,7 @@ steps:
           runAsUser: 1000
           runAsGroup: 1000
           fsGroup: 1000
+          readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
           capabilities:
             drop: [ALL]
