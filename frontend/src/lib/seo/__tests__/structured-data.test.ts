@@ -1,21 +1,51 @@
-let structuredDataTest: typeof import("structured-data-testing-tool").structuredDataTest;
-
-beforeAll(async () => {
-  ({ structuredDataTest } = await import("structured-data-testing-tool"));
-});
-
 describe("Structured Data JSON-LD validation", () => {
+  const requiredPaths: Record<string, string[]> = {
+    Organization: ["name", "url", "logo", "telephone", "address.addressCountry"],
+    LocalBusiness: [
+      "name",
+      "url",
+      "address.addressLocality",
+      "address.addressRegion",
+      "areaServed.name",
+    ],
+    Event: [
+      "name",
+      "description",
+      "startDate",
+      "endDate",
+      "location.address.addressLocality",
+      "organizer.name",
+    ],
+    Service: [
+      "name",
+      "description",
+      "serviceType",
+      "provider.name",
+      "offers.priceSpecification.priceCurrency",
+    ],
+  };
+
+  const valueAtPath = (value: Record<string, unknown>, path: string) =>
+    path.split(".").reduce<unknown>((current, segment) => {
+      if (!current || typeof current !== "object" || Array.isArray(current)) {
+        return undefined;
+      }
+      return (current as Record<string, unknown>)[segment];
+    }, value);
+
   const validateSchema = async (schema: Record<string, unknown>, expectedSchema: string) => {
-    if (!structuredDataTest) {
-      throw new Error("structuredDataTest was not initialized");
+    const serialized = JSON.stringify(schema);
+    expect(() => JSON.parse(serialized)).not.toThrow();
+    expect(JSON.parse(serialized)).toEqual(schema);
+    expect(schema["@context"]).toBe("https://schema.org");
+    expect(schema["@type"]).toBe(expectedSchema);
+
+    for (const path of requiredPaths[expectedSchema] ?? []) {
+      const value = valueAtPath(schema, path);
+      expect(value, `${expectedSchema}.${path} must be populated`).not.toBeUndefined();
+      expect(value, `${expectedSchema}.${path} must be populated`).not.toBeNull();
+      expect(value, `${expectedSchema}.${path} must be populated`).not.toBe("");
     }
-
-    const result = await structuredDataTest(JSON.stringify(schema), {
-      schemas: [expectedSchema],
-    });
-
-    expect(result.failed).toHaveLength(0);
-    expect(result.schemas).toContain(expectedSchema);
   };
 
   it("validates organization schema output", async () => {

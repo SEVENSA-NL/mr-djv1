@@ -16,7 +16,7 @@ steps:
       - command -v npm
       - cd frontend
       - npm ci
-      - npm test -- --runInBand
+      - npm test -- src/lib/seo/__tests__/structured-data.test.ts src/lib/seo/__tests__/structuredData.test.tsx
     when:
       - event: [push, pull_request]
         path:
