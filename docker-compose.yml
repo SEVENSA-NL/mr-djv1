@@ -1,5 +1,5 @@
-version: '3.8'
-
+# Supply POSTGRES_PASSWORD and REDIS_PASSWORD through a non-versioned runtime
+# environment or secret manager. Values in earlier history must be rotated.
 services:
   # Frontend (Next.js runtime)
   mrdj-frontend:
@@ -67,7 +67,7 @@ services:
     environment:
       POSTGRES_DB: mrdj_db
       POSTGRES_USER: mrdj_user
-      POSTGRES_PASSWORD: mrdj_secure_password_2025
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -84,11 +84,13 @@ services:
     image: redis:7.2-alpine
     container_name: mr-dj-redis
     restart: unless-stopped
-    command: redis-server --requirepass mrdj_redis_password_2025
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
+    command: ["sh", "-c", "exec redis-server --requirepass \"$$REDIS_PASSWORD\""]
     networks:
       - web
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "mrdj_redis_password_2025", "ping"]
+      test: ["CMD-SHELL", 'redis-cli -a "$$REDIS_PASSWORD" ping']
       interval: 10s
       timeout: 3s
       retries: 5
