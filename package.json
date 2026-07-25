@@ -8,6 +8,7 @@
     "typecheck": "npm --prefix frontend run typecheck",
     "build": "next build",
     "test:unit": "vitest run --reporter=junit",
+    "test:local-seo-page-casing": "node --test scripts/__tests__/local-seo-page-casing.test.mjs",
     "test:e2e:smoke": "playwright test -c qa/playwright.config.ts",
     "scan:accessibility": "node scripts/run_axe_checks.js",
     "perf:measure": "node scripts/run_lighthouse.js",
