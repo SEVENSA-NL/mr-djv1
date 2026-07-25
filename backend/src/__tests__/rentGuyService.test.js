@@ -1,7 +1,13 @@
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const { buildRequiredEnv } = require('../testUtils/env');
 
 const ORIGINAL_ENV = { ...process.env };
-const BASE_ENV = buildRequiredEnv();
+const MANAGED_ENV_TEMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'mr-dj-rentguy-service-test-'));
+const BASE_ENV = buildRequiredEnv({
+  CONFIG_DASHBOARD_STORE_PATH: path.join(MANAGED_ENV_TEMP_DIR, 'managed.env')
+});
 const ORIGINAL_FETCH = global.fetch;
 
 function buildEnv(overrides = {}) {
@@ -21,6 +27,10 @@ function loadService(overrides = {}) {
 }
 
 describe('rentGuyService', () => {
+  afterAll(() => {
+    fs.rmSync(MANAGED_ENV_TEMP_DIR, { recursive: true, force: true });
+  });
+
   afterEach(() => {
     process.env = { ...ORIGINAL_ENV };
     if (ORIGINAL_FETCH) {
@@ -31,8 +41,8 @@ describe('rentGuyService', () => {
   });
 
   it('fails fast when RentGuy credentials are missing', () => {
-    expect(() => loadService({ RENTGUY_API_BASE_URL: undefined, RENTGUY_API_KEY: undefined })).toThrow(
-      /RENTGUY_API_BASE_URL is required for the RentGuy integration\./
+    expect(() => loadService({ RENTGUY_API_BASE_URL: '', RENTGUY_API_KEY: '' })).toThrow(
+      /RENTGUY_API_BASE_URL.*not allowed to be empty/
     );
   });
 
