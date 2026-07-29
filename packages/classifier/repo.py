@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import os
 from collections.abc import Iterator, Sequence
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from datetime import date
 from functools import lru_cache
 
 from sqlalchemy import create_engine, text
-from sqlalchemy.engine import Connection, Engine, Result
+from sqlalchemy.engine import Connection, Engine
 
 from .rules import RulingCandidate
 from .types import ClassificationResult
@@ -123,9 +123,7 @@ def get_applicable_rulings(
                 hs_code8=row["hs_code8"],
                 taric_code=row["taric_code"],
                 precedence=row["precedence"],
-                valid_from=(
-                    row["valid_from"].isoformat() if row["valid_from"] else None
-                ),
+                valid_from=(row["valid_from"].isoformat() if row["valid_from"] else None),
                 valid_to=(row["valid_to"].isoformat() if row["valid_to"] else None),
                 source=row.get("source"),
             )
@@ -230,9 +228,7 @@ def _measure_matches(conn: Connection, taric_code: str, country: str, ref_date: 
     return bool(rows)
 
 
-def measure_matches(
-    conn: Connection, taric_code: str, country: str, ref_date: date
-) -> bool:
+def measure_matches(conn: Connection, taric_code: str, country: str, ref_date: date) -> bool:
     """Expose whether a TARIC code has a valid measure for the country/date."""
 
     return _measure_matches(conn, taric_code, country, ref_date)
@@ -255,9 +251,7 @@ def cached_taric_lookup(hs_code8: str, country: str, ref_date: date) -> str | No
         return record.taric_code if record else None
 
 
-def derive_hs_from_text(
-    conn: Connection, text_hint: str | None, ref_date: date
-) -> str | None:
+def derive_hs_from_text(conn: Connection, text_hint: str | None, ref_date: date) -> str | None:
     if not text_hint:
         return None
     rows = _fetchall(
