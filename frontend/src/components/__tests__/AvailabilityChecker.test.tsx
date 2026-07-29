@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import AvailabilityChecker from "../AvailabilityChecker";
@@ -18,11 +18,9 @@ vi.mock("react-day-picker", () => {
     DayPicker: ({
       selected,
       onSelect,
-      mode,
     }: {
       selected?: Date | null;
       onSelect?: (day: Date | undefined) => void;
-      mode?: string;
     }) => (
       <div data-testid="day-picker">
         <span data-testid="selected-date">{selected ? selected.toISOString() : "no-date"}</span>
@@ -460,12 +458,7 @@ describe("AvailabilityChecker", () => {
 
     it("should show error message with loading status", async () => {
       // Keep fetch pending to verify loading state appears
-      let resolveResponse: any;
-      fetchSpy.mockReturnValueOnce(
-        new Promise((resolve) => {
-          resolveResponse = resolve;
-        })
-      );
+      fetchSpy.mockReturnValueOnce(new Promise(() => {}));
 
       const user = userEvent.setup();
       render(<AvailabilityChecker />);
@@ -1026,7 +1019,7 @@ describe("AvailabilityChecker", () => {
 
       await waitFor(() => {
         // Check for error message (might be split across elements)
-        const errorMessage = screen.queryByText((content, element) => {
+        const errorMessage = screen.queryByText((_content, element) => {
           return element?.className?.includes("bg-semantic-error") || false;
         });
         expect(errorMessage).toBeInTheDocument();

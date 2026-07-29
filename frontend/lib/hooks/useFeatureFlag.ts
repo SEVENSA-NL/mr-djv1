@@ -15,11 +15,9 @@ export function useFeatureFlag<T = boolean>(
   defaultValue: T
 ): T {
   const [value, setValue] = useState<T>(defaultValue);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
-      setIsLoading(false);
       return;
     }
 
@@ -36,7 +34,6 @@ export function useFeatureFlag<T = boolean>(
       // Timeout after 3 seconds
       setTimeout(() => {
         clearInterval(checkInterval);
-        setIsLoading(false);
       }, 3000);
 
       return () => clearInterval(checkInterval);
@@ -60,8 +57,6 @@ export function useFeatureFlag<T = boolean>(
         });
       } catch (error) {
         console.warn(`Failed to load feature flag: ${flagKey}`, error);
-      } finally {
-        setIsLoading(false);
       }
     }
   }, [flagKey, defaultValue]);
@@ -96,7 +91,7 @@ export function useMultivariateTest(
  */
 export function trackConversion(
   conversionEvent: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ) {
   if (typeof window === 'undefined' || !posthog) {
     return;

@@ -17,29 +17,37 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders primary CTA button", () => {
+  it("renders primary CTA link", () => {
     render(
       <HeroSection
         title="Test Title"
         subtitle="Test Subtitle"
         ctaPrimaryText="Controleer beschikbaarheid"
+        ctaPrimaryHref="/beschikbaarheid"
       />,
     );
 
-    expect(screen.getByRole("button", { name: "Controleer beschikbaarheid" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Controleer beschikbaarheid" })).toHaveAttribute(
+      "href",
+      "/beschikbaarheid",
+    );
   });
 
-  it("renders secondary CTA button when provided", () => {
+  it("renders secondary CTA link when provided", () => {
     render(
       <HeroSection
         title="Test Title"
         subtitle="Test Subtitle"
         ctaPrimaryText="Controleer beschikbaarheid"
         ctaSecondaryText="Vraag een offerte aan"
+        ctaSecondaryHref="/contact"
       />,
     );
 
-    expect(screen.getByRole("button", { name: "Vraag een offerte aan" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Vraag een offerte aan" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
   });
 
   it("does not render secondary CTA when not provided", () => {
@@ -51,7 +59,7 @@ describe("HeroSection", () => {
       />,
     );
 
-    expect(screen.queryByRole("button", { name: "Vraag een offerte aan" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Vraag een offerte aan" })).not.toBeInTheDocument();
   });
 
   it("renders children when provided", () => {

@@ -51,4 +51,22 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files: [
+      "**/*.{test,spec}.{ts,tsx}",
+      "src/**/__tests__/**/*.{ts,tsx}",
+      "src/setupTests.ts",
+    ],
+    rules: {
+      // Test doubles intentionally model browser and third-party APIs with partial shapes.
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  {
+    files: ["e2e/**/*.{ts,tsx}"],
+    rules: {
+      // Playwright's fixture callback is named `use`; it is not a React hook.
+      "react-hooks/rules-of-hooks": "off",
+    },
+  },
 ]);

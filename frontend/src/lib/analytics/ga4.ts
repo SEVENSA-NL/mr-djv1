@@ -68,13 +68,18 @@ export function trackPageView(pageName: string): void {
 /**
  * Track a button click in GA4
  */
-export function trackButtonClick(buttonId: string, buttonText?: string): void {
+export function trackButtonClick(
+  buttonId: string,
+  buttonText?: string,
+  analyticsLabel?: string
+): void {
   pushEvent({
     name: "select_content",
     params: {
       content_type: "button",
       item_id: buttonId,
       item_name: buttonText ? buttonText.trim().slice(0, 120) : undefined,
+      item_variant: analyticsLabel,
     },
   });
 }

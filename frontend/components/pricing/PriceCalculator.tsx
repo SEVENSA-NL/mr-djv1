@@ -235,8 +235,14 @@ export const PriceCalculator: React.FC = () => {
           <h3 className={styles.sectionTitle}>Extra's toevoegen:</h3>
           <div className={styles.addons}>
             {ADD_ONS.map((addOn) => (
-              <label key={addOn.id} className={styles.addonItem}>
+              <label
+                key={addOn.id}
+                htmlFor={`addon-${addOn.id}`}
+                className={styles.addonItem}
+              >
+                <span className="sr-only">Extra selecteren</span>
                 <input
+                  id={`addon-${addOn.id}`}
                   type="checkbox"
                   checked={selectedAddOns.has(addOn.id)}
                   onChange={() => handleAddOnToggle(addOn.id)}

@@ -368,7 +368,7 @@ describe("MobileCTABar", () => {
     });
 
     it("should have proper focus visible classes in markup", () => {
-      const { container } = render(<MobileCTABar />);
+      render(<MobileCTABar />);
 
       const callButton = screen.getByRole("link", { name: /bel mister dj/i });
 

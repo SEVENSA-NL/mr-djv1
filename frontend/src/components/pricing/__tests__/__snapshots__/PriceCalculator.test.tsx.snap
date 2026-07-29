@@ -148,9 +148,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
       >
         <label
           class="_addonItem_a7f9ed"
+          for="addon-led-floor"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-led-floor"
             type="checkbox"
           />
           <div
@@ -185,9 +192,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
         </label>
         <label
           class="_addonItem_a7f9ed"
+          for="addon-photobooth"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-photobooth"
             type="checkbox"
           />
           <div
@@ -222,9 +236,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
         </label>
         <label
           class="_addonItem_a7f9ed"
+          for="addon-co2-cannons"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-co2-cannons"
             type="checkbox"
           />
           <div
@@ -254,9 +275,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
         </label>
         <label
           class="_addonItem_a7f9ed"
+          for="addon-live-sax"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-live-sax"
             type="checkbox"
           />
           <div
@@ -291,9 +319,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
         </label>
         <label
           class="_addonItem_a7f9ed"
+          for="addon-uplighting"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-uplighting"
             type="checkbox"
           />
           <div
@@ -323,9 +358,16 @@ exports[`PriceCalculator > Renders correctly > should match the snapshot 1`] = `
         </label>
         <label
           class="_addonItem_a7f9ed"
+          for="addon-love-letters"
         >
+          <span
+            class="sr-only"
+          >
+            Extra selecteren
+          </span>
           <input
             class="_checkbox_a7f9ed"
+            id="addon-love-letters"
             type="checkbox"
           />
           <div

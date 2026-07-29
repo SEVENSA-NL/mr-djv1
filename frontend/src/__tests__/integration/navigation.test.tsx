@@ -1,6 +1,5 @@
 import { render, screen, within, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { act } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi, afterEach } from "vitest";
 import { I18nextProvider } from "react-i18next";
@@ -250,7 +249,7 @@ describe("Navigation Tests", () => {
 
   describe("Programmatic Navigation from CTAs", () => {
     it("AboutPage CTA buttons are clickable", async () => {
-      const { rerender } = render(<TestApp initialRoute="/over-ons" />);
+      render(<TestApp initialRoute="/over-ons" />);
 
       // Find CTA buttons on about page
       const ctaLinks = screen.getAllByRole("link");

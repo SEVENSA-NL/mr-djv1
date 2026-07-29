@@ -200,7 +200,7 @@ describe("Mobile Viewport Tests", () => {
 
     it("should have readable styling on mobile buttons", async () => {
       await setViewportSize(375, 667);
-      const { container } = render(<MobileCTABar />);
+      render(<MobileCTABar />);
 
       const buttons = screen.getAllByRole("link");
       expect(buttons.length).toBeGreaterThan(0);

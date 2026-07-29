@@ -26,5 +26,15 @@
     "noUncheckedSideEffectImports": true
   },
   "include": ["src"],
-  "exclude": ["src/components/Generated", "src/__tests__"]
+  "exclude": [
+    "src/components/Generated",
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/setupTests.ts",
+    "src/test/**",
+    "src/lib/test-utils.tsx"
+  ]
 }

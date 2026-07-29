@@ -1,7 +1,5 @@
 "use client";
 
-import posthog from "posthog-js";
-
 type WhatsAppButtonProps = {
   variant?: "primary" | "secondary" | "floating";
   messageType?: "general" | "wedding" | "party" | "corporate" | "pricing" | "contact";

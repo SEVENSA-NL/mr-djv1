@@ -65,10 +65,7 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
   };
 
   const handlePause = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+    setIsPlaying(false);
   };
 
   const handleVideoEnd = () => {
@@ -134,7 +131,9 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
                 poster={currentTestimonial.thumbnail}
                 preload="metadata"
                 playsInline
+                autoPlay={autoplay}
                 loop={loop}
+                onPause={handlePause}
                 onEnded={handleVideoEnd}
                 onError={handleVideoError}
                 controls={showControls && hasUserInteracted}
@@ -269,4 +268,3 @@ export const VideoTestimonial: React.FC<VideoTestimonialProps> = ({
 };
 
 export default VideoTestimonial;
-export type { Testimonial };

@@ -196,13 +196,15 @@ export function ComprehensiveFAQ({
             <details
               key={index}
               open={openIndex === index}
-              onClick={(e) => {
-                e.preventDefault();
-                handleToggle(index);
-              }}
               className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-amber-300 hover:shadow-md"
             >
-              <summary className="flex cursor-pointer items-start justify-between gap-4">
+              <summary
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleToggle(index);
+                }}
+                className="flex cursor-pointer items-start justify-between gap-4"
+              >
                 <span className="text-lg font-semibold text-slate-900 transition-colors duration-200 group-hover:text-amber-600">
                   {faq.question}
                 </span>

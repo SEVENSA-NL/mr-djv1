@@ -65,7 +65,11 @@ export function trackPageView(pageName: string): void {
 /**
  * Track a button click event
  */
-export function trackButtonClick(buttonId: string, buttonText?: string): void {
+export function trackButtonClick(
+  buttonId: string,
+  buttonText?: string,
+  analyticsLabel?: string
+): void {
   if (!isBrowser || !isInitialized) {
     return;
   }
@@ -74,6 +78,7 @@ export function trackButtonClick(buttonId: string, buttonText?: string): void {
     posthog.capture("button_click", {
       button_id: buttonId,
       button_text: buttonText ? buttonText.trim().slice(0, 120) : undefined,
+      analytics_label: analyticsLabel,
       url: window.location.href,
     });
   } catch (error) {

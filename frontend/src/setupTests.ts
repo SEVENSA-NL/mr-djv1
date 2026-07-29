@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/vitest";
-import { expect, afterEach, vi, beforeEach } from "vitest";
+import { afterEach, vi, beforeEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 
 // Suppress JSDOM navigation warnings
@@ -43,12 +43,6 @@ Object.defineProperty(window, "location", {
   value: mockLocation,
   configurable: true,
 });
-
-// Mock HTMLAnchorElement navigation
-const originalHref = Object.getOwnPropertyDescriptor(
-  HTMLAnchorElement.prototype,
-  "href"
-);
 
 Object.defineProperty(HTMLAnchorElement.prototype, "href", {
   get(this: HTMLAnchorElement) {

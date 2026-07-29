@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
 
 export interface HeroSectionProps {
   title: string;
@@ -59,13 +58,19 @@ export function HeroSection({
         </div>
 
         <div className="flex justify-center gap-spacing-md flex-wrap">
-          <Button variant="secondary" size="lg">
+          <a
+            href={ctaPrimaryHref}
+            className="inline-flex items-center justify-center rounded-md bg-secondary px-spacing-lg py-spacing-md body-lg text-neutral-dark transition-all duration-200 ease-out hover:bg-secondary/90 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/40 focus-visible:ring-offset-2"
+          >
             {ctaPrimaryText}
-          </Button>
+          </a>
           {ctaSecondaryText && (
-            <Button variant="outline" size="lg">
+            <a
+              href={ctaSecondaryHref}
+              className="inline-flex items-center justify-center rounded-md border border-neutral-dark px-spacing-lg py-spacing-md body-lg text-neutral-dark transition-all duration-200 ease-out hover:bg-neutral-light hover:shadow-sm hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-dark/40 focus-visible:ring-offset-2"
+            >
               {ctaSecondaryText}
-            </Button>
+            </a>
           )}
         </div>
 

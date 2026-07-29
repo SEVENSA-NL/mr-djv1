@@ -38,7 +38,7 @@ export const contactInfoSchema = z.object({
   phone: z
     .string()
     .min(10, 'Telefoonnummer moet minimaal 10 cijfers zijn')
-    .regex(/^[0-9\s\-\+\(\)]+$/, 'Voer een geldig telefoonnummer in')
+    .regex(/^[0-9\s+()-]+$/, 'Voer een geldig telefoonnummer in')
     .transform((val) => val.replace(/\s/g, '')), // Remove spaces
   company: z.string().max(100, 'Bedrijfsnaam mag maximaal 100 karakters zijn').optional(),
 });

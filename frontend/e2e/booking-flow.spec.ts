@@ -136,7 +136,6 @@ test.describe("Booking Flow E2E Tests", () => {
     const bookingButton = page.locator("button:has-text('Book Now')");
     await bookingButton.click();
 
-    const bookingForm = page.locator("[data-testid='booking-form']");
     const nameInput = page.locator("input[name='name']");
     if (await nameInput.isVisible()) {
       await nameInput.fill("Test User");

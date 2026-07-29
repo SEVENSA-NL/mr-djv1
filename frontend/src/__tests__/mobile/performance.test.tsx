@@ -44,34 +44,9 @@ const measureRenderTime = (
   };
 };
 
-// CLS (Cumulative Layout Shift) tracking
-let initialLayout: Map<Element, DOMRect> = new Map();
-let cumulativeLayoutShift = 0;
-
-const trackLayoutShift = () => {
-  const observer = new PerformanceObserver((entryList) => {
-    for (const entry of entryList.getEntries()) {
-      if ((entry as any).hadRecentInput) {
-        continue;
-      }
-      cumulativeLayoutShift += (entry as any).value;
-    }
-  });
-
-  try {
-    observer.observe({ type: "layout-shift", buffered: true });
-  } catch (e) {
-    // PerformanceObserver not fully supported in test environment
-  }
-
-  return observer;
-};
-
 describe("Mobile Performance Test", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    cumulativeLayoutShift = 0;
-    initialLayout.clear();
     useOptionalEventTypeMock.mockImplementation(() => ({
       eventType: "",
       setEventType: vi.fn(),
@@ -299,14 +274,7 @@ describe("Mobile Performance Test", () => {
       const startTime = performance.now();
 
       // Simulate rapid taps across all buttons
-      buttons.forEach((button, index) => {
-        const touch = new Touch({
-          identifier: Date.now() + index,
-          target: button,
-          clientX: 0,
-          clientY: 0,
-        });
-
+      buttons.forEach((button) => {
         const touchEvent = new TouchEvent("touchend", {
           bubbles: true,
           touches: [] as any,

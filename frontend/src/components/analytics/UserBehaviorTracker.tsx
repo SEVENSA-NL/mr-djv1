@@ -7,11 +7,6 @@ const isBrowser = typeof window !== "undefined";
 
 type ClickTarget = HTMLElement & { innerText?: string; id?: string };
 
-type TrackingEvent = {
-  type: "click" | "form_submit" | "scroll";
-  payload: Record<string, unknown>;
-};
-
 /**
  * UserBehaviorTracker Component
  *

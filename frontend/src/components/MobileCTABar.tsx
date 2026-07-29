@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import posthog from "posthog-js";
 
 const PHONE_NUMBER = "31620383638";
 const WHATSAPP_MESSAGE = "Hoi Mister DJ, ik ben geïnteresseerd in jullie diensten voor mijn event.";

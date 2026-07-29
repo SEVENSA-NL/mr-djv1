@@ -247,7 +247,7 @@ describe("Layout Integration Tests", () => {
     });
 
     it("page content changes when route changes", () => {
-      const { rerender, unmount } = render(<TestApp initialRoute="/" />);
+      const { unmount } = render(<TestApp initialRoute="/" />);
 
       let main = document.querySelector(".app-main");
       expect(main).toContainElement(screen.getByTestId("hero-section"));

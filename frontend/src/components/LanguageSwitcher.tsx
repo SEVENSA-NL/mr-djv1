@@ -36,7 +36,6 @@ const LanguageSwitcher = () => {
   const currentLanguage = LANGUAGES.find(
     (lang) => lang.code === i18n.resolvedLanguage
   );
-  const currentLabelKey = currentLanguage?.labelKey || LANGUAGES[0].labelKey;
   const currentShortCode = currentLanguage?.shortCode || "EN";
 
   return (

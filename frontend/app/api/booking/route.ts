@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { bookingFormSchema, type BookingFormData } from '@/lib/schemas/booking';
-import { z } from 'zod';
 
 /**
  * Booking API Route Handler
@@ -112,17 +111,6 @@ export async function POST(request: NextRequest) {
 
     // Generate booking ID
     const bookingId = generateBookingId();
-
-    // Prepare data for backend/CRM
-    const bookingPayload = {
-      bookingId,
-      ...bookingData,
-      source: 'mr-dj.nl',
-      userAgent: request.headers.get('user-agent'),
-      referrer: request.headers.get('referer'),
-      ipAddress: clientIp,
-      submittedAt: new Date().toISOString(),
-    };
 
     // TODO: Send to backend API or CRM (RentGuy)
     // Example:

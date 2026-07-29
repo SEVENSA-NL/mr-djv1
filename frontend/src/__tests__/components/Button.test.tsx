@@ -62,7 +62,7 @@ describe("Button Component", () => {
   });
 
   it("should render as different element type", () => {
-    const { container } = renderWithI18n(
+    renderWithI18n(
       <Button as="a" href="/test">
         Link Button
       </Button>

@@ -1,5 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import VideoTestimonials from '../VideoTestimonials';
 import { videoTestimonials, weddingTestimonials, corporateTestimonials, partyTestimonials } from '@/data/testimonials';

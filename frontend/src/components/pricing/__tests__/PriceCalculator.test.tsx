@@ -365,7 +365,7 @@ describe('PriceCalculator', () => {
 
       // Check navigation parameters - use + or %20 for space
       expect(window.location.href).toContain('/contact?');
-      expect(window.location.href).toMatch(/package=Zilver[\+%20]Pakket/);
+      expect(window.location.href).toMatch(/package=Zilver[+%20]Pakket/);
       expect(window.location.href).toContain('guests=100');
       expect(window.location.href).toContain('total=1350');
     });
@@ -399,7 +399,7 @@ describe('PriceCalculator', () => {
         timestamp: expect.any(String),
       });
 
-      expect(window.location.href).toMatch(/package=Brons[\+%20]Pakket/);
+      expect(window.location.href).toMatch(/package=Brons[+%20]Pakket/);
       expect(window.location.href).toContain('guests=150');
       expect(window.location.href).toContain('total=1300');
     });
@@ -480,9 +480,9 @@ describe('PriceCalculator', () => {
     });
   });
 
-  describe('Mobile responsive layout', () => {
+    describe('Mobile responsive layout', () => {
     it('should render slider control with proper styling', () => {
-      const { container } = render(<PriceCalculator />);
+      render(<PriceCalculator />);
 
       const slider = screen.getByRole('slider');
       expect(slider).toBeInTheDocument();

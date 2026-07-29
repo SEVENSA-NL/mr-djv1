@@ -1,9 +1,11 @@
 import {
-  trackBookingLead,
-  trackContactChannelClick,
-  trackServiceViewed,
-  trackPackageSelected,
-  trackBookingStarted,
+  trackBookingLead as trackBookingLeadEvent,
+  trackContactChannelClick as trackContactChannelClickEvent,
+  trackServiceViewed as trackServiceViewedEvent,
+  trackPackageSelected as trackPackageSelectedEvent,
+  trackBookingStarted as trackBookingStartedEvent,
+} from "./events";
+import type {
   BookingTrackingPayload,
   ContactChannelPayload,
   ServiceEngagementPayload,
@@ -31,7 +33,7 @@ import { trackButtonClick as trackGA4ButtonClick } from "./ga4";
  */
 export function trackBookingStarted(eventType: string, origin?: string): void {
   const payload: BookingStartedPayload = { eventType, origin };
-  trackBookingStarted(payload);
+  trackBookingStartedEvent(payload);
 }
 
 /**
@@ -52,7 +54,7 @@ export function trackServiceViewed(
   origin?: string
 ): void {
   const payload: ServiceEngagementPayload = { serviceType, serviceId, origin };
-  trackServiceViewed(payload);
+  trackServiceViewedEvent(payload);
 }
 
 /**
@@ -83,7 +85,7 @@ export function trackPackageSelected(
     currency,
     serviceType,
   };
-  trackPackageSelected(payload);
+  trackPackageSelectedEvent(payload);
 }
 
 /**
@@ -120,7 +122,7 @@ export function trackBookingLead(
     value,
     currency,
   };
-  trackBookingLead(payload);
+  trackBookingLeadEvent(payload);
 }
 
 /**
@@ -141,7 +143,7 @@ export function trackContactChannelClick(
   phoneNumber?: string
 ): void {
   const payload: ContactChannelPayload = { channel, origin, phoneNumber };
-  trackContactChannelClick(payload);
+  trackContactChannelClickEvent(payload);
 }
 
 /**
@@ -161,8 +163,8 @@ export function trackButtonClick(
   buttonText?: string,
   analyticsLabel?: string
 ): void {
-  trackPostHogButtonClick(buttonId, buttonText);
-  trackGA4ButtonClick(buttonId, buttonText);
+  trackPostHogButtonClick(buttonId, buttonText, analyticsLabel);
+  trackGA4ButtonClick(buttonId, buttonText, analyticsLabel);
 }
 
 /**
@@ -194,7 +196,7 @@ export function trackScrollDepth(scrollPercentage: number): void {
 
     // PostHog tracking
     if (typeof window !== "undefined") {
-      const posthog = (window as Record<string, unknown>).posthog;
+      const posthog = (window as unknown as Record<string, unknown>).posthog;
       if (posthog && typeof (posthog as unknown as Record<string, unknown>).capture === "function") {
         ((posthog as unknown as Record<string, unknown>).capture as (eventName: string, props: unknown) => void)("scroll_milestone", payload);
       }
@@ -232,7 +234,7 @@ export function trackFormFieldEngagement(
   });
 
   if (typeof window !== "undefined") {
-    const posthog = (window as Record<string, unknown>).posthog;
+    const posthog = (window as unknown as Record<string, unknown>).posthog;
     if (posthog && typeof (posthog as unknown as Record<string, unknown>).capture === "function") {
       ((posthog as unknown as Record<string, unknown>).capture as (eventName: string, props: unknown) => void)("form_field_engagement", payload);
     }
@@ -272,7 +274,7 @@ export function trackFormSubmission(
   });
 
   if (typeof window !== "undefined") {
-    const posthog = (window as Record<string, unknown>).posthog;
+    const posthog = (window as unknown as Record<string, unknown>).posthog;
     if (posthog && typeof (posthog as unknown as Record<string, unknown>).capture === "function") {
       ((posthog as unknown as Record<string, unknown>).capture as (eventName: string, props: unknown) => void)("form_submission", payload);
     }
@@ -309,7 +311,7 @@ export function trackError(
   });
 
   if (typeof window !== "undefined") {
-    const posthog = (window as Record<string, unknown>).posthog;
+    const posthog = (window as unknown as Record<string, unknown>).posthog;
     if (posthog && typeof (posthog as unknown as Record<string, unknown>).capture === "function") {
       ((posthog as unknown as Record<string, unknown>).capture as (eventName: string, props: unknown) => void)("error_tracked", payload);
     }
@@ -349,7 +351,7 @@ export function trackMediaEngagement(
   });
 
   if (typeof window !== "undefined") {
-    const posthog = (window as Record<string, unknown>).posthog;
+    const posthog = (window as unknown as Record<string, unknown>).posthog;
     if (posthog && typeof (posthog as unknown as Record<string, unknown>).capture === "function") {
       ((posthog as unknown as Record<string, unknown>).capture as (eventName: string, props: unknown) => void)("media_engagement", payload);
     }
