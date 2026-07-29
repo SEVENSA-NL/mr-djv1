@@ -18,29 +18,36 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: |
-            frontend-nextjs/package-lock.json
-            backend/package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Install root dependencies
-        run: npm install --no-audit --progress=false
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Validate workflow dependency contracts
+        run: node scripts/check-workflow-lock-contract.mjs
 
-      - name: Install backend dependencies
-        run: npm install --no-audit --progress=false
-        working-directory: backend
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
 
-      - name: Install frontend-nextjs dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: frontend-nextjs
+      - name: Install component dependencies
+        run: pnpm --dir mr-dj-eds-components --ignore-workspace install --frozen-lockfile
 
-      - name: Check formatting (Prettier)
-        run: npm run fmt
-
-      - name: Lint JavaScript/TypeScript
+      - name: Lint frontend
         run: npm run lint
+        working-directory: frontend
+
+      - name: Typecheck frontend
+        run: npm run typecheck
+        working-directory: frontend
+
+      - name: Lint components
+        run: pnpm --dir mr-dj-eds-components --ignore-workspace run lint
+
+      - name: Typecheck components
+        run: pnpm --dir mr-dj-eds-components --ignore-workspace run typecheck:components
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -105,6 +112,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -113,12 +125,13 @@ jobs:
           cache-dependency-path: frontend-nextjs/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: |
-          npm install -g pnpm
-          pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm run lint
 
       - name: Run tests
-        run: pnpm run test:full
+        run: pnpm run test -- --run
+
+      - name: Build
+        run: pnpm run build

@@ -32,4 +32,4 @@ jobs:
         working-directory: frontend
         env:
           CI: true
-        run: npm test -- --runInBand
+        run: npm test
