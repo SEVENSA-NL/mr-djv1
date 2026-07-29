@@ -7,7 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [{ ignores: ['dist'] }, {
-  files: ['**/*.{js,jsx}'],
+  files: ['**/*.{js,jsx,mjs,cjs}'],
   languageOptions: {
     ecmaVersion: 'latest',
     globals: globals.browser,
@@ -38,6 +38,14 @@ export default [{ ignores: ['dist'] }, {
   },
 }, {
   files: ['src/lib/environment.js'],
+  rules: {
+    'no-restricted-globals': 'off',
+  },
+}, {
+  files: ['scripts/**/*.{js,mjs,cjs}', 'tests/**/*.{js,mjs,cjs}'],
+  languageOptions: {
+    globals: globals.node,
+  },
   rules: {
     'no-restricted-globals': 'off',
   },
