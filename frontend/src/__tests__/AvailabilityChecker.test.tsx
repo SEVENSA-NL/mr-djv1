@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import AvailabilityChecker from "../../../AvailabilityChecker.jsx";
+import AvailabilityChecker from "../components/AvailabilityChecker";
 
 vi.mock("react-day-picker", () => {
   return {

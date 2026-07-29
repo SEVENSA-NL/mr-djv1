@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import VideoTestimonials from '../VideoTestimonials';
-import { videoTestimonials, weddingTestimonials, corporateTestimonials, partyTestimonials } from '@/data/testimonials';
+import {
+  videoTestimonials,
+  weddingTestimonials,
+  corporateTestimonials,
+  partyTestimonials,
+} from '../../../data/testimonials';
 
 // Mock VideoTestimonial component to avoid complexity in wrapper testing
-vi.mock('../../components/video/VideoTestimonial', () => ({
+vi.mock('../../../components/video/VideoTestimonial', () => ({
   default: ({ testimonials, autoplay, loop, showControls }: any) => (
     <div data-testid="video-testimonial-component">
       <div data-testid="testimonial-count">{testimonials?.length || 0}</div>

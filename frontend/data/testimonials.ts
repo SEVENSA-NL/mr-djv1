@@ -1,4 +1,4 @@
-import { Testimonial } from '@/components/video/VideoTestimonial';
+import type { Testimonial } from '../components/video/VideoTestimonial';
 
 export const videoTestimonials: Testimonial[] = [
   {

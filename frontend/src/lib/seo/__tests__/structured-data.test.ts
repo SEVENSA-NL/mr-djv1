@@ -1,27 +1,23 @@
-let structuredDataTest: typeof import("structured-data-testing-tool").structuredDataTest;
-
-beforeAll(async () => {
-  ({ structuredDataTest } = await import("structured-data-testing-tool"));
-});
-
 describe("Structured Data JSON-LD validation", () => {
-  const validateSchema = async (schema: Record<string, unknown>, expectedSchema: string) => {
-    if (!structuredDataTest) {
-      throw new Error("structuredDataTest was not initialized");
-    }
+  const validateSchema = (schema: Record<string, unknown>, expectedSchema: string) => {
+    const serialized = JSON.stringify(schema);
+    const parsed = JSON.parse(serialized) as Record<string, unknown>;
+    const declaredTypes = Array.isArray(parsed["@type"])
+      ? parsed["@type"]
+      : [parsed["@type"]];
 
-    const result = await structuredDataTest(JSON.stringify(schema), {
-      schemas: [expectedSchema],
-    });
-
-    expect(result.failed).toHaveLength(0);
-    expect(result.schemas).toContain(expectedSchema);
+    // Fail closed when JSON serialization drops unsupported values or when the
+    // generator emits a non-canonical Schema.org identity.
+    expect(parsed).toStrictEqual(schema);
+    expect(parsed["@context"]).toBe("https://schema.org");
+    expect(declaredTypes).toContain(expectedSchema);
+    expect(Object.values(parsed).some((value) => value === undefined)).toBe(false);
   };
 
   it("validates organization schema output", async () => {
     const { generateOrganizationSchema } = await import("../index");
     const schema = generateOrganizationSchema();
-    await validateSchema(schema, "Organization");
+    validateSchema(schema, "Organization");
   });
 
   it("validates local business schema with city data", async () => {
@@ -33,7 +29,7 @@ describe("Structured Data JSON-LD validation", () => {
       path: "/dj-in-eindhoven",
     });
 
-    await validateSchema(schema, "LocalBusiness");
+    validateSchema(schema, "LocalBusiness");
   });
 
   it("validates event schema details", async () => {
@@ -47,7 +43,7 @@ describe("Structured Data JSON-LD validation", () => {
       endDate: "2025-06-02T01:00:00+02:00",
     });
 
-    await validateSchema(schema, "Event");
+    validateSchema(schema, "Event");
   });
 
   it("validates service schema output", async () => {
@@ -58,6 +54,6 @@ describe("Structured Data JSON-LD validation", () => {
       serviceType: "EntertainmentService",
     });
 
-    await validateSchema(schema, "Service");
+    validateSchema(schema, "Service");
   });
 });

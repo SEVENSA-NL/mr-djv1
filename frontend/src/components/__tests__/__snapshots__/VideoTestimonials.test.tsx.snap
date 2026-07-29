@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VideoTestimonials Wrapper Component > Component rendering > should match the snapshot with default props 1`] = `
+<div
+  data-testid="video-testimonial-component"
+>
+  <div
+    data-testid="testimonial-count"
+  >
+    7
+  </div>
+  <div
+    data-testid="autoplay-setting"
+  >
+    no-autoplay
+  </div>
+  <div
+    data-testid="loop-setting"
+  >
+    no-loop
+  </div>
+  <div
+    data-testid="controls-setting"
+  >
+    controls
+  </div>
+  <div
+    data-testid="testimonial-testimonial-001"
+  >
+    Lisa & Tom van den Berg
+  </div>
+  <div
+    data-testid="testimonial-testimonial-002"
+  >
+    Sarah & Mark Jansen
+  </div>
+  <div
+    data-testid="testimonial-testimonial-003"
+  >
+    Peter Smits
+  </div>
+  <div
+    data-testid="testimonial-testimonial-004"
+  >
+    Emma & David de Vries
+  </div>
+  <div
+    data-testid="testimonial-testimonial-005"
+  >
+    Peter van Dijk
+  </div>
+  <div
+    data-testid="testimonial-testimonial-006"
+  >
+    Linda Bakker
+  </div>
+  <div
+    data-testid="testimonial-testimonial-007"
+  >
+    Mark Hendrikx
+  </div>
+</div>
+`;

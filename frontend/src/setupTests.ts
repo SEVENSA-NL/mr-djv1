@@ -80,12 +80,25 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
-// Mock localStorage
+// Provide a real in-memory Storage implementation while retaining spies.
+// Empty vi.fn() stubs make persistence tests pass through collection but
+// silently discard every value, which is unlike browser localStorage.
+const localStorageData = new Map<string, string>();
 const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  getItem: vi.fn((key: string) => localStorageData.get(key) ?? null),
+  setItem: vi.fn((key: string, value: string) => {
+    localStorageData.set(key, String(value));
+  }),
+  removeItem: vi.fn((key: string) => {
+    localStorageData.delete(key);
+  }),
+  clear: vi.fn(() => {
+    localStorageData.clear();
+  }),
+  key: vi.fn((index: number) => Array.from(localStorageData.keys())[index] ?? null),
+  get length() {
+    return localStorageData.size;
+  },
 };
 global.localStorage = localStorageMock as any;
 
