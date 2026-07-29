@@ -4,32 +4,60 @@ import { sendGa4Event } from '@/lib/analytics/ga4';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
-  const payload = await request.json();
+  const backendUrl = process.env.BACKEND_API_URL;
+  if (!backendUrl) {
+    console.error('[contact]', { code: 'LEAD_BACKEND_UNCONFIGURED' });
+    return NextResponse.json(
+      { status: 'error', code: 'LEAD_BACKEND_UNCONFIGURED' },
+      { status: 503 }
+    );
+  }
+
+  let payload;
+  try {
+    payload = await request.json();
+  } catch {
+    console.error('[contact]', { code: 'LEAD_INVALID_REQUEST' });
+    return NextResponse.json(
+      { status: 'error', code: 'LEAD_INVALID_REQUEST' },
+      { status: 400 }
+    );
+  }
+
+  const backendApiKey = process.env.BACKEND_API_KEY;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch(`${backendUrl.replace(/\/+$/, '')}/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(backendApiKey ? { Authorization: `Bearer ${backendApiKey}` } : {}),
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      console.error('[contact]', {
+        code: 'LEAD_BACKEND_REJECTED',
+        backend_status: response.status,
+      });
+      return NextResponse.json(
+        { status: 'error', code: 'LEAD_BACKEND_REJECTED' },
+        { status: 502 }
+      );
+    }
+  } catch {
+    console.error('[contact]', { code: 'LEAD_BACKEND_UNAVAILABLE' });
+    return NextResponse.json(
+      { status: 'error', code: 'LEAD_BACKEND_UNAVAILABLE' },
+      { status: 503 }
+    );
+  } finally {
+    clearTimeout(timeout);
+  }
 
   try {
-    const backendUrl = process.env.BACKEND_API_URL;
-    const backendApiKey = process.env.BACKEND_API_KEY;
-    if (backendUrl) {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-      const res = await fetch(`${backendUrl}/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(backendApiKey ? { Authorization: `Bearer ${backendApiKey}` } : {}),
-        },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-      if (!res.ok) {
-        console.error('[contact] backend responded non-200', res.status);
-      }
-    } else {
-      console.info('[contact] lead received (no BACKEND_API_URL set)', payload);
-    }
-
-    // Fire GA4 lead event when configured
     await sendGa4Event(
       'lead_contact',
       {
@@ -47,10 +75,9 @@ export async function POST(request: Request) {
           undefined,
       }
     );
-  } catch (error) {
-    console.error('[contact] failed to forward', error);
-    return NextResponse.json({ status: 'error' }, { status: 500 });
+  } catch {
+    console.error('[contact]', { code: 'LEAD_ANALYTICS_FAILED' });
   }
 
-  return NextResponse.json({ status: 'ok', received: true });
+  return NextResponse.json({ status: 'ok', code: 'LEAD_DELIVERED' });
 }
