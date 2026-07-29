@@ -30,7 +30,8 @@ export function findingsDigest(findings) {
 }
 
 export function bytesDigest(bytes) {
-  return createHash('sha256').update(bytes).digest('hex');
+  const normalized = Buffer.from(bytes).toString('utf8').replaceAll('\r\n', '\n');
+  return createHash('sha256').update(normalized).digest('hex');
 }
 
 export function normalizeLintResults(results, projectRoot) {

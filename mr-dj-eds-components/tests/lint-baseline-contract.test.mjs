@@ -4,7 +4,10 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { validateBaselineDocument } from '../scripts/lint-baseline-contract.mjs';
+import {
+  bytesDigest,
+  validateBaselineDocument,
+} from '../scripts/lint-baseline-contract.mjs';
 
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const baseline = JSON.parse(
@@ -48,4 +51,12 @@ test('a changed ESLint version or config invalidates the baseline', () => {
     }),
     ['LINT_BASELINE_TOOLCHAIN_MISMATCH'],
   );
+});
+
+test('config hashing is stable across LF and CRLF checkouts', () => {
+  assert.equal(bytesDigest(Buffer.from('export default {};\n')), bytesDigest(Buffer.from('export default {};\r\n')));
+});
+
+test('config hashing still detects substantive changes', () => {
+  assert.notEqual(bytesDigest(Buffer.from('export default {};\n')), bytesDigest(Buffer.from('export default { rules: {} };\n')));
 });

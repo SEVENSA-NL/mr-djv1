@@ -4,7 +4,7 @@
   "issue": "https://github.com/SEVENSA-NL/mr-djv1/issues/327",
   "source_commit": "d27ca2b551a4269fb2a54c10bb8de15cf1ff5393",
   "eslint_version": "9.26.0",
-  "eslint_config_sha256": "786563c07f5f60303d2f24952bc698985c472606fa821c7887e7a79d50a97590",
+  "eslint_config_sha256": "7072b3e6c874451a953819eed516be358a3aae02e5efa6442241b47328fa76b4",
   "error_count": 237,
   "warning_count": 18,
   "findings_sha256": "16ce87a40d568287c337d98a8237382eaf79fcf50243e2ecac3bc81dbb3df7d8",
