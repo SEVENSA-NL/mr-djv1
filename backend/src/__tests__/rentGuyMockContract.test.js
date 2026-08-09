@@ -46,6 +46,7 @@ describe('RentGuy consumer/provider mock contract', () => {
 
     jest.resetModules();
     process.env = buildRequiredEnv({
+      MRDJ_TEST_EXTERNAL_IO: 'true',
       CONFIG_DASHBOARD_STORE_PATH: MANAGED_ENV_STORE_PATH,
       FLAG_RENTGUY_INTEGRATION: 'true',
       RENTGUY_API_BASE_URL: `http://${HOST}:${address.port}`,

@@ -38,7 +38,11 @@ jest.mock('../lib/logger', () => {
   };
 });
 
-jest.mock('../middleware/rateLimiter', () => (_req, _res, next) => next());
+jest.mock('../middleware/rateLimiter', () => {
+  const passThrough = (_req, _res, next) => next();
+  passThrough.createRateLimiter = () => passThrough;
+  return passThrough;
+});
 
 const app = require('../app');
 const { resetSessions, getDefaultSelections } = require('../services/sessionService');

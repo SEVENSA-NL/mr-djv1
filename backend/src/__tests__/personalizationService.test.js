@@ -3,6 +3,14 @@ const { buildRequiredEnv } = require('../testUtils/env');
 const ORIGINAL_ENV = { ...process.env };
 process.env = { ...ORIGINAL_ENV, ...buildRequiredEnv() };
 
+jest.mock('../lib/db', () => ({
+  isConfigured: jest.fn(() => false),
+  runQuery: jest.fn()
+}));
+
+const config = require('../config');
+const db = require('../lib/db');
+
 const {
   getVariantForRequest,
   resetLogs,
@@ -18,11 +26,16 @@ const ORIGINAL_FETCH = global.fetch;
 
 describe('personalizationService', () => {
   beforeEach(async () => {
+    config.personalization.automationWebhook = ORIGINAL_WEBHOOK;
+    global.fetch = ORIGINAL_FETCH;
     resetLogs();
     await resetCache();
+    resetAutomationQueue();
   });
 
   afterAll(() => {
+    config.personalization.automationWebhook = ORIGINAL_WEBHOOK;
+    global.fetch = ORIGINAL_FETCH;
     process.env = ORIGINAL_ENV;
   });
 

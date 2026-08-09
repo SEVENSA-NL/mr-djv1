@@ -1,8 +1,36 @@
 const Joi = require('joi');
+const os = require('os');
+const path = require('path');
 const managedEnv = require('./lib/managedEnv');
 
-managedEnv.loadToProcessEnv();
-require('dotenv').config();
+function isControlledTestStorePath(candidate) {
+  if (!candidate || !path.isAbsolute(candidate)) {
+    return false;
+  }
+  const resolved = path.resolve(candidate);
+  const tempRoot = path.resolve(os.tmpdir());
+  const relative = path.relative(tempRoot, resolved);
+  return Boolean(relative) && !relative.startsWith('..') && !path.isAbsolute(relative);
+}
+
+function loadEnvironmentFiles() {
+  if (process.env.NODE_ENV === 'test') {
+    if (process.env.MRDJ_TEST_LOAD_MANAGED_ENV === 'true') {
+      if (!isControlledTestStorePath(process.env.CONFIG_DASHBOARD_STORE_PATH)) {
+        throw new Error(
+          'MRDJ_TEST_LOAD_MANAGED_ENV requires an absolute CONFIG_DASHBOARD_STORE_PATH under the OS temp directory.'
+        );
+      }
+      managedEnv.loadToProcessEnv();
+    }
+    return;
+  }
+
+  managedEnv.loadToProcessEnv();
+  require('dotenv').config({ override: false });
+}
+
+loadEnvironmentFiles();
 const featureFlags = require('./lib/featureFlags');
 
 function logStructured(level, message, meta = {}) {
@@ -196,7 +224,8 @@ const DEFAULT_SECTION_CONFIG = [
       'REDIS_TLS',
       'REDIS_NAMESPACE',
       'REDIS_TLS_REJECT_UNAUTHORIZED',
-      'PGSSLMODE'
+      'PGSSLMODE',
+      'FLAG_TELEMETRY'
     ]
   },
   {
@@ -240,7 +269,8 @@ const DEFAULT_SECTION_CONFIG = [
       'RENTGUY_API_KEY',
       'RENTGUY_WORKSPACE_ID',
       'RENTGUY_TIMEOUT_MS',
-      'RENTGUY_WEBHOOK_SECRETS'
+      'RENTGUY_WEBHOOK_SECRETS',
+      'FLAG_RENTGUY_INTEGRATION'
     ]
   },
   {
@@ -248,14 +278,23 @@ const DEFAULT_SECTION_CONFIG = [
     label: 'Automation & CRM',
     description:
       'Instellingen voor Sevensa submit URL, retry-logica en queue-monitoring richting n8n en RentGuy.',
-    keys: ['SEVENSA_SUBMIT_URL', 'SEVENSA_QUEUE_RETRY_DELAY_MS', 'SEVENSA_QUEUE_MAX_ATTEMPTS']
+    keys: [
+      'SEVENSA_SUBMIT_URL',
+      'SEVENSA_QUEUE_RETRY_DELAY_MS',
+      'SEVENSA_QUEUE_MAX_ATTEMPTS',
+      'FLAG_SEVENSA_INTEGRATION'
+    ]
   },
   {
     id: 'personalization',
     label: 'Personalization & CRO',
     description:
       'Webhook en toggles voor keyword-gedreven personalisatie, CRO-analytics en n8n automatiseringen.',
-    keys: ['N8N_PERSONALIZATION_WEBHOOK_URL', 'PERSONALIZATION_WEBHOOK_SECRETS']
+    keys: [
+      'N8N_PERSONALIZATION_WEBHOOK_URL',
+      'PERSONALIZATION_WEBHOOK_SECRETS',
+      'FLAG_PERSONALIZATION'
+    ]
   },
   {
     id: 'feedback',
@@ -531,7 +570,9 @@ function buildDashboardSections(managedKeys) {
 function buildConfig() {
   const tracker = createDefaultTracker();
 
-  const corsOrigin = parseCorsOrigin(process.env.CORS_ORIGIN, tracker);
+  const cors = buildCorsConfig();
+  const externalIoEnabled =
+    process.env.NODE_ENV !== 'test' || process.env.MRDJ_TEST_EXTERNAL_IO === 'true';
   const dashboardAllowedIps = parseList(process.env.CONFIG_DASHBOARD_ALLOWED_IPS);
   const configuredDashboardKeys = parseList(process.env.CONFIG_DASHBOARD_KEYS);
   const managedKeys = configuredDashboardKeys.length ? configuredDashboardKeys : DEFAULT_MANAGED_KEYS;
@@ -549,9 +590,28 @@ function buildConfig() {
     env: withDefault(process.env.NODE_ENV, 'development', 'NODE_ENV', tracker),
     port: parseNumber(process.env.PORT, DEFAULT_PORT, 'PORT', tracker),
     host: withDefault(process.env.HOST, DEFAULT_HOST, 'HOST', tracker),
-    cors: {
-      origin: corsOrigin,
-      credentials: corsOrigin !== '*'
+    cors,
+    security: {
+      referrerPolicy: withDefault(
+        process.env.REFERRER_POLICY,
+        DEFAULT_REFERRER_POLICY,
+        'REFERRER_POLICY',
+        tracker
+      ),
+      csp: {
+        directives: parseCspDirectives(process.env.CSP_DIRECTIVES)
+      },
+      hsts: {
+        maxAge: parseOptionalNumber(
+          process.env.HSTS_MAX_AGE,
+          DEFAULT_HSTS_MAX_AGE,
+          'HSTS_MAX_AGE',
+          tracker,
+          { min: 0 }
+        ),
+        includeSubDomains: parseBoolean(process.env.HSTS_INCLUDE_SUBDOMAINS, true),
+        preload: parseBoolean(process.env.HSTS_PRELOAD, false)
+      }
     },
     logging: hasValue(process.env.LOG_FORMAT)
       ? process.env.LOG_FORMAT
@@ -565,7 +625,7 @@ function buildConfig() {
       windowMs: parseNumber(process.env.RATE_LIMIT_WINDOW_MS, DEFAULT_RATE_LIMIT_WINDOW, 'RATE_LIMIT_WINDOW_MS', tracker),
       max: parseNumber(process.env.RATE_LIMIT_MAX, DEFAULT_RATE_LIMIT_MAX, 'RATE_LIMIT_MAX', tracker)
     },
-    databaseUrl: process.env.DATABASE_URL,
+    databaseUrl: externalIoEnabled ? process.env.DATABASE_URL : null,
     mail: {
       provider: process.env.MAIL_PROVIDER || null,
       apiKey: process.env.MAIL_API_KEY || null,
@@ -590,8 +650,8 @@ function buildConfig() {
     version: withDefault(process.env.npm_package_version, '1.0.0', 'npm_package_version', tracker),
     integrations: {
       rentGuy: {
-        enabled: rentGuyConfigured && rentGuyFlagEnabled,
-        baseUrl: process.env.RENTGUY_API_BASE_URL || null,
+        enabled: externalIoEnabled && rentGuyConfigured && rentGuyFlagEnabled,
+        baseUrl: externalIoEnabled ? process.env.RENTGUY_API_BASE_URL || null : null,
         workspaceId: process.env.RENTGUY_WORKSPACE_ID || null,
         timeoutMs: parseNumber(
           process.env.RENTGUY_TIMEOUT_MS,
@@ -599,11 +659,12 @@ function buildConfig() {
           'RENTGUY_TIMEOUT_MS',
           tracker
         ),
-        webhookSecrets: parseList(process.env.RENTGUY_WEBHOOK_SECRETS)
+        webhookSecrets: parseList(process.env.RENTGUY_WEBHOOK_SECRETS),
+        circuitBreaker: { failureThreshold: 3, cooldownMs: 2 * 60 * 1000 }
       },
       sevensa: {
-        enabled: sevensaConfigured && sevensaFlagEnabled,
-        submitUrl: process.env.SEVENSA_SUBMIT_URL || null,
+        enabled: externalIoEnabled && sevensaConfigured && sevensaFlagEnabled,
+        submitUrl: externalIoEnabled ? process.env.SEVENSA_SUBMIT_URL || null : null,
         retryDelayMs: parseNumber(
           process.env.SEVENSA_QUEUE_RETRY_DELAY_MS,
           DEFAULT_SEVENSA_RETRY_DELAY_MS,
@@ -615,7 +676,8 @@ function buildConfig() {
           DEFAULT_SEVENSA_MAX_ATTEMPTS,
           'SEVENSA_QUEUE_MAX_ATTEMPTS',
           tracker
-        )
+        ),
+        circuitBreaker: { failureThreshold: 3, cooldownMs: 2 * 60 * 1000 }
       },
       instagram: {
         enabled: Boolean(process.env.META_IG_BUSINESS_ID && process.env.META_IG_ACCESS_TOKEN),
@@ -697,11 +759,13 @@ function buildConfig() {
       }
     },
     personalization: {
-      automationWebhook: process.env.N8N_PERSONALIZATION_WEBHOOK_URL || null,
+      automationWebhook: externalIoEnabled
+        ? process.env.N8N_PERSONALIZATION_WEBHOOK_URL || null
+        : null,
       incomingWebhookSecrets: parseList(process.env.PERSONALIZATION_WEBHOOK_SECRETS)
     },
     feedback: {
-      automationWebhook: process.env.N8N_SURVEY_WEBHOOK_URL || null,
+      automationWebhook: externalIoEnabled ? process.env.N8N_SURVEY_WEBHOOK_URL || null : null,
       responseBaseUrl: process.env.SURVEY_RESPONSE_BASE_URL || null
     },
     automation: {
@@ -807,8 +871,7 @@ function buildConfig() {
 const config = buildConfig();
 
 function reload() {
-  managedEnv.loadToProcessEnv();
-  require('dotenv').config({ override: false });
+  loadEnvironmentFiles();
   featureFlags.clearCache();
   const next = buildConfig();
 

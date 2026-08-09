@@ -1,7 +1,15 @@
 const path = require('path');
 
 jest.mock('fs', () => ({
-  statSync: jest.fn()
+  statSync: jest.fn(),
+  existsSync: jest.fn(() => false),
+  readFileSync: jest.fn(),
+  promises: {
+    mkdir: jest.fn(),
+    writeFile: jest.fn(),
+    rename: jest.fn(),
+    unlink: jest.fn()
+  }
 }));
 
 const mockManagedEnv = {
@@ -30,6 +38,9 @@ const fs = require('fs');
 const config = require('../config');
 const configDashboardService = require('../services/configDashboardService');
 
+let rolesStoreContent;
+let temporaryRolesContent;
+
 describe('configDashboardService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -38,17 +49,29 @@ describe('configDashboardService', () => {
     mockManagedEnv.getStorePath.mockReturnValue(path.join(process.cwd(), 'config', '.env.managed'));
     mockManagedEnv.write.mockResolvedValue();
 
+    rolesStoreContent = null;
+    temporaryRolesContent = null;
+    fs.existsSync.mockImplementation(
+      (filePath) => String(filePath).endsWith('dashboard-roles.json') && rolesStoreContent !== null
+    );
+    fs.readFileSync.mockImplementation(() => rolesStoreContent);
+    fs.promises.mkdir.mockResolvedValue();
+    fs.promises.writeFile.mockImplementation(async (_filePath, contents) => {
+      temporaryRolesContent = contents;
+    });
+    fs.promises.rename.mockImplementation(async (_temporaryPath, _storePath) => {
+      rolesStoreContent = temporaryRolesContent;
+      temporaryRolesContent = null;
+    });
+    fs.promises.unlink.mockImplementation(async () => {
+      temporaryRolesContent = null;
+    });
+
     fs.statSync.mockReturnValue({ mtime: new Date('2024-01-02T03:04:05Z') });
 
     config.dashboard.managedKeys = [];
     config.dashboard.sections = [];
 
-    global.roleState = { roles: [], assignments: {} };
-    global.assignments = {};
-    global.updateRoleAssignments = jest.fn(async (incomingAssignments) => {
-      global.roleState = { roles: [{ id: 'admin' }], assignments: incomingAssignments };
-      return global.roleState;
-    });
   });
 
   afterEach(() => {
@@ -57,6 +80,8 @@ describe('configDashboardService', () => {
     delete process.env.SHORT;
     delete process.env.REMOVE;
     delete process.env.NUMERIC;
+    delete process.env.CONFIG_DASHBOARD_ROLES_PATH;
+    jest.restoreAllMocks();
   });
 
   it('masks values in getState and returns metadata', () => {
@@ -95,8 +120,6 @@ describe('configDashboardService', () => {
     process.env.SECRET = 'old-secret';
     process.env.REMOVE = 'keep-me';
 
-    global.assignments = { user1: ['admin'] };
-
     const state = await configDashboardService.updateValues({
       SECRET: 'newSecret',
       REMOVE: '',
@@ -106,8 +129,6 @@ describe('configDashboardService', () => {
 
     expect(mockManagedEnv.write).toHaveBeenCalledWith({ SECRET: 'newSecret', NUMERIC: '42' });
     expect(config.reload).toHaveBeenCalledTimes(1);
-    expect(global.updateRoleAssignments).toHaveBeenCalledWith(global.assignments);
-
     expect(process.env.SECRET).toBe('newSecret');
     expect(process.env.REMOVE).toBeUndefined();
     expect(process.env.NUMERIC).toBe('42');
@@ -128,5 +149,84 @@ describe('configDashboardService', () => {
     await expect(configDashboardService.updateValues(null)).rejects.toThrow('Invalid payload');
     await expect(configDashboardService.updateValues('string')).rejects.toThrow('Invalid payload');
     await expect(configDashboardService.updateValues([])).rejects.toThrow('Invalid payload');
+  });
+
+  it('persists role CRUD and assignments through atomic same-directory replacement', async () => {
+    config.dashboard.managedKeys = ['SECRET'];
+
+    const created = await configDashboardService.createRole({
+      name: 'Editor',
+      description: 'May edit content',
+      permissions: ['content.write', 'content.write', 'content.read']
+    });
+
+    expect(created.role).toEqual({
+      id: 'editor',
+      name: 'Editor',
+      description: 'May edit content',
+      permissions: ['content.write', 'content.read']
+    });
+    const [temporaryPath, storePath] = fs.promises.rename.mock.calls[0];
+    expect(path.dirname(temporaryPath)).toBe(path.dirname(storePath));
+    expect(path.basename(temporaryPath)).toMatch(/^\.dashboard-roles\.json\..+\.tmp$/);
+    expect(path.basename(storePath)).toBe('dashboard-roles.json');
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      temporaryPath,
+      expect.stringContaining('"id": "editor"'),
+      { mode: 0o600, flag: 'wx' }
+    );
+
+    const assigned = await configDashboardService.updateValues(
+      {},
+      { assignments: { SECRET: ['missing', 'editor', 'editor'] } }
+    );
+    expect(assigned.roleAssignments).toEqual({ SECRET: ['editor'] });
+
+    const updated = await configDashboardService.updateRole('editor', {
+      name: 'Senior Editor',
+      permissions: ['content.publish']
+    });
+    expect(updated.role).toEqual(
+      expect.objectContaining({ id: 'editor', name: 'Senior Editor', permissions: ['content.publish'] })
+    );
+    expect(configDashboardService.listRoles().assignments).toEqual({ SECRET: ['editor'] });
+
+    const deleted = await configDashboardService.deleteRole('editor');
+    expect(deleted.role.id).toBe('editor');
+    expect(deleted.roles).toEqual([]);
+    expect(deleted.assignments).toEqual({});
+  });
+
+  it('fails closed on a corrupt role store and can replace it atomically', async () => {
+    rolesStoreContent = '{not-json';
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    expect(configDashboardService.listRoles()).toEqual({ roles: [], assignments: {} });
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[configDashboardService] Failed to read roles store:',
+      expect.any(String)
+    );
+
+    await configDashboardService.createRole({ name: 'Recovery' });
+    expect(configDashboardService.listRoles()).toEqual({
+      roles: [expect.objectContaining({ id: 'recovery', name: 'Recovery' })],
+      assignments: {}
+    });
+  });
+
+  it('keeps the prior role store and cleans the temporary file when a write fails', async () => {
+    rolesStoreContent = JSON.stringify({
+      roles: [{ id: 'existing', name: 'Existing', description: '', permissions: [] }],
+      assignments: {}
+    });
+    fs.promises.writeFile.mockRejectedValueOnce(new Error('disk full'));
+
+    await expect(configDashboardService.createRole({ name: 'New role' })).rejects.toThrow('disk full');
+
+    expect(fs.promises.rename).not.toHaveBeenCalled();
+    expect(fs.promises.unlink).toHaveBeenCalledWith(expect.stringMatching(/\.tmp$/));
+    expect(configDashboardService.listRoles().roles).toEqual([
+      { id: 'existing', name: 'Existing', description: '', permissions: [] }
+    ]);
   });
 });

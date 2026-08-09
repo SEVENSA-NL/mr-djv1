@@ -1,36 +1,69 @@
+const os = require('os');
+const path = require('path');
+
 const REQUIRED_ENV = Object.freeze({
   NODE_ENV: 'test',
-  DATABASE_URL: 'postgres://test-user:test-pass@localhost:5432/mrdj',
-  REDIS_URL: 'redis://localhost:6379/0',
+  MRDJ_TEST_EXTERNAL_IO: 'false',
+  DATABASE_URL: 'postgres://fixture-user:fixture-password@127.0.0.1:5432/mrdj_test',
+  REDIS_URL: 'redis://127.0.0.1:6379/15',
   MAIL_PROVIDER: 'postmark',
-  MAIL_API_KEY: 'test-mail-key',
-  MAIL_FROM_ADDRESS: 'noreply@example.com',
-  MAIL_REPLY_TO: 'support@example.com',
-  MAIL_TEMPLATES_CONTACT: 'tmpl-contact',
-  MAIL_TEMPLATES_BOOKING: 'tmpl-booking',
-  RENTGUY_API_BASE_URL: 'https://rentguy.example/api',
-  RENTGUY_API_KEY: 'rentguy-test-key',
-  RENTGUY_WORKSPACE_ID: 'workspace-test',
-  SEVENSA_SUBMIT_URL: 'https://sevensa.example/submit',
-  N8N_PERSONALIZATION_WEBHOOK_URL: 'https://n8n.example/webhook',
-  N8N_SURVEY_WEBHOOK_URL: 'https://n8n.example/webhook/surveys',
-  SURVEY_RESPONSE_BASE_URL: 'https://feedback.example/respond',
-  SEO_AUTOMATION_API_URL: 'https://seo.example/api',
-  SEO_AUTOMATION_API_KEY: 'seo-test-key',
-  SEO_AUTOMATION_KEYWORDSET_ID: 'keywordset-test',
+  MAIL_API_KEY: 'fixture-mail-api-key',
+  MAIL_FROM_ADDRESS: 'noreply@fixture.invalid',
+  MAIL_REPLY_TO: 'support@fixture.invalid',
+  MAIL_TEMPLATES_CONTACT: 'fixture-contact-template',
+  MAIL_TEMPLATES_BOOKING: 'fixture-booking-template',
+  RENTGUY_API_BASE_URL: 'https://rentguy.fixture.invalid/api',
+  RENTGUY_API_KEY: 'fixture-rentguy-api-key',
+  RENTGUY_WORKSPACE_ID: 'fixture-workspace',
+  SEVENSA_SUBMIT_URL: 'https://sevensa.fixture.invalid/submit',
+  N8N_PERSONALIZATION_WEBHOOK_URL: 'https://n8n.fixture.invalid/personalization',
+  N8N_SURVEY_WEBHOOK_URL: 'https://n8n.fixture.invalid/surveys',
+  SURVEY_RESPONSE_BASE_URL: 'https://feedback.fixture.invalid/respond',
+  SEO_AUTOMATION_API_URL: 'https://seo.fixture.invalid/api',
+  SEO_AUTOMATION_API_KEY: 'fixture-seo-api-key',
+  SEO_AUTOMATION_KEYWORDSET_ID: 'fixture-keywordset',
   SEO_AUTOMATION_REGION: 'Noord-Brabant',
-  SEO_AUTOMATION_APPROVAL_EMAIL: 'marketing@example.com',
-  CITY_AUTOMATION_LLM_PROVIDER: 'openai',
-  CITY_AUTOMATION_LLM_MODEL: 'gpt-4.1-mini',
-  CITY_AUTOMATION_LLM_API_KEY: 'city-automation-test-key',
+  SEO_AUTOMATION_APPROVAL_EMAIL: 'marketing@fixture.invalid',
+  CITY_AUTOMATION_LLM_PROVIDER: 'fixture-provider',
+  CITY_AUTOMATION_LLM_MODEL: 'fixture-model',
+  CITY_AUTOMATION_LLM_API_KEY: 'fixture-city-automation-api-key',
   CITY_AUTOMATION_DRY_RUN: 'false'
 });
+
+const SAFE_HOST_ENV_KEYS = Object.freeze([
+  'CI',
+  'PATH',
+  'Path',
+  'SYSTEMROOT',
+  'SystemRoot',
+  'TEMP',
+  'TMP'
+]);
 
 function buildRequiredEnv(overrides = {}) {
   return { ...REQUIRED_ENV, ...overrides };
 }
 
+function buildIsolatedEnv(overrides = {}) {
+  const hostEnv = {};
+  for (const key of SAFE_HOST_ENV_KEYS) {
+    if (process.env[key] !== undefined) {
+      hostEnv[key] = process.env[key];
+    }
+  }
+
+  return buildRequiredEnv({
+    ...hostEnv,
+    CONFIG_DASHBOARD_STORE_PATH: path.join(
+      os.tmpdir(),
+      `mr-dj-jest-managed-env-${process.pid}.env`
+    ),
+    ...overrides
+  });
+}
+
 module.exports = {
   REQUIRED_ENV,
-  buildRequiredEnv
+  buildRequiredEnv,
+  buildIsolatedEnv
 };

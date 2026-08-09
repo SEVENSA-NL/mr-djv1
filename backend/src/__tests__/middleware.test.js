@@ -25,10 +25,12 @@ function setupLoggerMock() {
 describe('rateLimiter middleware', () => {
   let rateLimiter;
   let loggerMocks;
+  let now;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.resetModules();
-    jest.useFakeTimers();
+    now = 1_000;
+    jest.spyOn(Date, 'now').mockImplementation(() => now);
     loggerMocks = setupLoggerMock();
     jest.doMock('../config', () => ({
       rateLimit: { windowMs: 100, max: 2 }
@@ -36,37 +38,51 @@ describe('rateLimiter middleware', () => {
     rateLimiter = require('../middleware/rateLimiter');
   });
 
-  afterEach(async () => {
-    if (server) {
-      await new Promise((resolve, reject) => {
-        server.close((error) => (error ? reject(error) : resolve()));
-      });
-      server = null;
-    }
-
+  afterEach(() => {
     delete process.env.RATE_LIMIT_WINDOW_MS;
     delete process.env.RATE_LIMIT_MAX;
+    jest.restoreAllMocks();
     jest.resetModules();
   });
 
-  async function getTest() {
-    const response = await fetch(`${baseUrl}/test`);
-    const body = await response.json();
-    return { status: response.status, body };
+  function getTest() {
+    const response = {
+      statusCode: 200,
+      body: null,
+      status: jest.fn(function status(code) {
+        this.statusCode = code;
+        return this;
+      }),
+      json: jest.fn(function json(body) {
+        this.body = body;
+        return this;
+      })
+    };
+    const next = jest.fn(() => {
+      response.body = { ok: true };
+    });
+
+    rateLimiter(
+      { ip: '10.0.0.1', headers: {}, method: 'GET', originalUrl: '/test' },
+      response,
+      next
+    );
+
+    return { status: response.statusCode, body: response.body };
   }
 
   it('allows requests within the configured window', async () => {
-    const first = await getTest();
-    const second = await getTest();
+    const first = getTest();
+    const second = getTest();
 
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
   });
 
   it('blocks requests that exceed the limit and recovers after the window', async () => {
-    await getTest();
-    await getTest();
-    const limited = await getTest();
+    getTest();
+    getTest();
+    const limited = getTest();
 
     expect(limited.status).toBe(429);
     expect(limited.body).toEqual({
@@ -81,14 +97,20 @@ describe('rateLimiter middleware', () => {
       expect.objectContaining({ retryAfterSeconds: expect.any(Number) })
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    now += 150;
 
-    const afterReset = await getTest();
+    const afterReset = getTest();
     expect(afterReset.status).toBe(200);
   });
 });
 
 describe('error handlers', () => {
+  beforeEach(() => {
+    jest.resetModules();
+    jest.unmock('../config');
+    jest.unmock('../lib/logger');
+  });
+
   afterEach(() => {
     jest.resetModules();
     jest.restoreAllMocks();

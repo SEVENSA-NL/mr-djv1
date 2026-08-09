@@ -160,11 +160,42 @@ function ensureCaptchaPresence(req, res, next) {
   next();
 }
 
+const spamTerms = [
+  /\bseo\s+marketing\b/i,
+  /\bbacklinks?\b/i,
+  /\b(?:bitcoin|crypto)\b/i,
+  /\bcasino\b/i
+];
+
+function containsSpamTerm(value) {
+  return typeof value === 'string' && spamTerms.some((pattern) => pattern.test(value));
+}
+
+function containsPromotionalLink(value) {
+  return typeof value === 'string' && /(?:https?:\/\/|www\.)\S+/i.test(value);
+}
+
 const validations = [
-  body('name').trim().notEmpty().withMessage('Naam is vereist'),
+  body('name')
+    .trim()
+    .notEmpty()
+    .withMessage('Naam is vereist')
+    .bail()
+    .custom((value) => !containsSpamTerm(value))
+    .withMessage('Naam lijkt spam te bevatten'),
   body('email').trim().isEmail().withMessage('Ongeldig e-mailadres'),
   body('phone').trim().isLength({ min: 6 }).withMessage('Telefoonnummer is te kort'),
-  body('message').optional().trim().isLength({ max: 2000 }).withMessage('Bericht is te lang'),
+  body('message')
+    .optional()
+    .trim()
+    .isLength({ max: 2000 })
+    .withMessage('Bericht is te lang')
+    .bail()
+    .custom((value) => !containsPromotionalLink(value))
+    .withMessage('Bericht mag geen links bevatten')
+    .bail()
+    .custom((value) => !containsSpamTerm(value))
+    .withMessage('Bericht lijkt spam te bevatten'),
   body('eventType')
     .trim()
     .notEmpty()

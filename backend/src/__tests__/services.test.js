@@ -14,20 +14,20 @@ jest.mock('../lib/db', () => ({
   }))
 }));
 
-jest.mock('../lib/logger', () => ({
-  logger: {
+jest.mock('../lib/logger', () => {
+  const logger = {
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
     debug: jest.fn()
-  },
-  createLogger: jest.fn(() => ({
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    debug: jest.fn()
-  }))
-}));
+  };
+  logger.child = jest.fn(() => logger);
+
+  return {
+    logger,
+    createLogger: jest.fn(() => logger)
+  };
+});
 
 jest.mock('../services/rentGuyService', () => ({
   syncLead: jest.fn(() =>
@@ -50,6 +50,23 @@ jest.mock('../services/sevensaService', () => ({
   reset: jest.fn()
 }));
 
+jest.mock('../services/surveyService', () => ({
+  queueSurveyInvite: jest.fn().mockResolvedValue({
+    survey: null,
+    automation: { delivered: false, reason: 'not-requested' }
+  }),
+  getApprovedFeedback: jest.fn().mockResolvedValue([])
+}));
+
+jest.mock('../services/mailService', () => ({
+  sendBookingConfirmation: jest.fn().mockResolvedValue({
+    delivered: false,
+    queued: false,
+    skipped: true,
+    reason: 'mail-not-configured'
+  })
+}));
+
 const db = require('../lib/db');
 const cache = require('../lib/cache');
 const config = require('../config');
@@ -60,6 +77,7 @@ const packageService = require('../services/packageService');
 const reviewService = require('../services/reviewService');
 const rentGuyService = require('../services/rentGuyService');
 const sevensaService = require('../services/sevensaService');
+const mailService = require('../services/mailService');
 const { logger } = require('../lib/logger');
 
 function mockConsole(method = 'error') {
@@ -68,6 +86,14 @@ function mockConsole(method = 'error') {
 
 describe('contactService', () => {
   beforeEach(() => {
+    db.isConfigured.mockReset().mockReturnValue(false);
+    db.getStatus.mockReset().mockReturnValue({
+      connected: false,
+      lastError: null,
+      lastSuccessfulAt: null,
+      lastFailureAt: null
+    });
+    db.runQuery.mockReset();
     config.integrations = config.integrations || {};
     config.integrations.hcaptcha = {
       enabled: false,
@@ -86,7 +112,6 @@ describe('contactService', () => {
   it('persists contact submissions in the database when configured', async () => {
     const createdAt = new Date('2024-01-01T10:00:00Z');
     db.isConfigured.mockReturnValueOnce(true);
-    db.getStatus.mockReturnValueOnce({ connected: true, lastError: null });
     db.runQuery.mockResolvedValueOnce({
       rows: [
         {
@@ -149,7 +174,7 @@ describe('contactService', () => {
   });
 
   it('falls back to in-memory storage when the database fails', async () => {
-    db.isConfigured.mockReturnValueOnce(true);
+    db.isConfigured.mockReturnValue(true);
     db.runQuery.mockRejectedValueOnce(new Error('insert failed'));
     logger.error.mockClear();
     logger.warn.mockClear();
@@ -250,7 +275,7 @@ describe('contactService', () => {
   });
 
   it('exposes the current status information', () => {
-    db.getStatus.mockReturnValueOnce({ connected: false, lastError: 'boom' });
+    db.getStatus.mockReturnValue({ connected: false, lastError: 'boom' });
 
     expect(contactService.getContactServiceStatus()).toEqual({
       databaseConnected: false,
@@ -291,8 +316,11 @@ describe('contactService', () => {
 
     const result = await contactService.flushQueuedContacts({ force: true });
 
-    expect(result).toEqual({ flushed: 1, queueSize: 0 });
+    expect(result).toEqual({ flushed: 1, queueSize: 0, error: null });
     expect(contactService.getFallbackQueueSnapshot().queueSize).toBe(0);
+    expect(contactService.getQueueMetrics()).toEqual(
+      expect.objectContaining({ totalFlushed: 1, queueSize: 0, lastFlushError: null })
+    );
     expect(logger.info).toHaveBeenCalledWith(
       expect.objectContaining({ event: 'contact.queue.flush-complete', flushed: 1, queueSize: 0 }),
       expect.stringContaining('Persisted queued contacts')
@@ -527,7 +555,13 @@ describe('bookingService', () => {
     expect(created.mailDelivery).toEqual(
       expect.objectContaining({ skipped: true, reason: 'mail-not-configured' })
     );
-
+    expect(mailService.sendBookingConfirmation).toHaveBeenCalledWith(
+      expect.objectContaining({
+        to: 'local@example.com',
+        tokens: expect.any(Object),
+        meta: expect.objectContaining({ bookingId: created.id })
+      })
+    );
     const result = await bookingService.getRecentBookings(5);
     expect(result.persisted).toBe(false);
     expect(result.bookings[0]).toMatchObject({ name: 'Local Booker' });
@@ -666,6 +700,7 @@ describe('catalog services', () => {
           id: 'review-1',
           name: 'Reviewer',
           eventType: 'Event',
+          city: null,
           rating: 5,
           reviewText: 'Great!',
           createdAt: new Date('2024-04-01T10:00:00Z'),
@@ -681,6 +716,7 @@ describe('catalog services', () => {
           id: 'review-1',
           name: 'Reviewer',
           eventType: 'Event',
+          city: null,
           rating: 5,
           reviewText: 'Great!',
           createdAt: new Date('2024-04-01T10:00:00Z'),

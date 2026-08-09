@@ -7,6 +7,7 @@ const rentGuyService = require('../services/rentGuyService');
 const sevensaService = require('../services/sevensaService');
 const observabilityService = require('../services/observabilityService');
 const reviewService = require('../services/reviewService');
+const featureFlags = require('../lib/featureFlags');
 const { logger } = require('../lib/logger');
 
 const DASHBOARD_LIMIT_BOUNDS = { min: 1, max: 500 };
@@ -3182,6 +3183,15 @@ router.get('/api/observability/variants', async (_req, res, next) => {
   try {
     const analytics = await observabilityService.getVariantAnalytics();
     res.json(analytics);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/api/observability/conversions', async (_req, res, next) => {
+  try {
+    const statistics = await observabilityService.getConversionStats();
+    res.json(statistics);
   } catch (error) {
     next(error);
   }

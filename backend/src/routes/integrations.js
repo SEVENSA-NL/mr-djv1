@@ -8,6 +8,25 @@ const { logger } = require('../lib/logger');
 const { assertValidSignature, SignatureVerificationError } = require('../lib/signature');
 
 const router = express.Router();
+const WEBHOOK_SIGNATURE_HEADER = 'x-mrdj-signature';
+
+function verifyWebhookRequest(req, secrets) {
+  const payload = Buffer.isBuffer(req.rawBody)
+    ? req.rawBody
+    : Buffer.from(JSON.stringify(req.body || {}), 'utf8');
+  return assertValidSignature({
+    header: req.get(WEBHOOK_SIGNATURE_HEADER),
+    payload,
+    secrets
+  });
+}
+
+function rejectInvalidSignature(res, error) {
+  res.status(error.statusCode || 401).json({
+    error: 'Invalid webhook signature',
+    code: error.code
+  });
+}
 
 const CRM_EXPORT_COLUMNS = [
   'lead_id',
@@ -62,6 +81,52 @@ router.get('/sevensa/status', async (_req, res, next) => {
     const status = await sevensaService.getStatus();
     res.json(status);
   } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/rentguy/webhook', (req, res, next) => {
+  try {
+    const secrets = config.integrations?.rentGuy?.webhookSecrets || [];
+    const verification = verifyWebhookRequest(req, secrets);
+    logger.info(
+      {
+        source: 'rentguy-webhook',
+        matchedSecretIndex: secrets.indexOf(verification.secret),
+        eventType: req.body?.type || req.body?.event || 'unknown'
+      },
+      'Received authenticated RentGuy webhook'
+    );
+    res.status(204).end();
+  } catch (error) {
+    if (error instanceof SignatureVerificationError) {
+      logger.warn({ err: error, source: 'rentguy-webhook' }, 'Rejected RentGuy webhook');
+      rejectInvalidSignature(res, error);
+      return;
+    }
+    next(error);
+  }
+});
+
+router.post('/personalization/webhook', (req, res, next) => {
+  try {
+    const secrets = config.personalization?.incomingWebhookSecrets || [];
+    const verification = verifyWebhookRequest(req, secrets);
+    logger.info(
+      {
+        source: 'personalization-webhook',
+        matchedSecretIndex: secrets.indexOf(verification.secret),
+        eventType: req.body?.type || req.body?.event || 'unknown'
+      },
+      'Received authenticated personalization webhook'
+    );
+    res.status(204).end();
+  } catch (error) {
+    if (error instanceof SignatureVerificationError) {
+      logger.warn({ err: error, source: 'personalization-webhook' }, 'Rejected personalization webhook');
+      rejectInvalidSignature(res, error);
+      return;
+    }
     next(error);
   }
 });

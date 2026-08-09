@@ -420,6 +420,8 @@ async function saveContact(payload, options = {}) {
         eventDate: row.eventDate || eventDate,
         packageId: row.packageId || payload.packageId || null,
         persisted: true,
+        queued: false,
+        storageStrategy: 'postgres',
         name: payload.name,
         email: payload.email,
         phone: payload.phone,
@@ -706,6 +708,17 @@ async function flushQueuedContacts({ force = false } = {}) {
     }
   }
 
+  if (!errorMessage) {
+    logger.info(
+      {
+        event: 'contact.queue.flush-complete',
+        flushed,
+        queueSize: inMemoryContacts.size
+      },
+      'Persisted queued contacts'
+    );
+  }
+
   return {
     flushed,
     queueSize: inMemoryContacts.size,
@@ -734,7 +747,9 @@ function getFallbackQueueSnapshot(limit = 25) {
   return {
     queueSize: inMemoryContacts.size,
     sampleSize: entries.length,
-    entries
+    entries,
+    items: entries,
+    metrics: getQueueMetrics()
   };
 }
 

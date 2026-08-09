@@ -1,7 +1,7 @@
 const { buildRequiredEnv } = require('../testUtils/env');
 
 const ORIGINAL_ENV = { ...process.env };
-const BASE_ENV = buildRequiredEnv();
+const BASE_ENV = buildRequiredEnv({ MRDJ_TEST_EXTERNAL_IO: 'true' });
 const ORIGINAL_FETCH = global.fetch;
 
 function buildEnv(overrides = {}) {
@@ -34,7 +34,7 @@ describe('sevensaService', () => {
 
   it('fails fast when Sevensa webhook is missing', async () => {
     await expect(loadService({ SEVENSA_SUBMIT_URL: undefined })).rejects.toThrow(
-      'Missing required environment variable "SEVENSA_SUBMIT_URL" for Sevensa lead automation (SEVENSA_SUBMIT_URL).'
+      'Environment validation failed: SEVENSA_SUBMIT_URL is required for Sevensa automation.'
     );
   });
 
