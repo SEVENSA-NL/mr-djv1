@@ -16,5 +16,5 @@ jobs:
         with: { node-version: '20' }
       - run: npm ci
       - run: npm run build
-      - run: node scripts/verify_next_build.js
-      - run: npm run start & sleep 5; curl -sf http://localhost:3000/api/health
+      - run: node scripts/verify_static_build.js
+      - run: npm run start & sleep 5; curl -sf http://localhost:4173/
