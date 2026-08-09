@@ -57,3 +57,20 @@
 
 ### Technisch onderhoud
 - [ ] T4.1: Git repository opschonen (stashes, docker-compose/nginx wijzigingen, .gitignore updates, tag `v1.0-react-spa`).
+
+## Normal private VPS access
+
+Use only the exact laptop alias `sevensa-vps-codex` for bounded read-only
+probes:
+
+```powershell
+ssh sevensa-vps-codex hostname -s
+ssh -o BatchMode=yes -o ConnectTimeout=15 sevensa-vps-codex uname -srm
+```
+
+Safe SSH options and read-only commands are allowlisted; concurrent callers
+queue behind the exclusive one-shot pipe for up to 30 seconds. Complex or
+privileged work requires an issue-bound typed runbook with `sudo -n`. Never use
+root/password/public/direct-IP/plaintext-key/generic-known-hosts/ambient-agent/
+`ProxyCommand` override/`sh -c` access. Route source: recovery-ops#43 at
+`c65f6f1`; propagation: sevensa-os#110.
