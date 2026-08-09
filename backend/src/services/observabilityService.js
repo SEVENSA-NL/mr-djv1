@@ -118,6 +118,46 @@ function nowIso() {
   return new Date().toISOString();
 }
 
+function recordRequestMetric(serviceName, latencyMs) {
+  const name = String(serviceName || '').trim();
+  const duration = Number(latencyMs);
+  if (!name || !Number.isFinite(duration) || duration < 0) {
+    return;
+  }
+
+  const metric = requestMetrics.get(name) || {
+    count: 0,
+    totalLatencyMs: 0,
+    minLatencyMs: duration,
+    maxLatencyMs: duration,
+    lastLatencyMs: duration,
+    lastRecordedAt: null
+  };
+  metric.count += 1;
+  metric.totalLatencyMs += duration;
+  metric.minLatencyMs = Math.min(metric.minLatencyMs, duration);
+  metric.maxLatencyMs = Math.max(metric.maxLatencyMs, duration);
+  metric.lastLatencyMs = duration;
+  metric.lastRecordedAt = nowIso();
+  requestMetrics.set(name, metric);
+}
+
+function getRequestMetricsSummary() {
+  return Object.fromEntries(
+    Array.from(requestMetrics.entries()).map(([name, metric]) => [
+      name,
+      {
+        count: metric.count,
+        averageLatencyMs: Number((metric.totalLatencyMs / metric.count).toFixed(2)),
+        minLatencyMs: Number(metric.minLatencyMs.toFixed(2)),
+        maxLatencyMs: Number(metric.maxLatencyMs.toFixed(2)),
+        lastLatencyMs: Number(metric.lastLatencyMs.toFixed(2)),
+        lastRecordedAt: metric.lastRecordedAt
+      }
+    ])
+  );
+}
+
 /**
  * Lazily loads persisted monitoring history and ensures in-memory structures are ready.
  *
@@ -518,6 +558,56 @@ async function getVariantAnalytics() {
 }
 
 /**
+ * Builds the dashboard conversion funnel from the same in-memory exposure and
+ * event logs used by variant analytics.
+ *
+ * @returns {Promise<Object>}
+ */
+async function getConversionStats() {
+  const analytics = await getVariantAnalytics();
+  const totals = analytics.totals;
+  const funnel = [
+    { id: 'exposures', label: 'Variant exposures', count: totals.exposures },
+    { id: 'cta-clicks', label: 'CTA clicks', count: totals.ctaClicks },
+    { id: 'form-starts', label: 'Form starts', count: totals.formStarts },
+    { id: 'form-submits', label: 'Form submits', count: totals.formSubmits },
+    { id: 'conversions', label: 'Conversions', count: totals.conversions }
+  ];
+
+  const topVariants = analytics.variants
+    .filter((variant) => variant.conversions > 0)
+    .sort((left, right) => right.conversions - left.conversions || right.exposures - left.exposures)
+    .slice(0, 10);
+  const labels = new Map(analytics.variants.map((variant) => [variant.variantId, variant.label]));
+  const recentConversions = getEventLog()
+    .filter((entry) => entry.type === 'conversion')
+    .slice(-20)
+    .reverse()
+    .map((entry) => ({
+      id: entry.id,
+      type: entry.type,
+      variantId: entry.variantId,
+      variantLabel: labels.get(entry.variantId) || entry.variantId,
+      createdAt: entry.createdAt
+    }));
+
+  return {
+    updatedAt: nowIso(),
+    totals: {
+      ...totals,
+      exposureEvents: totals.exposures,
+      ctaClickEvents: totals.ctaClicks,
+      formStartEvents: totals.formStarts,
+      formSubmitEvents: totals.formSubmits,
+      conversionEvents: totals.conversions
+    },
+    funnel,
+    topVariants,
+    recentConversions
+  };
+}
+
+/**
  * Clears all runtime state (used during tests).
  *
  * @returns {void}
@@ -545,6 +635,9 @@ module.exports = {
   scheduleRun,
   getMonitoringState,
   getVariantAnalytics,
+  getConversionStats,
+  recordRequestMetric,
+  getRequestMetricsSummary,
   reset,
   ping
 };

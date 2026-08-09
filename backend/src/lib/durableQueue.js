@@ -148,7 +148,7 @@ function createInMemoryQueue(name, processor, { defaultJobOptions = {} } = {}) {
     async getJobs(statuses) {
       const jobs = [];
       statuses.forEach((status) => {
-        if (status === 'waiting' || status === 'delayed') {
+        if (status === 'waiting') {
           jobs.push(...waiting);
         } else if (status === 'failed') {
           jobs.push(...failed);

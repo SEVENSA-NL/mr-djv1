@@ -156,6 +156,39 @@ function normalizeEventDate(input, defaultTimeZone = DEFAULT_TIMEZONE) {
   return { start: null, end: null, timeZone: defaultTimeZone };
 }
 
+async function buildBookingEmailContext(payload, booking) {
+  let selectedPackage = null;
+  const packageId = booking.packageId || payload.packageId || null;
+
+  if (packageId) {
+    try {
+      const packageResult = await packageService.getPackages();
+      selectedPackage = (packageResult.packages || []).find((item) => item.id === packageId) || null;
+    } catch (error) {
+      console.warn('[bookingService] Failed to load package details for email context:', error.message);
+    }
+  }
+
+  return {
+    tokens: {
+      bookingReference: booking.id,
+      customerName: booking.name || payload.name,
+      eventType: booking.eventType || payload.eventType,
+      eventDate: booking.eventDate instanceof Date ? booking.eventDate.toISOString() : booking.eventDate || '',
+      packageName: selectedPackage?.name || packageId || '',
+      packagePrice: selectedPackage?.price || '',
+      phone: booking.phone || payload.phone || '',
+      email: booking.email || payload.email || ''
+    },
+    personalization: {
+      variantId: null,
+      matchType: 'default',
+      keywords: [],
+      city: null
+    }
+  };
+}
+
 async function createBooking(payload) {
   const timestamp = new Date();
   let result;
@@ -294,7 +327,8 @@ async function createBooking(payload) {
     eventDate: result.eventDate,
     eventEndDate: result.eventEndDate,
     eventTimeZone: result.eventTimeZone,
-    rentGuySync
+    rentGuySync,
+    mailDelivery
   };
 }
 

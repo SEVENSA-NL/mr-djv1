@@ -123,8 +123,8 @@ describe('observabilityService', () => {
       type: 'conversion',
       variantId,
       keyword: 'feest dj',
-      payload: { revenue: 975 },
-      context: { source: 'unit-test' }
+      payload: { revenue: 975, email: 'private@example.invalid', message: 'private message' },
+      context: { source: 'unit-test', customerEmail: 'context@example.invalid' }
     });
 
     const stats = await observabilityService.getConversionStats();
@@ -138,5 +138,16 @@ describe('observabilityService', () => {
       expect.objectContaining({ variantId, conversions: expect.any(Number) })
     );
     expect(Array.isArray(stats.recentConversions)).toBe(true);
+    expect(stats.recentConversions[0]).toEqual({
+      id: expect.any(String),
+      type: 'conversion',
+      variantId,
+      variantLabel: expect.any(String),
+      createdAt: expect.any(String)
+    });
+    const recentConversionsJson = JSON.stringify(stats.recentConversions);
+    expect(recentConversionsJson).not.toContain('private@example.invalid');
+    expect(recentConversionsJson).not.toContain('context@example.invalid');
+    expect(recentConversionsJson).not.toContain('private message');
   });
 });

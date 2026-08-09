@@ -14,6 +14,7 @@ function forbidden(res) {
 }
 
 function unauthorized(res) {
+  res.set('WWW-Authenticate', 'Basic realm="Config Dashboard"');
   res.status(401).json({ error: 'Unauthorized' });
 }
 

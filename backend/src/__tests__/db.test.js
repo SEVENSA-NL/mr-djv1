@@ -1,8 +1,6 @@
 const { buildRequiredEnv } = require('../testUtils/env');
 
 const ORIGINAL_ENV = { ...process.env };
-const BASE_ENV = buildRequiredEnv();
-
 function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve));
 }
@@ -18,10 +16,8 @@ describe('database helper', () => {
     process.env = ORIGINAL_ENV;
   });
 
-  it('returns null when no database URL is configured', async () => {
-    const env = { ...BASE_ENV };
-    delete env.DATABASE_URL;
-    process.env = env;
+  it('returns null when external database I/O is disabled in tests', async () => {
+    process.env = buildRequiredEnv({ MRDJ_TEST_EXTERNAL_IO: 'false' });
     const db = require('../lib/db');
 
     expect(db.isConfigured()).toBe(false);
@@ -31,7 +27,10 @@ describe('database helper', () => {
 
   it('creates a pool and tracks connectivity status', async () => {
     jest.resetModules();
-    process.env = buildRequiredEnv({ DATABASE_URL: 'postgres://example' });
+    process.env = buildRequiredEnv({
+      DATABASE_URL: 'postgres://example',
+      MRDJ_TEST_EXTERNAL_IO: 'true'
+    });
 
     const release = jest.fn();
     const query = jest.fn().mockResolvedValue({ rows: [{ value: 1 }] });
@@ -50,6 +49,7 @@ describe('database helper', () => {
 
     const db = require('../lib/db');
     await flushPromises();
+    warnSpy.mockClear();
 
     expect(db.isConfigured()).toBe(true);
     expect(db.getPool()).toBeDefined();
@@ -75,7 +75,10 @@ describe('database helper', () => {
 
   it('logs an initial connection failure gracefully', async () => {
     jest.resetModules();
-    process.env = buildRequiredEnv({ DATABASE_URL: 'postgres://example' });
+    process.env = buildRequiredEnv({
+      DATABASE_URL: 'postgres://example',
+      MRDJ_TEST_EXTERNAL_IO: 'true'
+    });
 
     const connectError = new Error('initial failure');
     const connect = jest.fn().mockRejectedValue(connectError);
@@ -89,6 +92,7 @@ describe('database helper', () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
     const db = require('../lib/db');
+    warnSpy.mockClear();
     db.getPool();
     await flushPromises();
 
@@ -97,7 +101,10 @@ describe('database helper', () => {
 
   it('disposes the pool when configuration is removed', async () => {
     jest.resetModules();
-    process.env = buildRequiredEnv({ DATABASE_URL: 'postgres://initial' });
+    process.env = buildRequiredEnv({
+      DATABASE_URL: 'postgres://initial',
+      MRDJ_TEST_EXTERNAL_IO: 'true'
+    });
 
     const poolInstances = [];
     jest.doMock('pg', () => ({
@@ -117,7 +124,7 @@ describe('database helper', () => {
     db.getPool();
     await flushPromises();
 
-    delete process.env.DATABASE_URL;
+    process.env.MRDJ_TEST_EXTERNAL_IO = 'false';
     const config = require('../config');
     config.reload();
 
@@ -131,7 +138,10 @@ describe('database helper', () => {
 
   it('recreates the pool when the connection string changes', async () => {
     jest.resetModules();
-    process.env = buildRequiredEnv({ DATABASE_URL: 'postgres://initial' });
+    process.env = buildRequiredEnv({
+      DATABASE_URL: 'postgres://initial',
+      MRDJ_TEST_EXTERNAL_IO: 'true'
+    });
 
     const poolInstances = [];
     jest.doMock('pg', () => ({
@@ -151,7 +161,10 @@ describe('database helper', () => {
     db.getPool();
     await flushPromises();
 
-    process.env = buildRequiredEnv({ DATABASE_URL: 'postgres://next' });
+    process.env = buildRequiredEnv({
+      DATABASE_URL: 'postgres://next',
+      MRDJ_TEST_EXTERNAL_IO: 'true'
+    });
     const config = require('../config');
     config.reload();
 

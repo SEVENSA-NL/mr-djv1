@@ -7,8 +7,44 @@ const { buildRequiredEnv } = require('../testUtils/env');
 const ORIGINAL_ENV = { ...process.env };
 const BASE_ENV = buildRequiredEnv();
 
+// Pay the one-time module transformation cost outside an individual test's
+// timeout; every actual case still loads a fresh app/config module graph.
+process.env = {
+  ...BASE_ENV,
+  CONFIG_DASHBOARD_ENABLED: 'true',
+  CONFIG_DASHBOARD_USER: 'warmup-admin',
+  CONFIG_DASHBOARD_PASS: 'warmup-secret',
+  CONFIG_DASHBOARD_STORE_PATH: path.join(os.tmpdir(), `dashboard-warmup-${process.pid}.env`)
+};
+require('../app');
+jest.resetModules();
+process.env = { ...ORIGINAL_ENV };
+
 function createAuthHeader(username, password) {
   return `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
+}
+
+function mockProviderFetchSuccess(expectedUrl) {
+  const guardedFetch = global.fetch;
+  const providerRequests = [];
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementation((input, init) => {
+    const value = typeof input === 'string' || input instanceof URL ? input : input.url;
+    const url = new URL(value);
+    if (['127.0.0.1', '::1', 'localhost'].includes(url.hostname)) {
+      return guardedFetch(input, init);
+    }
+    if (url.toString() !== expectedUrl) {
+      throw new Error(`Unexpected provider request: ${url.toString()}`);
+    }
+    providerRequests.push([value, init]);
+    return Promise.resolve({
+      ok: true,
+      status: 200,
+      json: async () => ({ accepted: true }),
+      text: async () => ''
+    });
+  });
+  return { fetchSpy, providerRequests };
 }
 
 function writeManagedValues(filePath, values) {
@@ -38,6 +74,11 @@ async function setupDashboardTest({ env = {}, managedValues = {} } = {}) {
     CONFIG_DASHBOARD_KEYS: baseEnv.CONFIG_DASHBOARD_KEYS ?? 'PORT,DATABASE_URL',
     CONFIG_DASHBOARD_STORE_PATH: storePath
   };
+  for (const [key, value] of Object.entries(env)) {
+    if (value === undefined) {
+      delete process.env[key];
+    }
+  }
 
   writeManagedValues(storePath, managedValues);
 
@@ -47,11 +88,11 @@ async function setupDashboardTest({ env = {}, managedValues = {} } = {}) {
   const server = http.createServer(app);
 
   const rentGuyService = require('../services/rentGuyService');
-  rentGuyService.reset?.();
+  await rentGuyService.reset?.();
   const sevensaService = require('../services/sevensaService');
-  sevensaService.reset?.();
+  await sevensaService.reset?.();
   const observabilityService = require('../services/observabilityService');
-  observabilityService.reset?.();
+  await observabilityService.reset?.();
   const personalizationService = require('../services/personalizationService');
   personalizationService.resetLogs?.();
   await personalizationService.resetCache?.();
@@ -88,21 +129,24 @@ async function setupDashboardTest({ env = {}, managedValues = {} } = {}) {
 
   context.cleanup = async () => {
     if (context.server) {
-      await new Promise((resolve) => {
+      const closed = new Promise((resolve) => {
         context.server.close(resolve);
       });
+      context.server.closeAllConnections?.();
+      await closed;
       context.server = null;
     }
 
     fs.rmSync(context.tempDir, { recursive: true, force: true });
 
-    context.services.rentGuyService.reset?.();
-    context.services.sevensaService.reset?.();
-    context.services.observabilityService.reset?.();
+    await context.services.rentGuyService.reset?.();
+    await context.services.sevensaService.reset?.();
+    await context.services.observabilityService.reset?.();
     context.services.personalizationService.resetLogs?.();
-    context.services.personalizationService.resetCache?.();
+    await context.services.personalizationService.resetCache?.();
 
     process.env = { ...ORIGINAL_ENV };
+    jest.restoreAllMocks();
     jest.resetModules();
   };
 
@@ -118,6 +162,7 @@ describe('configuration dashboard', () => {
       context = null;
     } else {
       process.env = { ...ORIGINAL_ENV };
+      jest.restoreAllMocks();
       jest.resetModules();
     }
   });
@@ -128,6 +173,7 @@ describe('configuration dashboard', () => {
 
     expect(response.status).toBe(401);
     expect(response.headers.get('www-authenticate')).toMatch(/Basic/i);
+    await response.text();
   });
 
   it('rejects requests with invalid credentials', async () => {
@@ -140,6 +186,7 @@ describe('configuration dashboard', () => {
 
     expect(response.status).toBe(401);
     expect(response.headers.get('www-authenticate')).toMatch(/Basic/i);
+    await response.text();
   });
 
   it('renders the dashboard HTML when authenticated', async () => {
@@ -157,9 +204,10 @@ describe('configuration dashboard', () => {
     expect(body).toContain('E-mailintegratie');
   });
 
-  it('authenticates using managed environment credentials when runtime env is cleared', async () => {
+  it('authenticates from an explicitly opted-in temporary managed file', async () => {
     context = await setupDashboardTest({
       env: {
+        MRDJ_TEST_LOAD_MANAGED_ENV: 'true',
         CONFIG_DASHBOARD_USER: undefined,
         CONFIG_DASHBOARD_PASS: undefined
       },
@@ -179,6 +227,7 @@ describe('configuration dashboard', () => {
     });
 
     expect(response.status).toBe(200);
+    await response.text();
   });
 
   it('returns the managed configuration state', async () => {
@@ -207,7 +256,8 @@ describe('configuration dashboard', () => {
   });
 
   it('persists updates and refreshes runtime configuration', async () => {
-    context = await setupDashboardTest();
+    const dashboardDatabaseUrl = 'postgres://fixture-user:fixture-password@127.0.0.1:5432/mrdj_dashboard';
+    context = await setupDashboardTest({ env: { MRDJ_TEST_EXTERNAL_IO: 'true' } });
     const updateResponse = await fetch(`${context.baseUrl}/dashboard/api/variables`, {
       method: 'POST',
       headers: {
@@ -217,7 +267,7 @@ describe('configuration dashboard', () => {
       body: JSON.stringify({
         entries: {
           PORT: '4500',
-          DATABASE_URL: 'postgres://dashboard-db'
+          DATABASE_URL: dashboardDatabaseUrl
         }
       })
     });
@@ -228,14 +278,15 @@ describe('configuration dashboard', () => {
 
     const config = require('../config');
     expect(config.port).toBe(4500);
-    expect(config.databaseUrl).toBe('postgres://dashboard-db');
+    expect(config.databaseUrl).toBe(dashboardDatabaseUrl);
+    expect(process.env.DATABASE_URL).toBe(dashboardDatabaseUrl);
 
     const fileContents = fs.readFileSync(context.storePath, 'utf8');
     expect(fileContents).toContain('PORT=4500');
-    expect(fileContents).toContain('DATABASE_URL=postgres://dashboard-db');
+    expect(fileContents).toContain(`DATABASE_URL=${dashboardDatabaseUrl}`);
   });
 
-  it('rejects invalid payloads with a 400 status code', async () => {
+  it('rejects invalid payloads with a validation status', async () => {
     context = await setupDashboardTest();
     const response = await fetch(`${context.baseUrl}/dashboard/api/variables`, {
       method: 'POST',
@@ -246,9 +297,12 @@ describe('configuration dashboard', () => {
       body: JSON.stringify({ entries: ['not', 'an', 'object'] })
     });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(422);
     const payload = await response.json();
-    expect(payload).toEqual({ error: 'Invalid payload' });
+    expect(payload).toEqual({
+      error: 'Validatie mislukt',
+      details: [{ field: 'entries', message: 'entries moet een object zijn' }]
+    });
   });
 
   it('clears values when empty strings are provided and ignores null', async () => {
@@ -291,7 +345,7 @@ describe('configuration dashboard', () => {
   });
 
   it('exposes rentguy status through the dashboard API', async () => {
-    context = await setupDashboardTest();
+    context = await setupDashboardTest({ env: { MRDJ_TEST_EXTERNAL_IO: 'true' } });
     const response = await fetch(`${context.baseUrl}/dashboard/api/integrations/rentguy/status`, {
       headers: {
         Authorization: context.authHeader,
@@ -311,7 +365,7 @@ describe('configuration dashboard', () => {
   });
 
   it('flushes the rentguy queue via the dashboard API', async () => {
-    context = await setupDashboardTest();
+    context = await setupDashboardTest({ env: { MRDJ_TEST_EXTERNAL_IO: 'true' } });
     await context.services.rentGuyService.syncLead(
       {
         id: 'lead-1',
@@ -325,8 +379,10 @@ describe('configuration dashboard', () => {
         message: 'Test',
         persisted: false
       },
-      { source: 'test-suite' }
+      { source: 'test-suite', forceQueue: true }
     );
+    const expectedProviderUrl = `${BASE_ENV.RENTGUY_API_BASE_URL}/leads`;
+    const providerFetch = mockProviderFetchSuccess(expectedProviderUrl);
 
     const response = await fetch(`${context.baseUrl}/dashboard/api/integrations/rentguy/flush`, {
       method: 'POST',
@@ -339,16 +395,16 @@ describe('configuration dashboard', () => {
 
     expect(response.status).toBe(200);
     const payload = await response.json();
-    expect(payload.configured).toBe(true);
-    expect(payload.attempted).toBeGreaterThanOrEqual(1);
-    expect(payload.delivered).toBeGreaterThanOrEqual(0);
-    expect(payload.remaining).toBe(0);
-    const rentGuyStatus = await rentGuyService.getStatus();
+    expect(payload).toEqual({ configured: true, attempted: 1, delivered: 1, remaining: 0 });
+    const rentGuyStatus = await context.services.rentGuyService.getStatus();
     expect(rentGuyStatus.queueSize).toBe(0);
+    expect(providerFetch.providerRequests).toEqual([
+      [expectedProviderUrl, expect.objectContaining({ method: 'POST' })]
+    ]);
   });
 
   it('exposes sevensa status through the dashboard API', async () => {
-    context = await setupDashboardTest();
+    context = await setupDashboardTest({ env: { MRDJ_TEST_EXTERNAL_IO: 'true' } });
     const response = await fetch(`${context.baseUrl}/dashboard/api/integrations/sevensa/status`, {
       headers: {
         Authorization: context.authHeader,
@@ -362,12 +418,16 @@ describe('configuration dashboard', () => {
   });
 
   it('flushes the sevensa queue via the dashboard API', async () => {
-    context = await setupDashboardTest();
-    await context.services.sevensaService.submitLead({
-      id: 'lead-sevensa-1',
-      email: 'queued@example.com',
-      firstName: 'Queued'
-    });
+    context = await setupDashboardTest({ env: { MRDJ_TEST_EXTERNAL_IO: 'true' } });
+    await context.services.sevensaService.submitLead(
+      {
+        id: 'lead-sevensa-1',
+        email: 'queued@example.com',
+        firstName: 'Queued'
+      },
+      { source: 'test-suite', forceQueue: true }
+    );
+    const providerFetch = mockProviderFetchSuccess(BASE_ENV.SEVENSA_SUBMIT_URL);
 
     const response = await fetch(`${context.baseUrl}/dashboard/api/integrations/sevensa/flush`, {
       method: 'POST',
@@ -382,14 +442,17 @@ describe('configuration dashboard', () => {
     const payload = await response.json();
     expect(payload).toEqual(
       expect.objectContaining({
-        configured: false,
-        attempted: 0,
-        delivered: 0,
-        remaining: 1
+        configured: true,
+        attempted: 1,
+        delivered: 1,
+        remaining: 0
       })
     );
     const sevensaStatus = await context.services.sevensaService.getStatus();
-    expect(sevensaStatus.queueSize).toBe(1);
+    expect(sevensaStatus.queueSize).toBe(0);
+    expect(providerFetch.providerRequests).toEqual([
+      [BASE_ENV.SEVENSA_SUBMIT_URL, expect.objectContaining({ method: 'POST' })]
+    ]);
   });
 
   it('exposes monitoring state through the observability endpoint', async () => {
@@ -502,6 +565,8 @@ describe('configuration dashboard', () => {
   });
 
   it('exposes conversion metrics through the dashboard API', async () => {
+    context = await setupDashboardTest();
+    const personalizationService = context.services.personalizationService;
     const match = await personalizationService.getVariantForRequest({
       keywords: ['feest dj'],
       keyword: 'feest dj'
@@ -536,13 +601,13 @@ describe('configuration dashboard', () => {
       type: 'conversion',
       variantId,
       keyword: 'feest dj',
-      payload: { revenue: 950 },
-      context: { source: 'test' }
+      payload: { revenue: 950, email: 'private@example.invalid', message: 'private message' },
+      context: { source: 'test', customerEmail: 'context@example.invalid' }
     });
 
-    const response = await fetch(`${baseUrl}/dashboard/api/observability/conversions`, {
+    const response = await fetch(`${context.baseUrl}/dashboard/api/observability/conversions`, {
       headers: {
-        Authorization: authHeader,
+        Authorization: context.authHeader,
         Accept: 'application/json'
       }
     });
@@ -556,31 +621,17 @@ describe('configuration dashboard', () => {
     expect(payload.topVariants[0]).toEqual(
       expect.objectContaining({ variantId, conversions: expect.any(Number) })
     );
+    expect(payload.recentConversions[0]).toEqual({
+      id: expect.any(String),
+      type: 'conversion',
+      variantId,
+      variantLabel: expect.any(String),
+      createdAt: expect.any(String)
+    });
+    const recentConversionsJson = JSON.stringify(payload.recentConversions);
+    expect(recentConversionsJson).not.toContain('private@example.invalid');
+    expect(recentConversionsJson).not.toContain('context@example.invalid');
+    expect(recentConversionsJson).not.toContain('private message');
   });
 
-  it('flushes the sevensa queue via the dashboard API', async () => {
-    await sevensaService.submitLead({
-      id: 'lead-sevensa-1',
-      email: 'queued@example.com',
-      firstName: 'Queued'
-    });
-
-    const response = await fetch(`${baseUrl}/dashboard/api/integrations/sevensa/flush`, {
-      method: 'POST',
-      headers: {
-        Authorization: authHeader,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    });
-
-    expect(response.status).toBe(200);
-    const payload = await response.json();
-    expect(payload.configured).toBe(true);
-    expect(payload.attempted).toBeGreaterThanOrEqual(1);
-    expect(payload.delivered).toBeGreaterThanOrEqual(0);
-    expect(payload.remaining).toBe(0);
-    const sevensaStatus = await sevensaService.getStatus();
-    expect(sevensaStatus.queueSize).toBe(0);
-  });
 });

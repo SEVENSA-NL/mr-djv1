@@ -64,6 +64,16 @@ describe('durableQueue in-memory behaviour', () => {
     );
   });
 
+  it('returns each waiting job once when multiple statuses are requested', async () => {
+    const { createDurableQueue } = loadDurableQueue();
+    const queue = createDurableQueue('status-parity', async () => undefined);
+    const job = await queue.addJob({ type: 'queued' });
+
+    const jobs = await queue.queue.getJobs(['delayed', 'waiting', 'failed']);
+
+    expect(jobs).toEqual([job]);
+  });
+
   it('moves exhausted jobs to the dead-letter queue and notifies alerts', async () => {
     const failure = new Error('boom');
     const { createDurableQueue, notifyQueueDeadLetter } = loadDurableQueue();

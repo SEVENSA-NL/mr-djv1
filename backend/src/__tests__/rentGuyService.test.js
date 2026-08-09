@@ -6,6 +6,7 @@ const { buildRequiredEnv } = require('../testUtils/env');
 const ORIGINAL_ENV = { ...process.env };
 const MANAGED_ENV_TEMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'mr-dj-rentguy-service-test-'));
 const BASE_ENV = buildRequiredEnv({
+  MRDJ_TEST_EXTERNAL_IO: 'true',
   CONFIG_DASHBOARD_STORE_PATH: path.join(MANAGED_ENV_TEMP_DIR, 'managed.env')
 });
 const ORIGINAL_FETCH = global.fetch;

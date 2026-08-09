@@ -1,7 +1,13 @@
 const { buildRequiredEnv } = require('../testUtils/env');
 
 const ORIGINAL_ENV = { ...process.env };
-process.env = { ...ORIGINAL_ENV, ...buildRequiredEnv() };
+process.env = {
+  ...ORIGINAL_ENV,
+  ...buildRequiredEnv({
+    FLAG_RENTGUY_INTEGRATION: 'true',
+    FLAG_PERSONALIZATION: 'true'
+  })
+};
 
 const app = require('../app');
 const config = require('../config');
@@ -66,6 +72,7 @@ describe('Mister DJ API', () => {
   });
 
   afterAll((done) => {
+    server.closeAllConnections?.();
     server.close(done);
     process.env = ORIGINAL_ENV;
   });

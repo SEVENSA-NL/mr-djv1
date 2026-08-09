@@ -8,13 +8,19 @@ import { readFile, stat } from 'node:fs/promises';
 const __filename = fileURLToPath(import.meta.url);
 const repoRoot = path.resolve(path.dirname(__filename), '..');
 const checklistPath = path.join(repoRoot, 'docs', 'go-live-checklist.md');
+const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 const allowedPrefixes = new Set(['backend', 'frontend', 'database']);
 const allowedStandalone = new Set(['deploy.sh', 'NETLIFY_DEPLOYMENT.md']);
 
 async function runCommand(command, args, options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
+    const isWindowsCommandScript = process.platform === 'win32' && command.endsWith('.cmd');
+    const executable = isWindowsCommandScript ? process.env.ComSpec || 'cmd.exe' : command;
+    const executableArgs = isWindowsCommandScript
+      ? ['/d', '/s', '/c', command, ...args]
+      : args;
+    const child = spawn(executable, executableArgs, {
       stdio: 'inherit',
       ...options,
     });
@@ -134,19 +140,19 @@ async function main() {
   console.log('🔍 Running release readiness checks...');
 
   console.log('\n➡️  Linting frontend');
-  await runCommand('npm', ['run', 'lint'], {
+  await runCommand(npmCommand, ['run', 'lint'], {
     cwd: path.join(repoRoot, 'frontend'),
     env: { ...process.env, CI: 'true' },
   });
 
   console.log('\n➡️  Running backend tests');
-  await runCommand('npm', ['test'], {
+  await runCommand(npmCommand, ['test', '--', '--runInBand', '--silent'], {
     cwd: path.join(repoRoot, 'backend'),
     env: { ...process.env, CI: 'true' },
   });
 
   console.log('\n➡️  Building frontend');
-  await runCommand('npm', ['run', 'build'], {
+  await runCommand(npmCommand, ['run', 'build'], {
     cwd: path.join(repoRoot, 'frontend'),
     env: { ...process.env, CI: 'true' },
   });
