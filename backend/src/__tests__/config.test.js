@@ -158,6 +158,7 @@ describe('config', () => {
         'MAIL_REPLY_TO',
         'MAIL_TEMPLATES_CONTACT',
         'MAIL_TEMPLATES_BOOKING',
+        'HCAPTCHA_ENABLED',
         'HCAPTCHA_SITE_KEY',
         'HCAPTCHA_SECRET_KEY',
         'HCAPTCHA_VERIFY_URL',
@@ -234,6 +235,7 @@ describe('config', () => {
         label: 'Beveiliging',
         description: 'Instellingen voor hCaptcha-validatie van formulieren en spam-preventie.',
         keys: [
+          'HCAPTCHA_ENABLED',
           'HCAPTCHA_SITE_KEY',
           'HCAPTCHA_SECRET_KEY',
           'HCAPTCHA_VERIFY_URL',
@@ -484,6 +486,24 @@ describe('config', () => {
     expect(personalizationSection).toBeDefined();
     expect(personalizationSection.keys).toContain('N8N_PERSONALIZATION_WEBHOOK_URL');
     expect(personalizationSection.keys).toContain('PERSONALIZATION_WEBHOOK_SECRETS');
+  });
+
+  it('can sink hCaptcha during a private no-send smoke while retaining custody', () => {
+    process.env = buildRequiredEnv({
+      HCAPTCHA_ENABLED: 'false',
+      HCAPTCHA_SITE_KEY: 'fixture-site-key',
+      HCAPTCHA_SECRET_KEY: 'fixture-secret-key'
+    });
+
+    const config = loadConfig();
+
+    expect(config.integrations.hcaptcha).toEqual(
+      expect.objectContaining({
+        enabled: false,
+        siteKey: 'fixture-site-key',
+        secretKey: 'fixture-secret-key'
+      })
+    );
   });
 
   it('allows overriding security headers through environment variables', () => {

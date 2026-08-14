@@ -253,6 +253,7 @@ const DEFAULT_SECTION_CONFIG = [
     label: 'Beveiliging',
     description: 'Instellingen voor hCaptcha-validatie van formulieren en spam-preventie.',
     keys: [
+      'HCAPTCHA_ENABLED',
       'HCAPTCHA_SITE_KEY',
       'HCAPTCHA_SECRET_KEY',
       'HCAPTCHA_VERIFY_URL',
@@ -731,7 +732,10 @@ function buildConfig() {
         )
       },
       hcaptcha: {
-        enabled: Boolean(process.env.HCAPTCHA_SECRET_KEY),
+        enabled: parseBoolean(
+          process.env.HCAPTCHA_ENABLED,
+          Boolean(process.env.HCAPTCHA_SECRET_KEY)
+        ),
         siteKey: process.env.HCAPTCHA_SITE_KEY || null,
         secretKey: process.env.HCAPTCHA_SECRET_KEY || null,
         verifyUrl: hasValue(process.env.HCAPTCHA_VERIFY_URL)
