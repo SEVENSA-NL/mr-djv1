@@ -24,9 +24,7 @@ describe('telemetry bootstrap', () => {
     const metricReaderMock = jest.fn(function MetricReader(options) {
       this.options = options;
     });
-    const resourceMock = jest.fn(function Resource(attrs) {
-      this.attributes = attrs;
-    });
+    const resourceMock = jest.fn((attributes) => ({ attributes }));
     const instrumentationsMock = jest.fn(() => ['auto']);
     const logger = { info: jest.fn(), error: jest.fn() };
 
@@ -37,13 +35,11 @@ describe('telemetry bootstrap', () => {
     jest.doMock('@opentelemetry/exporter-trace-otlp-http', () => ({ OTLPTraceExporter: traceExporterMock }));
     jest.doMock('@opentelemetry/exporter-metrics-otlp-http', () => ({ OTLPMetricExporter: metricExporterMock }));
     jest.doMock('@opentelemetry/sdk-metrics', () => ({ PeriodicExportingMetricReader: metricReaderMock }));
-    jest.doMock('@opentelemetry/resources', () => ({ Resource: resourceMock }));
+    jest.doMock('@opentelemetry/resources', () => ({ resourceFromAttributes: resourceMock }));
     jest.doMock('@opentelemetry/semantic-conventions', () => ({
-      SemanticResourceAttributes: {
-        SERVICE_NAME: 'service.name',
-        SERVICE_VERSION: 'service.version',
-        DEPLOYMENT_ENVIRONMENT: 'deployment.environment'
-      }
+      ATTR_SERVICE_NAME: 'service.name',
+      ATTR_SERVICE_VERSION: 'service.version',
+      ATTR_DEPLOYMENT_ENVIRONMENT_NAME: 'deployment.environment.name'
     }));
     jest.doMock('../config', () => ({
       serviceName: 'mr-dj-service',
