@@ -1,5 +1,6 @@
 const http = require('http');
 const app = require('../app');
+const config = require('../config');
 const { resetInMemoryStore } = require('../services/contactService');
 
 let server;
@@ -52,6 +53,7 @@ const validPayload = {
 };
 
 describe('Contact route validation hardening', () => {
+  const originalHcaptcha = { ...config.integrations.hcaptcha };
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(0, '127.0.0.1', () => {
@@ -67,6 +69,7 @@ describe('Contact route validation hardening', () => {
 
   afterEach(() => {
     resetInMemoryStore();
+    config.integrations.hcaptcha = { ...originalHcaptcha };
   });
 
   it('rejects submissions that contain aggressive marketing keywords', async () => {
@@ -119,5 +122,24 @@ describe('Contact route validation hardening', () => {
         })
       ])
     );
+  });
+
+  it('returns service unavailable when hCaptcha is enabled without complete key config', async () => {
+    config.integrations.hcaptcha = {
+      enabled: true,
+      siteKey: 'configured-site-key',
+      secretKey: null,
+      verifyUrl: 'https://hcaptcha.com/siteverify'
+    };
+
+    const response = await request('POST', '/contact', {
+      ...validPayload,
+      hCaptchaToken: 'present-token'
+    });
+
+    expect(response.status).toBe(503);
+    expect(response.body).toMatchObject({
+      error: 'Captcha validatie is tijdelijk niet beschikbaar. Probeer het later opnieuw.'
+    });
   });
 });
