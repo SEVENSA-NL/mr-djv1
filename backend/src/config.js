@@ -8,6 +8,12 @@ function isControlledTestStorePath(candidate) {
     return false;
   }
   const resolved = path.resolve(candidate);
+  // A checkout itself may live below the OS temp directory (for example in a
+  // disposable CI/VPS worktree).  The tracked/default managed-env file must
+  // still never become an eligible test input in that case.
+  if (resolved === path.resolve(managedEnv.DEFAULT_STORE_PATH)) {
+    return false;
+  }
   const tempRoot = path.resolve(os.tmpdir());
   const relative = path.relative(tempRoot, resolved);
   return Boolean(relative) && !relative.startsWith('..') && !path.isAbsolute(relative);
