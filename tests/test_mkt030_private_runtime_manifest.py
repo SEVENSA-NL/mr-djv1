@@ -33,9 +33,7 @@ def test_secret_binding_is_exact_and_owned():
     }
     assert external["spec"]["target"]["creationPolicy"] == "Owner"
     assert {item["secretKey"] for item in external["spec"]["data"]} == EXPECTED_KEYS
-    assert {item["remoteRef"]["key"] for item in external["spec"]["data"]} == {
-        "mr-dj/backend"
-    }
+    assert {item["remoteRef"]["key"] for item in external["spec"]["data"]} == {"mr-dj/backend"}
 
 
 def test_runtime_is_immutable_nonroot_private_and_no_send():
@@ -67,8 +65,6 @@ def test_runtime_is_immutable_nonroot_private_and_no_send():
     assert service["spec"]["type"] == "ClusterIP"
     assert not any(item["kind"] in {"Ingress", "IngressRoute"} for item in docs)
     egress_ports = {
-        port["port"]
-        for rule in policy["spec"]["egress"]
-        for port in rule.get("ports", [])
+        port["port"] for rule in policy["spec"]["egress"] for port in rule.get("ports", [])
     }
     assert egress_ports == {53, 5432, 6379}
