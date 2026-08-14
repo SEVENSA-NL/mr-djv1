@@ -1,0 +1,73 @@
+{
+  "schema": "sevensa.mkt030.private-gate/v1",
+  "task": "MKT-030",
+  "observed_at": "2026-08-14T11:05:22Z",
+  "owning_issue": "https://github.com/SEVENSA-NL/mr-djv1/issues/342",
+  "decision": "BLOCKED_PROVIDER_CUSTODY_NO_LIVE_APPLY",
+  "source": {
+    "repository": "SEVENSA-NL/mr-djv1",
+    "branch": "codex/mkt030-private-runtime-20260814",
+    "runtime_source_commit": "285fd5f34214e51ad0230d3284c57196fd1dcb58",
+    "manifest_commit": "58c7dd53313311c08ac5559cb112cedab9a89b9c"
+  },
+  "validation": {
+    "execution_host": "Sevensa VPS",
+    "tests": { "suites_passed": 36, "suites_total": 36, "tests_passed": 191, "tests_total": 191 },
+    "production_audit": { "high": 0, "critical": 0 },
+    "telemetry_runtime_import": "pass",
+    "image_contract_tests": 2,
+    "private_manifest_contract_tests": 2,
+    "kubernetes_server_dry_run": "pass"
+  },
+  "image": {
+    "reference": "localhost:5000/mr-dj-backend@sha256:984d6692099ddc19ad4234a05c35e61a7104b472e06e16b4f97f35c8c5415293",
+    "source_archive_sha256": "cfd05276686abf61cdff3925f963b2e4005990a336b89ef50f3635d8208aa159",
+    "runtime_user": "node",
+    "size_bytes": 88311686,
+    "registry_auth_persisted": false
+  },
+  "live_readback": {
+    "openbao_initialized_unsealed": true,
+    "cluster_secret_store": "openbao-psra",
+    "cluster_secret_store_ready": true,
+    "openbao_path_id": "secret/data/mr-dj/backend",
+    "openbao_path_present": false,
+    "openbao_path_current_version": 0,
+    "openbao_data_endpoint_called_by_presence_probe": false,
+    "secret_material_returned": false,
+    "backend_deployment_present": false,
+    "backend_external_secret_present": false,
+    "backend_kubernetes_secret_present": false,
+    "public_api_health_status": 503,
+    "public_api_response_body_read": false
+  },
+  "staged_private_contract": {
+    "manifest": "infra/k8s/mkt030-private-backend.yaml",
+    "external_secret": "sevensa-site/mr-dj-backend-env",
+    "deployment": "sevensa-site/mr-dj-backend",
+    "service": "sevensa-site/mr-dj-backend",
+    "service_type": "ClusterIP",
+    "public_route_in_manifest": false,
+    "external_send_flags_enabled": false
+  },
+  "missing_custody": [
+    "DATABASE_URL_and_isolated_database_principal",
+    "REDIS_URL_and_isolated_redis_principal",
+    "RENTGUY_API_BASE_URL_and_RENTGUY_API_KEY",
+    "N8N_PERSONALIZATION_WEBHOOK_URL",
+    "SEO_AUTOMATION_API_URL_API_KEY_and_KEYWORDSET_ID",
+    "OPENAI_API_KEY_dedicated_to_mr_dj",
+    "MAIL_API_KEY_dedicated_to_mr_dj",
+    "HCAPTCHA_SITE_KEY_and_HCAPTCHA_SECRET_KEY"
+  ],
+  "prohibited_substitution": "No placeholder, legacy local env value, unrelated tenant credential, or self-generated key was adopted as a production provider credential.",
+  "live_mutations": {
+    "openbao_write": false,
+    "kubernetes_apply": false,
+    "database_migration": false,
+    "backend_rollout": false,
+    "public_route_change": false,
+    "external_send": false
+  },
+  "next_gate": "Import genuine provider-issued or dedicated service credentials into reviewed custody, then run metadata proof, ExternalSecret sync, disposable migration, private rollout, strict health/contact smoke and independent review before recording dossier GO."
+}
