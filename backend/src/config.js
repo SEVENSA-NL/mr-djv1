@@ -1,20 +1,46 @@
 const Joi = require('joi');
+const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const managedEnv = require('./lib/managedEnv');
+
+function canonicalFilesystemIdentity(candidate) {
+  let resolved = path.resolve(candidate);
+  const missing = [];
+
+  while (!fs.existsSync(resolved)) {
+    const parent = path.dirname(resolved);
+    if (parent === resolved) {
+      return null;
+    }
+    missing.unshift(path.basename(resolved));
+    resolved = parent;
+  }
+
+  const realRoot = fs.realpathSync.native(resolved);
+  const identity = path.resolve(realRoot, ...missing);
+  return process.platform === 'win32' ? identity.toLowerCase() : identity;
+}
 
 function isControlledTestStorePath(candidate) {
   if (!candidate || !path.isAbsolute(candidate)) {
     return false;
   }
-  const resolved = path.resolve(candidate);
+  const resolved = canonicalFilesystemIdentity(candidate);
+  const defaultStore = canonicalFilesystemIdentity(managedEnv.DEFAULT_STORE_PATH);
+  if (!resolved || !defaultStore) {
+    return false;
+  }
   // A checkout itself may live below the OS temp directory (for example in a
   // disposable CI/VPS worktree).  The tracked/default managed-env file must
   // still never become an eligible test input in that case.
-  if (resolved === path.resolve(managedEnv.DEFAULT_STORE_PATH)) {
+  if (resolved === defaultStore) {
     return false;
   }
-  const tempRoot = path.resolve(os.tmpdir());
+  const tempRoot = canonicalFilesystemIdentity(os.tmpdir());
+  if (!tempRoot) {
+    return false;
+  }
   const relative = path.relative(tempRoot, resolved);
   return Boolean(relative) && !relative.startsWith('..') && !path.isAbsolute(relative);
 }
@@ -131,6 +157,10 @@ const envValidationSchema = Joi.object({
   WHATSAPP_APP_SECRET: Joi.string().allow('', null),
   WHATSAPP_INTEGRATION_SECRETS: Joi.string().allow('', null),
   WHATSAPP_REQUEST_TIMEOUT_MS: Joi.number().integer().min(0).optional(),
+  HCAPTCHA_ENABLED: Joi.string().valid('true', 'false').optional(),
+  HCAPTCHA_SITE_KEY: Joi.string().allow('', null),
+  HCAPTCHA_SECRET_KEY: Joi.string().allow('', null),
+  HCAPTCHA_VERIFY_URL: Joi.string().uri({ allowRelative: false }).allow('', null),
   CONFIG_DASHBOARD_ENABLED: Joi.string().valid('true', 'false').optional(),
   CONFIG_DASHBOARD_USER: Joi.string().allow('', null),
   CONFIG_DASHBOARD_PASS: Joi.string().allow('', null)
@@ -156,6 +186,21 @@ const envValidationSchema = Joi.object({
       return helpers.error('any.custom', {
         message: 'Provide CITY_AUTOMATION_LLM_API_KEY or OPENAI_API_KEY for city content automation.'
       });
+    }
+
+    if (value.HCAPTCHA_ENABLED === 'true') {
+      const unusable = (entry) =>
+        !hasValue(entry) ||
+        entry.trim().length < 20 ||
+        /(?:fixture|placeholder|changeme|replace[-_ ]?me|your[-_ ])/i.test(entry) ||
+        /^10000000-ffff-ffff-ffff-00000000000[1-9]$/i.test(entry) ||
+        /^0x0{40}$/i.test(entry);
+      if (unusable(value.HCAPTCHA_SITE_KEY) || unusable(value.HCAPTCHA_SECRET_KEY)) {
+        return helpers.error('any.custom', {
+          message:
+            'HCAPTCHA_ENABLED=true requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+        });
+      }
     }
 
     return value;

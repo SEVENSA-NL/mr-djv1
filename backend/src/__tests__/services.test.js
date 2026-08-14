@@ -274,6 +274,36 @@ describe('contactService', () => {
     fetchSpy.mockRestore();
   });
 
+  it.each([
+    ['secret', { siteKey: 'site', secretKey: null }],
+    ['site key', { siteKey: null, secretKey: 'secret' }]
+  ])('fails closed when hCaptcha is enabled without the required %s', async (_label, keys) => {
+    config.integrations.hcaptcha = {
+      enabled: true,
+      ...keys,
+      verifyUrl: 'https://hcaptcha.com/siteverify'
+    };
+    const fetchSpy = jest.spyOn(global, 'fetch');
+
+    await expect(
+      contactService.saveContact(
+        {
+          name: 'Captcha configuratiefout',
+          email: 'captcha-config@example.com',
+          phone: '0612345678',
+          message: 'Hallo',
+          eventType: 'Bruiloft'
+        },
+        { captchaToken: 'present-token', remoteIp: '127.0.0.1' }
+      )
+    ).rejects.toMatchObject({
+      status: 503,
+      publicMessage: 'Captcha validatie is tijdelijk niet beschikbaar. Probeer het later opnieuw.'
+    });
+    expect(fetchSpy).not.toHaveBeenCalled();
+    fetchSpy.mockRestore();
+  });
+
   it('exposes the current status information', () => {
     db.getStatus.mockReturnValue({ connected: false, lastError: 'boom' });
 
