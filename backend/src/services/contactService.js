@@ -190,9 +190,13 @@ async function verifyCaptchaToken(token, remoteIp) {
     throw createCaptchaError('Missing hCaptcha token', 'Captcha validatie is vereist.');
   }
 
-  if (!settings.secretKey) {
-    console.warn('[contactService] hCaptcha ingeschakeld maar secret ontbreekt. Verificatie overgeslagen.');
-    return { skipped: true, reason: 'missing-secret' };
+  if (!settings.secretKey || !settings.siteKey) {
+    console.error('[contactService] hCaptcha is ingeschakeld maar de vereiste configuratie ontbreekt.');
+    throw createCaptchaError(
+      'hCaptcha enabled without required site and secret key configuration',
+      'Captcha validatie is tijdelijk niet beschikbaar. Probeer het later opnieuw.',
+      503
+    );
   }
 
   const verifyUrl = settings.verifyUrl || HCAPTCHA_DEFAULT_VERIFY_URL;

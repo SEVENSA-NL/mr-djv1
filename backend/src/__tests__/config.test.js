@@ -1,3 +1,5 @@
+const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const { buildRequiredEnv } = require('../testUtils/env');
 const { DEFAULT_STORE_PATH } = require('../lib/managedEnv');
@@ -158,6 +160,7 @@ describe('config', () => {
         'MAIL_REPLY_TO',
         'MAIL_TEMPLATES_CONTACT',
         'MAIL_TEMPLATES_BOOKING',
+        'HCAPTCHA_ENABLED',
         'HCAPTCHA_SITE_KEY',
         'HCAPTCHA_SECRET_KEY',
         'HCAPTCHA_VERIFY_URL',
@@ -234,6 +237,7 @@ describe('config', () => {
         label: 'Beveiliging',
         description: 'Instellingen voor hCaptcha-validatie van formulieren en spam-preventie.',
         keys: [
+          'HCAPTCHA_ENABLED',
           'HCAPTCHA_SITE_KEY',
           'HCAPTCHA_SECRET_KEY',
           'HCAPTCHA_VERIFY_URL',
@@ -484,6 +488,94 @@ describe('config', () => {
     expect(personalizationSection).toBeDefined();
     expect(personalizationSection.keys).toContain('N8N_PERSONALIZATION_WEBHOOK_URL');
     expect(personalizationSection.keys).toContain('PERSONALIZATION_WEBHOOK_SECRETS');
+  });
+
+  it('rejects a temp path whose canonical target escapes through a directory link', () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mrdj-config-boundary-'));
+    const outsideDir = fs.mkdtempSync(path.join(os.homedir(), 'mrdj-config-outside-'));
+    const canonicalTemp = fs.realpathSync.native(os.tmpdir());
+    const canonicalOutside = fs.realpathSync.native(outsideDir);
+    const outsideRelative = path.relative(canonicalTemp, canonicalOutside);
+    expect(outsideRelative.startsWith('..') || path.isAbsolute(outsideRelative)).toBe(true);
+    const linkedDir = path.join(tempDir, 'linked');
+    fs.symlinkSync(outsideDir, linkedDir, process.platform === 'win32' ? 'junction' : 'dir');
+    process.env = buildRequiredEnv({
+      MRDJ_TEST_LOAD_MANAGED_ENV: 'true',
+      CONFIG_DASHBOARD_STORE_PATH: path.join(linkedDir, 'managed.env')
+    });
+
+    try {
+      expect(loadConfig).toThrow(
+        'MRDJ_TEST_LOAD_MANAGED_ENV requires an absolute CONFIG_DASHBOARD_STORE_PATH under the OS temp directory.'
+      );
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+      fs.rmSync(outsideDir, { recursive: true, force: true });
+    }
+  });
+
+  (process.platform === 'win32' ? it : it.skip)(
+    'accepts alternate path casing only after canonical case-normalized containment',
+    () => {
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mrdj-config-case-'));
+      const storePath = path.join(tempDir, 'managed.env');
+      fs.writeFileSync(storePath, '');
+      process.env = buildRequiredEnv({
+        MRDJ_TEST_LOAD_MANAGED_ENV: 'true',
+        CONFIG_DASHBOARD_STORE_PATH: storePath.toUpperCase()
+      });
+
+      try {
+        expect(() => loadConfig()).not.toThrow();
+      } finally {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    }
+  );
+
+  it.each([
+    ['missing keys', {}],
+    ['placeholder keys', { HCAPTCHA_SITE_KEY: 'YOUR_SITE_KEY_PLACEHOLDER', HCAPTCHA_SECRET_KEY: 'YOUR_SECRET_KEY_PLACEHOLDER' }],
+    ['fixture keys', { HCAPTCHA_SITE_KEY: 'fixture-site-key-value-0001', HCAPTCHA_SECRET_KEY: 'fixture-secret-key-value-0001' }],
+    ['documented hCaptcha test keys', { HCAPTCHA_SITE_KEY: '10000000-ffff-ffff-ffff-000000000001', HCAPTCHA_SECRET_KEY: '0x0000000000000000000000000000000000000000' }]
+  ])('rejects HCAPTCHA_ENABLED=true with %s', (_label, overrides) => {
+    process.env = buildRequiredEnv({ HCAPTCHA_ENABLED: 'true', ...overrides });
+    expect(loadConfig).toThrow(
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+    );
+  });
+
+  it('accepts HCAPTCHA_ENABLED=true only with non-placeholder site and secret keys', () => {
+    process.env = buildRequiredEnv({
+      HCAPTCHA_ENABLED: 'true',
+      HCAPTCHA_SITE_KEY: '78e86f52-24fa-4f02-a00b-8b0dc8c22b17',
+      HCAPTCHA_SECRET_KEY: '0x7d3a8b4c16f2e905ab8fd32c7e904f18b61ca21e'
+    });
+    expect(() => loadConfig()).not.toThrow();
+  });
+
+  it('rejects legacy secret-only activation without a complete site-key pair', () => {
+    process.env = buildRequiredEnv({
+      HCAPTCHA_SECRET_KEY: '0x7d3a8b4c16f2e905ab8fd32c7e904f18b61ca21e'
+    });
+    delete process.env.HCAPTCHA_ENABLED;
+    delete process.env.HCAPTCHA_SITE_KEY;
+
+    expect(loadConfig).toThrow(
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+    );
+  });
+
+  it('does not let an explicit false flag suppress legacy secret-based activation', () => {
+    process.env = buildRequiredEnv({
+      HCAPTCHA_ENABLED: 'false',
+      HCAPTCHA_SITE_KEY: 'fixture-site-key',
+      HCAPTCHA_SECRET_KEY: 'fixture-secret-key'
+    });
+
+    expect(loadConfig).toThrow(
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+    );
   });
 
   it('allows overriding security headers through environment variables', () => {

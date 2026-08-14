@@ -9,4 +9,6 @@ logs
 *.log
 .env
 .env.*
+managed.env
+.venv
 src/__tests__

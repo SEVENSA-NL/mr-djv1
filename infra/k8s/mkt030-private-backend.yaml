@@ -1,0 +1,166 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: mr-dj-backend-env
+  namespace: sevensa-site
+  labels:
+    app.kubernetes.io/name: mr-dj-backend
+    sevensa.nl/task: MKT-030
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: openbao-psra
+  target:
+    name: mr-dj-backend-env
+    creationPolicy: Owner
+    deletionPolicy: Retain
+  data:
+    - secretKey: DATABASE_URL
+      remoteRef: { key: mr-dj/backend, property: DATABASE_URL }
+    - secretKey: REDIS_URL
+      remoteRef: { key: mr-dj/backend, property: REDIS_URL }
+    - secretKey: RENTGUY_API_BASE_URL
+      remoteRef: { key: mr-dj/backend, property: RENTGUY_API_BASE_URL }
+    - secretKey: RENTGUY_API_KEY
+      remoteRef: { key: mr-dj/backend, property: RENTGUY_API_KEY }
+    - secretKey: SEVENSA_SUBMIT_URL
+      remoteRef: { key: mr-dj/backend, property: SEVENSA_SUBMIT_URL }
+    - secretKey: N8N_PERSONALIZATION_WEBHOOK_URL
+      remoteRef: { key: mr-dj/backend, property: N8N_PERSONALIZATION_WEBHOOK_URL }
+    - secretKey: SEO_AUTOMATION_API_URL
+      remoteRef: { key: mr-dj/backend, property: SEO_AUTOMATION_API_URL }
+    - secretKey: SEO_AUTOMATION_API_KEY
+      remoteRef: { key: mr-dj/backend, property: SEO_AUTOMATION_API_KEY }
+    - secretKey: SEO_AUTOMATION_KEYWORDSET_ID
+      remoteRef: { key: mr-dj/backend, property: SEO_AUTOMATION_KEYWORDSET_ID }
+    - secretKey: OPENAI_API_KEY
+      remoteRef: { key: mr-dj/backend, property: OPENAI_API_KEY }
+    - secretKey: MAIL_API_KEY
+      remoteRef: { key: mr-dj/backend, property: MAIL_API_KEY }
+    - secretKey: HCAPTCHA_SITE_KEY
+      remoteRef: { key: mr-dj/backend, property: HCAPTCHA_SITE_KEY }
+    - secretKey: HCAPTCHA_SECRET_KEY
+      remoteRef: { key: mr-dj/backend, property: HCAPTCHA_SECRET_KEY }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mr-dj-backend
+  namespace: sevensa-site
+  labels:
+    app.kubernetes.io/name: mr-dj-backend
+    sevensa.nl/task: MKT-030
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
+  selector:
+    matchLabels: { app.kubernetes.io/name: mr-dj-backend }
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mr-dj-backend
+        sevensa.nl/exposure: private
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: backend
+          image: localhost:5000/mr-dj-backend@sha256:984d6692099ddc19ad4234a05c35e61a7104b472e06e16b4f97f35c8c5415293
+          imagePullPolicy: IfNotPresent
+          ports:
+            - { name: http, containerPort: 3000, protocol: TCP }
+          envFrom:
+            - secretRef: { name: mr-dj-backend-env }
+          env:
+            - { name: NODE_ENV, value: production }
+            - { name: HOST, value: 0.0.0.0 }
+            - { name: PORT, value: "3000" }
+            - { name: SERVICE_NAME, value: mr-dj-backend }
+            - { name: CITY_AUTOMATION_LLM_PROVIDER, value: openai }
+            - { name: CITY_AUTOMATION_LLM_MODEL, value: gpt-5-mini }
+            - { name: HCAPTCHA_ENABLED, value: "false" }
+            - { name: FLAG_RENTGUY_INTEGRATION, value: "false" }
+            - { name: FLAG_SEVENSA_INTEGRATION, value: "false" }
+            - { name: FLAG_PERSONALIZATION, value: "false" }
+            - { name: FLAG_AUTOMATION, value: "false" }
+            - { name: FLAG_TELEMETRY, value: "false" }
+            - { name: CONFIG_DASHBOARD_ENABLED, value: "false" }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          resources:
+            requests: { cpu: 100m, memory: 192Mi }
+            limits: { cpu: "1", memory: 768Mi }
+          startupProbe:
+            httpGet: { path: /health, port: http }
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+            failureThreshold: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /health, port: http }
+            failureThreshold: 3
+            periodSeconds: 30
+          volumeMounts:
+            - { name: logs, mountPath: /app/logs }
+            - { name: generated-docs, mountPath: /docs }
+            - { name: generated-content, mountPath: /content/cities }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - { name: logs, emptyDir: {} }
+        - { name: generated-docs, emptyDir: {} }
+        - { name: generated-content, emptyDir: {} }
+        - { name: tmp, emptyDir: {} }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mr-dj-backend
+  namespace: sevensa-site
+  labels:
+    app.kubernetes.io/name: mr-dj-backend
+    sevensa.nl/task: MKT-030
+spec:
+  type: ClusterIP
+  selector: { app.kubernetes.io/name: mr-dj-backend }
+  ports:
+    - { name: http, port: 3000, targetPort: http, protocol: TCP }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mr-dj-backend-private
+  namespace: sevensa-site
+  labels: { sevensa.nl/task: MKT-030 }
+spec:
+  podSelector:
+    matchLabels: { app.kubernetes.io/name: mr-dj-backend }
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector: {}
+      ports:
+        - { protocol: TCP, port: 3000 }
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: kube-system }
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+    - to:
+        - podSelector: {}
+      ports:
+        - { protocol: TCP, port: 5432 }
+        - { protocol: TCP, port: 6379 }

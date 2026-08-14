@@ -3,8 +3,12 @@ const { PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
 const { OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-http');
-const { Resource } = require('@opentelemetry/resources');
-const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+const { resourceFromAttributes } = require('@opentelemetry/resources');
+const {
+  ATTR_SERVICE_NAME,
+  ATTR_SERVICE_VERSION,
+  ATTR_DEPLOYMENT_ENVIRONMENT_NAME
+} = require('@opentelemetry/semantic-conventions');
 const config = require('../config');
 const featureFlags = require('./featureFlags');
 const { logger } = require('./logger');
@@ -43,10 +47,10 @@ async function startTelemetry() {
   sdk = new NodeSDK({
     traceExporter: createTraceExporter(),
     metricReader: createMetricReader(),
-    resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName,
-      [SemanticResourceAttributes.SERVICE_VERSION]: config.version,
-      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: config.env
+    resource: resourceFromAttributes({
+      [ATTR_SERVICE_NAME]: config.serviceName,
+      [ATTR_SERVICE_VERSION]: config.version,
+      [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: config.env
     }),
     instrumentations: [getNodeAutoInstrumentations()]
   });
