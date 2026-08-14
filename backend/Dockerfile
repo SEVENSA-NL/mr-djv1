@@ -8,12 +8,21 @@ ENV NODE_ENV=production \
 # Install runtime dependencies
 RUN apk add --no-cache curl
 
-# Install npm dependencies with a clean lockfile install
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+# Build from the repository root so the runtime receives the exact content and
+# feature-flag files that backend modules resolve outside /app.
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
-# Copy application source
-COPY . .
+RUN mkdir -p /app/app/templates /config /content /scripts /docs \
+    && chown -R node:node /app /config /content /scripts /docs
+
+COPY --chown=node:node backend/src ./src
+COPY --chown=node:node backend/app/templates ./app/templates
+COPY --chown=node:node config/feature-flags.json /config/feature-flags.json
+COPY --chown=node:node content /content
+COPY --chown=node:node scripts/generate-city-pages.mjs /scripts/generate-city-pages.mjs
+
+USER node
 
 EXPOSE 3000
 

@@ -1,0 +1,14 @@
+.git
+.github
+**/.env
+**/.env.*
+**/managed.env
+**/.venv
+**/node_modules
+**/__tests__
+**/coverage
+**/logs
+**/*.log
+**/*.zip
+reports
+screenshots
