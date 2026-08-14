@@ -566,21 +566,15 @@ describe('config', () => {
     );
   });
 
-  it('can sink hCaptcha during a private no-send smoke while retaining custody', () => {
+  it('does not let an explicit false flag suppress legacy secret-based activation', () => {
     process.env = buildRequiredEnv({
       HCAPTCHA_ENABLED: 'false',
       HCAPTCHA_SITE_KEY: 'fixture-site-key',
       HCAPTCHA_SECRET_KEY: 'fixture-secret-key'
     });
 
-    const config = loadConfig();
-
-    expect(config.integrations.hcaptcha).toEqual(
-      expect.objectContaining({
-        enabled: false,
-        siteKey: 'fixture-site-key',
-        secretKey: 'fixture-secret-key'
-      })
+    expect(loadConfig).toThrow(
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
     );
   });
 
