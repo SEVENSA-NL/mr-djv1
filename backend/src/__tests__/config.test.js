@@ -492,7 +492,11 @@ describe('config', () => {
 
   it('rejects a temp path whose canonical target escapes through a directory link', () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mrdj-config-boundary-'));
-    const outsideDir = fs.mkdtempSync(path.join(process.cwd(), 'mrdj-config-outside-'));
+    const outsideDir = fs.mkdtempSync(path.join(os.homedir(), 'mrdj-config-outside-'));
+    const canonicalTemp = fs.realpathSync.native(os.tmpdir());
+    const canonicalOutside = fs.realpathSync.native(outsideDir);
+    const outsideRelative = path.relative(canonicalTemp, canonicalOutside);
+    expect(outsideRelative.startsWith('..') || path.isAbsolute(outsideRelative)).toBe(true);
     const linkedDir = path.join(tempDir, 'linked');
     fs.symlinkSync(outsideDir, linkedDir, process.platform === 'win32' ? 'junction' : 'dir');
     process.env = buildRequiredEnv({
@@ -537,7 +541,7 @@ describe('config', () => {
   ])('rejects HCAPTCHA_ENABLED=true with %s', (_label, overrides) => {
     process.env = buildRequiredEnv({ HCAPTCHA_ENABLED: 'true', ...overrides });
     expect(loadConfig).toThrow(
-      'HCAPTCHA_ENABLED=true requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
     );
   });
 
@@ -548,6 +552,18 @@ describe('config', () => {
       HCAPTCHA_SECRET_KEY: '0x7d3a8b4c16f2e905ab8fd32c7e904f18b61ca21e'
     });
     expect(() => loadConfig()).not.toThrow();
+  });
+
+  it('rejects legacy secret-only activation without a complete site-key pair', () => {
+    process.env = buildRequiredEnv({
+      HCAPTCHA_SECRET_KEY: '0x7d3a8b4c16f2e905ab8fd32c7e904f18b61ca21e'
+    });
+    delete process.env.HCAPTCHA_ENABLED;
+    delete process.env.HCAPTCHA_SITE_KEY;
+
+    expect(loadConfig).toThrow(
+      'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+    );
   });
 
   it('can sink hCaptcha during a private no-send smoke while retaining custody', () => {

@@ -93,6 +93,10 @@ function hasValue(value) {
   return true;
 }
 
+function isHcaptchaEnabled(env) {
+  return env.HCAPTCHA_ENABLED === 'true' || hasValue(env.HCAPTCHA_SECRET_KEY);
+}
+
 const envValidationSchema = Joi.object({
   DATABASE_URL: Joi.string()
     .uri({ allowRelative: false })
@@ -188,7 +192,7 @@ const envValidationSchema = Joi.object({
       });
     }
 
-    if (value.HCAPTCHA_ENABLED === 'true') {
+    if (isHcaptchaEnabled(value)) {
       const unusable = (entry) =>
         !hasValue(entry) ||
         entry.trim().length < 20 ||
@@ -198,7 +202,7 @@ const envValidationSchema = Joi.object({
       if (unusable(value.HCAPTCHA_SITE_KEY) || unusable(value.HCAPTCHA_SECRET_KEY)) {
         return helpers.error('any.custom', {
           message:
-            'HCAPTCHA_ENABLED=true requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
+            'Effective hCaptcha activation requires genuine HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET_KEY values.'
         });
       }
     }
@@ -777,10 +781,7 @@ function buildConfig() {
         )
       },
       hcaptcha: {
-        enabled: parseBoolean(
-          process.env.HCAPTCHA_ENABLED,
-          Boolean(process.env.HCAPTCHA_SECRET_KEY)
-        ),
+        enabled: isHcaptchaEnabled(process.env),
         siteKey: process.env.HCAPTCHA_SITE_KEY || null,
         secretKey: process.env.HCAPTCHA_SECRET_KEY || null,
         verifyUrl: hasValue(process.env.HCAPTCHA_VERIFY_URL)
