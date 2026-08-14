@@ -2,7 +2,6 @@ from pathlib import Path
 
 import yaml
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "infra" / "k8s" / "mkt030-private-backend.yaml"
 EXPECTED_KEYS = {

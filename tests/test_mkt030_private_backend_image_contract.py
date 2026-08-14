@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DOCKERFILE = ROOT / "backend" / "Dockerfile"
 ROOT_IGNORE = ROOT / ".dockerignore"
