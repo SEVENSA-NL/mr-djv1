@@ -3,7 +3,11 @@ import path from 'node:path';
 
 export type MrDjFaqItem = { id: string; question: string; answer: string };
 
-const FAQ_BANK_PATH = path.join(process.cwd(), 'docs', 'faq-content-bank-2026-08-21.md');
+const FAQ_BANK_CANDIDATES = [
+  path.join(process.cwd(), 'docs', 'faq-content-bank-2026-08-21.md'),
+  path.join(process.cwd(), 'frontend-nextjs', 'docs', 'faq-content-bank-2026-08-21.md'),
+];
+const FAQ_BANK_PATH = FAQ_BANK_CANDIDATES.find((candidate) => fs.existsSync(candidate)) ?? FAQ_BANK_CANDIDATES[0];
 
 function slugify(value: string): string {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
