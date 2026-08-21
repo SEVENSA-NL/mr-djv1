@@ -11,13 +11,13 @@ from faq_release import (
     artifact_digest,
     build_artifact,
     canonical_json,
+    git_commit,
     source_manifest_digest,
     validate_artifact,
 )  # noqa: E402
 from faq_release_executor import validate_preflight  # noqa: E402
 
 ALLOWLIST = "0123456789abcdef" * 4
-COMMIT = "a0bcf41a42d1583cd8b40e1b21844198de41d58b"
 
 
 def decision_digest(decision):
@@ -30,14 +30,23 @@ def decision_digest(decision):
 
 class FaqReleaseTests(unittest.TestCase):
     def setUp(self):
-        self.artifact = build_artifact(allowlist_sha256=ALLOWLIST, source_commit=COMMIT)
+        # Bind fixtures to the checked-out approved source head.  A fixed
+        # historical SHA made the test silently validate an old FAQ bank after
+        # the release branch advanced.
+        self.commit = git_commit()
+        self.artifact = build_artifact(allowlist_sha256=ALLOWLIST, source_commit=self.commit)
 
     def test_deterministic_and_valid_30_item_artifact(self):
-        other = build_artifact(allowlist_sha256=ALLOWLIST, source_commit=COMMIT)
+        other = build_artifact(allowlist_sha256=ALLOWLIST, source_commit=self.commit)
         self.assertEqual(self.artifact, other)
         self.assertEqual(self.artifact["artifact_sha256"], artifact_digest(self.artifact))
         self.assertEqual(len(self.artifact["faq_items"]), 30)
         validate_artifact(self.artifact)
+
+    def test_default_source_commit_is_checked_out_head(self):
+        generated = build_artifact(allowlist_sha256=ALLOWLIST)
+        self.assertEqual(generated["source_commit"], self.commit)
+        self.assertEqual(generated["source_manifest"], self.artifact["source_manifest"])
 
     def test_source_manifest_must_match_bytes_at_source_commit(self):
         tampered = json.loads(json.dumps(self.artifact))
