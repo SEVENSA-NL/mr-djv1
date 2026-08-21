@@ -18,6 +18,8 @@ from faq_release import (
 from faq_release_executor import validate_preflight  # noqa: E402
 
 ALLOWLIST = "0123456789abcdef" * 4
+
+
 def decision_digest(decision):
     return hashlib.sha256(
         canonical_json(
