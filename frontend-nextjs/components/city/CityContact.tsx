@@ -258,10 +258,10 @@ export default function CityContact({ city, locale }: CityContactProps) {
                       {isNL ? 'Telefoon' : 'Phone'}
                     </p>
                     <a
-                      href="tel:+31612345678"
+                      href="tel:+31408422594"
                       className="text-purple-200 hover:text-white"
                     >
-                      +31 6 12 34 56 78
+                      040-8422594
                     </a>
                   </div>
                 </div>
