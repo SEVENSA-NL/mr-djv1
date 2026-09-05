@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { hasStatisticsConsent } from '@/lib/analytics/consent';
 import { trackEvent } from '@/lib/analytics/trackEvent';
 
@@ -28,6 +28,7 @@ const defaultState: FormState = {
 
 export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
   const isNL = locale === 'nl';
+  const formId = useId();
   const [form, setForm] = useState<FormState>(defaultState);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -65,8 +66,8 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
       setMessage({
         type: 'success',
         text: isNL
-          ? 'Bedankt! We bevestigen binnen 24 uur of de datum vrij is.'
-          : 'Thanks! We will confirm availability within 24 hours.',
+          ? 'Bedankt! We nemen binnen 24 uur contact met je op.'
+          : 'Thanks! We will be in touch within 24 hours.',
       });
       setForm(defaultState);
       trackEvent('availability_check_success', {
@@ -94,9 +95,13 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'Naam' : 'Name'}</label>
+          <label htmlFor={`${formId}-name`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'Naam' : 'Name'}
+          </label>
           <input
+            id={`${formId}-name`}
             name="name"
+            autoComplete="name"
             required
             value={form.name}
             onChange={handleChange}
@@ -105,10 +110,14 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'E-mail' : 'Email'}</label>
+          <label htmlFor={`${formId}-email`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'E-mail' : 'Email'}
+          </label>
           <input
+            id={`${formId}-email`}
             name="email"
             type="email"
+            autoComplete="email"
             required
             value={form.email}
             onChange={handleChange}
@@ -120,9 +129,14 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'Telefoon' : 'Phone'}</label>
+          <label htmlFor={`${formId}-phone`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'Telefoon' : 'Phone'}
+          </label>
           <input
+            id={`${formId}-phone`}
             name="phone"
+            type="tel"
+            autoComplete="tel"
             required
             value={form.phone}
             onChange={handleChange}
@@ -131,8 +145,11 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'Event datum' : 'Event date'}</label>
+          <label htmlFor={`${formId}-date`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'Event datum' : 'Event date'}
+          </label>
           <input
+            id={`${formId}-date`}
             name="date"
             type="date"
             required
@@ -145,8 +162,11 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'Type event' : 'Event type'}</label>
+          <label htmlFor={`${formId}-event-type`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'Type event' : 'Event type'}
+          </label>
           <select
+            id={`${formId}-event-type`}
             name="eventType"
             required
             value={form.eventType}
@@ -160,8 +180,11 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-2">{isNL ? 'Aantal gasten' : 'Guest count'}</label>
+          <label htmlFor={`${formId}-guests`} className="block text-sm font-semibold mb-2">
+            {isNL ? 'Aantal gasten' : 'Guest count'}
+          </label>
           <input
+            id={`${formId}-guests`}
             name="guests"
             type="number"
             min={10}
@@ -183,7 +206,8 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
 
       {message && (
         <div
-          role="status"
+          role={message.type === 'success' ? 'status' : 'alert'}
+          aria-live={message.type === 'success' ? 'polite' : undefined}
           className={`mt-2 rounded-md px-4 py-3 text-sm ${
             message.type === 'success'
               ? 'bg-emerald-50 text-emerald-800'

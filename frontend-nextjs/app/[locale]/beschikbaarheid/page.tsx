@@ -1,16 +1,35 @@
 import type { Metadata } from 'next';
-import { useLocale } from 'next-intl';
 import ScrollDepthTracker from '@/components/analytics/ScrollDepthTracker';
 import AvailabilityForm from '@/components/booking/AvailabilityForm';
 
-export const metadata: Metadata = {
-  title: 'Beschikbaarheid controleren | Mister DJ',
-  description: 'Check direct of Mister DJ beschikbaar is voor jouw datum. Binnen 24 uur reactie.',
+type AvailabilityPageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function AvailabilityPage() {
-  const locale = useLocale();
-  const isNL = locale === 'nl';
+export async function generateMetadata({ params }: AvailabilityPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const resolvedLocale = locale === 'en' ? 'en' : 'nl';
+  const isNL = resolvedLocale === 'nl';
+
+  return {
+    title: isNL ? 'Beschikbaarheid aanvragen | Mister DJ' : 'Request availability | Mister DJ',
+    description: isNL
+      ? 'Deel je datum en eventtype met Mister DJ. We nemen binnen 24 uur contact met je op.'
+      : 'Share your date and event type with Mister DJ. We will be in touch within 24 hours.',
+    alternates: {
+      canonical: `/${resolvedLocale}/beschikbaarheid`,
+      languages: {
+        nl: '/nl/beschikbaarheid',
+        en: '/en/beschikbaarheid',
+      },
+    },
+  };
+}
+
+export default async function AvailabilityPage({ params }: AvailabilityPageProps) {
+  const { locale } = await params;
+  const resolvedLocale = locale === 'en' ? 'en' : 'nl';
+  const isNL = resolvedLocale === 'nl';
 
   return (
     <main className="bg-neutral-dark text-neutral-light min-h-screen">
@@ -31,11 +50,11 @@ export default function AvailabilityPage() {
           </h1>
           <p className="max-w-2xl text-sm text-neutral-gray-200">
             {isNL
-              ? 'Vul je datum en event type in. We reageren binnen 24 uur met bevestiging en een voorstel op maat.'
-              : 'Share your date and event type. We’ll respond within 24 hours with availability and a tailored proposal.'}
+              ? 'Vul je datum en eventtype in. We nemen binnen 24 uur contact met je op om de mogelijkheden te bespreken.'
+              : 'Share your date and event type. We will be in touch within 24 hours to discuss the options.'}
           </p>
           <div className="rounded-2xl bg-white/10 p-6 ring-1 ring-white/10 backdrop-blur">
-            <AvailabilityForm locale={locale} />
+            <AvailabilityForm locale={resolvedLocale} />
           </div>
         </div>
       </section>

@@ -27,6 +27,14 @@ describe('AvailabilityForm analytics payload', () => {
   it('keeps granted analytics payloads whitelisted while delivering the full lead', async () => {
     const { container } = render(<AvailabilityForm locale="nl" />);
 
+    expect(screen.getByLabelText('Naam')).toHaveAttribute('name', 'name');
+    expect(screen.getByLabelText('E-mail')).toHaveAttribute('name', 'email');
+    expect(screen.getByLabelText('Telefoon')).toHaveAttribute('type', 'tel');
+    expect(screen.getByLabelText('Telefoon')).toHaveAttribute('autocomplete', 'tel');
+    expect(screen.getByLabelText('Event datum')).toHaveAttribute('name', 'date');
+    expect(screen.getByLabelText('Type event')).toHaveAttribute('name', 'eventType');
+    expect(screen.getByLabelText('Aantal gasten')).toHaveAttribute('name', 'guests');
+
     fireEvent.change(container.querySelector('[name="name"]')!, { target: { value: 'Test Naam' } });
     fireEvent.change(container.querySelector('[name="email"]')!, { target: { value: 'test@example.test' } });
     fireEvent.change(container.querySelector('[name="phone"]')!, { target: { value: '+31600000000' } });
@@ -53,5 +61,20 @@ describe('AvailabilityForm analytics payload', () => {
       date: '2030-01-01',
       analyticsConsent: true,
     });
+    expect(screen.getByRole('status')).toHaveTextContent('We nemen binnen 24 uur contact met je op.');
+  });
+
+  it('announces a failed request as an alert', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('offline'));
+    const { container } = render(<AvailabilityForm locale="en" />);
+
+    fireEvent.change(container.querySelector('[name="name"]')!, { target: { value: 'Test Name' } });
+    fireEvent.change(container.querySelector('[name="email"]')!, { target: { value: 'test@example.test' } });
+    fireEvent.change(container.querySelector('[name="phone"]')!, { target: { value: '+31600000000' } });
+    fireEvent.change(container.querySelector('[name="date"]')!, { target: { value: '2030-01-01' } });
+    fireEvent.change(container.querySelector('[name="eventType"]')!, { target: { value: 'bruiloft' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Check availability' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong. Please try again.');
   });
 });
