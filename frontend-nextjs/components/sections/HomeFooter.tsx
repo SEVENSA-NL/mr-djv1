@@ -13,7 +13,7 @@ export default function HomeFooter() {
           <p className="text-sm text-neutral-gray-300">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
-          <Link href="https://wa.me/31612345678" className="hover:text-primary">
+          <Link href="tel:+31408422594" className="hover:text-primary">
             {t('cta')}
           </Link>
           <span className="text-neutral-gray-500">•</span>
