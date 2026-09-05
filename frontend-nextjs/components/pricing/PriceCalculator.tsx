@@ -2,17 +2,10 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ADD_ONS, PACKAGES, type Package } from '@/lib/data/pricing';
+import { trackEvent } from '@/lib/analytics/trackEvent';
 
 export interface PriceCalculatorProps {
   locale: string;
-}
-
-declare global {
-  interface Window {
-    posthog?: {
-      capture: (event: string, properties?: Record<string, unknown>) => void;
-    };
-  }
 }
 
 export const PriceCalculator: React.FC<PriceCalculatorProps> = ({ locale }) => {
@@ -42,24 +35,16 @@ export const PriceCalculator: React.FC<PriceCalculatorProps> = ({ locale }) => {
     }
     setSelectedAddOns(newAddOns);
 
-    if (typeof window !== 'undefined' && window.posthog) {
-      window.posthog.capture('price_calculator_addon_toggle', {
-        addon_id: addOnId,
-        action: newAddOns.has(addOnId) ? 'added' : 'removed',
-        timestamp: new Date().toISOString(),
-      });
-    }
+    trackEvent('price_calculator_addon_toggle', {
+      addon_id: addOnId,
+      action: newAddOns.has(addOnId) ? 'added' : 'removed',
+    });
   };
 
   const handlePackageChange = (pkgId: Package['id']) => {
     setSelectedPackage(pkgId);
 
-    if (typeof window !== 'undefined' && window.posthog) {
-      window.posthog.capture('price_calculator_package_change', {
-        package_id: pkgId,
-        timestamp: new Date().toISOString(),
-      });
-    }
+    trackEvent('price_calculator_package_change', { package_id: pkgId });
   };
 
   const getRecommendedPackage = useCallback((): Package['id'] => {
@@ -76,15 +61,12 @@ export const PriceCalculator: React.FC<PriceCalculatorProps> = ({ locale }) => {
   }, [getRecommendedPackage, selectedPackage]);
 
   const handleGetQuote = () => {
-    if (typeof window !== 'undefined' && window.posthog) {
-      window.posthog.capture('price_calculator_get_quote', {
-        package_id: selectedPackage,
-        guest_count: guestCount,
-        addons: Array.from(selectedAddOns),
-        total_price: total,
-        timestamp: new Date().toISOString(),
-      });
-    }
+    trackEvent('price_calculator_get_quote', {
+      package_id: selectedPackage,
+      guest_count: guestCount,
+      addons: Array.from(selectedAddOns),
+      total_price: total,
+    });
 
     const pkg = PACKAGES.find((p) => p.id === selectedPackage);
     const queryParams = new URLSearchParams({

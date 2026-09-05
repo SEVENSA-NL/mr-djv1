@@ -39,9 +39,14 @@ const routes = [
   },
 ] as const;
 
-function requestWith(payload: object): Request {
+function requestWith(payload: object, analyticsConsent?: unknown): Request {
+  const body =
+    analyticsConsent === undefined
+      ? payload
+      : { ...payload, analyticsConsent };
+
   return new Request('http://localhost/api/lead', {
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
       cookie: '_ga=private-cookie-value',
@@ -99,7 +104,7 @@ describe.each(routes)('$name lead route', ({ eventName, handler, path, payload }
     expect(loggedText([errorSpy])).not.toContain(payload.name);
   });
 
-  it('returns success and emits GA4 only after a configured backend accepts the lead', async () => {
+  it('returns success without GA4 when analytics consent is missing, while delivering the lead', async () => {
     fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
 
     const response = await handler(requestWith(payload));
@@ -113,12 +118,39 @@ describe.each(routes)('$name lead route', ({ eventName, handler, path, payload }
     const [url, options] = fetchMock.mock.calls[0];
     expect(url).toBe(`https://backend.example.test/base/${path}`);
     expect(options.headers.Authorization).toBe('Bearer private-backend-key');
+    expect(sendGa4Event).not.toHaveBeenCalled();
+    expect(errorSpy).not.toHaveBeenCalled();
+    expect(infoSpy).not.toHaveBeenCalled();
+  });
+
+  it.each([false, 'true', { statistics: true }])(
+    'returns success without GA4 when analytics consent is invalid: %j',
+    async (analyticsConsent) => {
+      fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
+
+      const response = await handler(requestWith(payload, analyticsConsent));
+
+      expect(response.status).toBe(200);
+      expect(sendGa4Event).not.toHaveBeenCalled();
+      const [, options] = fetchMock.mock.calls[0];
+      expect(JSON.parse(options.body)).not.toHaveProperty('analyticsConsent');
+    }
+  );
+
+  it('returns success and emits GA4 only after a configured backend accepts an explicitly consented lead', async () => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
+
+    const response = await handler(requestWith(payload, true));
+
+    expect(response.status).toBe(200);
     expect(sendGa4Event).toHaveBeenCalledOnce();
     expect(sendGa4Event).toHaveBeenCalledWith(
       eventName,
       expect.any(Object),
-      expect.any(Object)
+      expect.objectContaining({ analyticsConsent: true })
     );
+    const [, options] = fetchMock.mock.calls[0];
+    expect(JSON.parse(options.body)).not.toHaveProperty('analyticsConsent');
     expect(errorSpy).not.toHaveBeenCalled();
     expect(infoSpy).not.toHaveBeenCalled();
   });
@@ -135,7 +167,7 @@ describe.each(routes)('$name lead route', ({ eventName, handler, path, payload }
       text: readProviderBody,
     });
 
-    const response = await handler(requestWith(payload));
+    const response = await handler(requestWith(payload, true));
 
     expect(response.status).toBe(502);
     await expect(response.json()).resolves.toEqual({
@@ -156,7 +188,7 @@ describe.each(routes)('$name lead route', ({ eventName, handler, path, payload }
       new Error(`network failure carrying ${payload.email} and private-backend-key`)
     );
 
-    const response = await handler(requestWith(payload));
+    const response = await handler(requestWith(payload, true));
 
     expect(response.status).toBe(503);
     await expect(response.json()).resolves.toEqual({

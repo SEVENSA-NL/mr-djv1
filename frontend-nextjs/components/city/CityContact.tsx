@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { hasStatisticsConsent } from '@/lib/analytics/consent';
 import { trackEvent } from '@/lib/analytics/trackEvent';
 import type { City } from '../../types/city';
 import { Phone, Mail } from 'lucide-react';
@@ -29,12 +30,13 @@ export default function CityContact({ city, locale }: CityContactProps) {
     e.preventDefault();
     setStatus(null);
     setLoading(true);
+    const analyticsConsent = hasStatisticsConsent();
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, locale }),
+        body: JSON.stringify({ ...formData, locale, analyticsConsent }),
       });
 
       if (!res.ok) throw new Error('Request failed');
@@ -63,14 +65,17 @@ export default function CityContact({ city, locale }: CityContactProps) {
           ? 'Bedankt! We nemen binnen 24 uur contact op met opties.'
           : 'Thanks! We will contact you within 24 hours with options.',
       });
-    } catch (error) {
+    } catch {
       setStatus({
         type: 'error',
         text: isNL ? 'Er ging iets mis. Probeer opnieuw.' : 'Something went wrong. Please try again.',
       });
       trackEvent('lead_submit_error', {
         source: 'city_page',
-        error: (error as Error).message,
+        city: city.slug,
+        eventType: formData.eventType,
+        locale,
+        reason: 'request_failed',
         ga4_event: 'lead_submit_error',
       });
     } finally {

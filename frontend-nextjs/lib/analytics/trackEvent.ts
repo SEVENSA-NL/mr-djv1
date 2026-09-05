@@ -1,5 +1,7 @@
 'use client';
 
+import { hasStatisticsConsent } from './consent';
+
 type EventPayload = Record<string, unknown>;
 
 declare global {
@@ -10,6 +12,8 @@ declare global {
 }
 
 export function trackEvent(event: string, payload: EventPayload = {}): void {
+  if (!hasStatisticsConsent()) return;
+
   const enriched = {
     ...payload,
     timestamp: new Date().toISOString(),

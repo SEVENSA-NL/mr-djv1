@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useState } from 'react';
+import { hasStatisticsConsent } from '@/lib/analytics/consent';
 import { trackEvent } from '@/lib/analytics/trackEvent';
 
 type AvailabilityFormProps = {
@@ -44,13 +45,19 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
     setLoading(true);
     setMessage(null);
 
-    trackEvent('availability_check_started', { locale, ...form, ga4_event: 'availability_check_started' });
+    const analyticsConsent = hasStatisticsConsent();
+    trackEvent('availability_check_started', {
+      locale,
+      eventType: form.eventType,
+      guests: form.guests,
+      ga4_event: 'availability_check_started',
+    });
 
     try {
       const res = await fetch('/api/availability', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, locale, analyticsConsent }),
       });
 
       if (!res.ok) throw new Error('Request failed');
@@ -64,16 +71,20 @@ export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
       setForm(defaultState);
       trackEvent('availability_check_success', {
         locale,
-        date: form.date,
         eventType: form.eventType,
         ga4_event: 'availability_check_success',
       });
-    } catch (error) {
+    } catch {
       setMessage({
         type: 'error',
         text: isNL ? 'Er ging iets mis. Probeer het opnieuw.' : 'Something went wrong. Please try again.',
       });
-      trackEvent('availability_check_error', { locale, error: (error as Error).message, ga4_event: 'availability_check_error' });
+      trackEvent('availability_check_error', {
+        locale,
+        eventType: form.eventType,
+        reason: 'request_failed',
+        ga4_event: 'availability_check_error',
+      });
     } finally {
       setLoading(false);
     }

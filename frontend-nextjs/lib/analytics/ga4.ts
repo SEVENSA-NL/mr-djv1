@@ -26,8 +26,12 @@ function parseClientId(options?: { cookieHeader?: string; clientIdHeader?: strin
 export async function sendGa4Event(
   eventName: string,
   params: EventParams = {},
-  options?: { cookieHeader?: string; clientIdHeader?: string }
+  options?: { cookieHeader?: string; clientIdHeader?: string; analyticsConsent?: boolean }
 ) {
+  if (options?.analyticsConsent !== true) {
+    return;
+  }
+
   const measurementId = process.env.GA4_MEASUREMENT_ID;
   const apiSecret = process.env.GA4_API_SECRET;
 

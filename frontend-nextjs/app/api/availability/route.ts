@@ -24,6 +24,10 @@ export async function POST(request: Request) {
     );
   }
 
+  const analyticsConsent = payload?.analyticsConsent === true;
+  const leadPayload = { ...payload };
+  delete leadPayload.analyticsConsent;
+
   const backendApiKey = process.env.BACKEND_API_KEY;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
@@ -34,7 +38,7 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
         ...(backendApiKey ? { Authorization: `Bearer ${backendApiKey}` } : {}),
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(leadPayload),
       signal: controller.signal,
     });
     if (!response.ok) {
@@ -57,27 +61,30 @@ export async function POST(request: Request) {
     clearTimeout(timeout);
   }
 
-  try {
-    await sendGa4Event(
-      'lead_availability',
-      {
-        lead_type: 'availability',
-        event_type: payload.eventType,
-        event_date: payload.eventDate,
-        locale: payload.locale,
-        city: payload.city,
-        page: payload.page || 'availability',
-      },
-      {
-        cookieHeader: request.headers.get('cookie') || undefined,
-        clientIdHeader:
-          request.headers.get('x-client-id') ||
-          request.headers.get('x-ga-cid') ||
-          undefined,
-      }
-    );
-  } catch {
-    console.error('[availability]', { code: 'LEAD_ANALYTICS_FAILED' });
+  if (analyticsConsent) {
+    try {
+      await sendGa4Event(
+        'lead_availability',
+        {
+          lead_type: 'availability',
+          event_type: payload.eventType,
+          event_date: payload.eventDate,
+          locale: payload.locale,
+          city: payload.city,
+          page: payload.page || 'availability',
+        },
+        {
+          analyticsConsent: true,
+          cookieHeader: request.headers.get('cookie') || undefined,
+          clientIdHeader:
+            request.headers.get('x-client-id') ||
+            request.headers.get('x-ga-cid') ||
+            undefined,
+        }
+      );
+    } catch {
+      console.error('[availability]', { code: 'LEAD_ANALYTICS_FAILED' });
+    }
   }
 
   return NextResponse.json({ status: 'ok', code: 'LEAD_DELIVERED' });

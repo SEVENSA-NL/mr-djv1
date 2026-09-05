@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server';
 import { locales, defaultLocale, localeMetadata } from '@/i18n.config';
 import { Space_Grotesk } from 'next/font/google';
 import { Inter, Playfair_Display } from 'next/font/google';
+import ConsentPreferences from '@/components/analytics/ConsentPreferences';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mr-dj.sevensa.nl';
 
@@ -107,6 +108,7 @@ export default async function LocaleLayout({
       <body className={`${spaceGrotesk.className} ${inter.variable} ${playfair.variable}`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <ConsentPreferences />
         </NextIntlClientProvider>
       </body>
     </html>
