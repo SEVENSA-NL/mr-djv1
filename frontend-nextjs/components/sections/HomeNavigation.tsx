@@ -80,6 +80,51 @@ export default function HomeNavigation() {
           </Link>
         </nav>
 
+        <details className="relative md:hidden">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-neutral-gray-100 transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary/70 [&::-webkit-details-marker]:hidden">
+            <span>Menu</span>
+            <svg
+              aria-hidden="true"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+            </svg>
+          </summary>
+          <nav
+            aria-label={locale === 'nl' ? 'Mobiel menu' : 'Mobile menu'}
+            className="absolute right-0 top-full z-40 mt-2 flex w-56 flex-col gap-1 rounded-lg border border-white/10 bg-neutral-dark p-2 shadow-strong"
+          >
+            <Link
+              href={`/${locale}/diensten`}
+              prefetch={false}
+              className={`${linkClass(`/${locale}/diensten`)} w-full`}
+              aria-current={isActive(`/${locale}/diensten`) ? 'page' : undefined}
+            >
+              {t('links.services')}
+            </Link>
+            <Link
+              href={`/${locale}/pakketten`}
+              prefetch={false}
+              className={`${linkClass(`/${locale}/pakketten`)} w-full`}
+              aria-current={isActive(`/${locale}/pakketten`) ? 'page' : undefined}
+            >
+              {t('links.packages')}
+            </Link>
+            <Link
+              href={`/${locale}/steden`}
+              prefetch={false}
+              className={`${linkClass(`/${locale}/steden`)} w-full`}
+              aria-current={isActive(`/${locale}/steden`) ? 'page' : undefined}
+            >
+              {t('links.cities')}
+            </Link>
+          </nav>
+        </details>
+
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/pakketten`} className="hidden sm:block">
             <Button size="sm" variant="secondary">
