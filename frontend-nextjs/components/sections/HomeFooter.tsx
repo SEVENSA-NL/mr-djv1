@@ -17,7 +17,7 @@ export default function HomeFooter() {
             {t('cta')}
           </Link>
           <span className="text-neutral-gray-500">•</span>
-          <Link href="mailto:hello@mrdj.sevensa.nl" className="hover:text-primary">
+          <Link href="mailto:info@mr-dj.nl" className="hover:text-primary">
             {t('email')}
           </Link>
         </div>
