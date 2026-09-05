@@ -22,14 +22,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isNL = locale === 'nl';
   const baseTitle = isNL ? `DJ in ${city.name}` : `DJ in ${city.name}`;
   const description = isNL
-    ? `Boek een premium DJ + sax in ${city.name}. Snelle beschikbaarheidscheck, venue-afstemming en 100% dansgarantie.`
-    : `Book a premium DJ + sax in ${city.name} for weddings, corporate events, and private parties. Fast availability, venue coordination, and a packed dance floor.`;
+    ? `Bespreek je datum, locatie en muziekwensen met Mister DJ in ${city.name}.`
+    : `Discuss your date, venue and music preferences with Mister DJ in ${city.name}.`;
 
   return {
     title: `${baseTitle} | Mister DJ`,
     description,
     alternates: {
       canonical: `/${locale}/${city.slug}`,
+      languages: {
+        nl: `/nl/${city.slug}`,
+        en: `/en/${city.slug}`,
+      },
     },
     openGraph: {
       title: baseTitle,
