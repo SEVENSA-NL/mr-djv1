@@ -28,24 +28,24 @@
     }
   },
   "hero": {
-    "badge": "✨ 4.9/5 from 180+ reviews",
-    "title": "DJ + Sax that packs your dance floor in two tracks",
+    "badge": "✨ DJ + Live Sax for your event",
+    "title": "DJ + Sax tailored to your event",
     "subtitle": "Live mashups, a saxophonist on the dance floor, and realtime playlists tuned to your crowd.",
-    "supportingCopy": "120+ events each year, a 4.9/5 rating across 180+ reviews, and a dedicated event manager preparing your intake.",
+    "supportingCopy": "We start with a personal conversation and shape a proposal around your event.",
     "ctaPrimaryText": "Schedule your intake",
     "ctaSecondaryText": "Request a mix demo",
     "stats": [
       {
-        "label": "Average rating",
-        "value": "4.9/5"
+        "label": "Personal intake",
+        "value": "Your wishes"
       },
       {
-        "label": "Events per year",
-        "value": "120+"
+        "label": "Tailored proposal",
+        "value": "Per event"
       },
       {
-        "label": "Dance floor activation",
-        "value": "98%"
+        "label": "DJ + Live Sax",
+        "value": "Optional"
       }
     ],
     "testimonial": {
@@ -106,15 +106,15 @@
         "description": "Upgrade any package with a live saxophonist. The difference between fun and legendary."
       },
       "guarantee": {
-        "icon": "💯",
-        "title": "100% Dance Guarantee",
-        "description": "Full dance floor or your money back. We've kept this promise in 500+ events."
+        "icon": "✨",
+        "title": "Personal alignment",
+        "description": "We discuss your wishes and shape a proposal around the event programme."
       }
     },
     "stats": {
-      "rating": "4.9/5 stars",
-      "events": "500+ successful events",
-      "guarantee": "100% dance guarantee",
+      "rating": "Personal intake",
+      "events": "Tailored proposal",
+      "guarantee": "Music aligned to your wishes",
       "experience": "15+ years experience"
     },
     "packages": {
@@ -126,7 +126,7 @@
       },
       "zilver": {
         "name": "Silver Package",
-        "subtitle": "Favorite of 300+ couples",
+        "subtitle": "For weddings and mid-sized events",
         "description": "Most chosen for weddings and medium-sized events"
       },
       "goud": {
@@ -268,10 +268,10 @@
     ]
   },
   "cities": {
-    "eyebrow": "Coverage",
-    "title": "We play across the Randstad and beyond",
-    "subtitle": "Local crews, fast load-ins, and vendor-friendly planners so your venue is at ease.",
-    "badge": "12+ cities weekly",
+    "eyebrow": "Local information",
+    "title": "DJ + Live Sax for your event",
+    "subtitle": "Discuss your venue, wishes and planning in a personal conversation.",
+    "badge": "Tailored per event",
     "list": [
       {
         "name": "Amsterdam",

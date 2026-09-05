@@ -11,12 +11,12 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'Bruiloft DJ - Professionele DJ voor je trouwfeest | Mister DJ',
   description:
-    'Mister DJ maakt je bruiloft onvergetelijk. Van ceremonie tot late-night party met DJ + Live Saxofoon. 15+ jaar ervaring, 300+ bruidsparen geholpen. Vraag offerte.',
+    'Mister DJ maakt je bruiloft onvergetelijk. Van ceremonie tot late-night party met DJ + Live Saxofoon. 15+ jaar ervaring. Vraag offerte.',
   keywords: ['bruiloft dj', 'trouw dj', 'wedding dj', 'bruiloft entertainment', 'live saxofoon bruiloft'],
   openGraph: {
     title: 'Bruiloft DJ | Professionele DJ voor je trouwfeest',
     description:
-      'DJ + Live Saxofoon voor je bruiloft. Van eerste dans tot afterparty. 100% dansgarantie, 15+ jaar ervaring. Favoriete keuze van 300+ bruidsparen.',
+      'DJ + Live Saxofoon voor je bruiloft. Van eerste dans tot afterparty. Persoonlijke afstemming en 15+ jaar ervaring.',
     images: ['/assets/marketing-images/weddingDJ/weddingDJ-01.webp'],
   },
 };
@@ -48,9 +48,9 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
   const faqItems = isNL
     ? [
         {
-          question: 'Hoe snel krijgen we beschikbaarheid en bevestiging?',
+          question: 'Hoe bespreken we de mogelijkheden voor onze datum?',
           answer:
-            'Binnen één werkdag. Bij populaire data sturen we direct een backup-DJ + sax optie mee zodat je zekerheid hebt.',
+            'In een persoonlijk gesprek bespreken we jullie datum, locatie en wensen. Daarna werken we een voorstel uit dat past bij de bruiloft.',
         },
         {
           question: 'Hoe stemmen jullie af met onze ceremoniemeester of planner?',
@@ -75,7 +75,7 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
         {
           question: 'Wat als de datum last-minute wijzigt?',
           answer:
-            'We houden een backup-crew paraat. Bij verplaatsing binnen 3 maanden schuiven we kosteloos indien beschikbaar.',
+            'Neem contact op om de mogelijkheden voor de gewijzigde datum te bespreken.',
         },
         {
           question: 'Kunnen jullie speciale momenten cue’en (first dance, speeches)?',
@@ -90,9 +90,9 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
       ]
     : [
         {
-          question: 'How fast do we get availability confirmation?',
+          question: 'How do we discuss the options for our date?',
           answer:
-            'Within one business day. For hot dates we include a backup DJ + sax option so you’re covered.',
+            'In a personal conversation, we discuss your date, venue and wishes. We then shape a proposal around the wedding.',
         },
         {
           question: 'How do you align with our planner or venue?',
@@ -117,7 +117,7 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
         {
           question: 'What if our date shifts last-minute?',
           answer:
-            'We keep a backup crew. If you move within 3 months, we rebook at no extra cost if slots are open.',
+            'Contact us to discuss the options for the changed date.',
         },
         {
           question: 'Can you cue key moments (first dance, speeches)?',
@@ -183,10 +183,9 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 card">
             <div className="mb-3 text-primary"><Sparkles className="h-6 w-6" /></div>
-            <h2 className="mb-2 text-lg font-semibold text-slate-900">100% Dansgarantie</h2>
+            <h2 className="mb-2 text-lg font-semibold text-slate-900">Persoonlijke voorbereiding</h2>
             <p className="text-sm text-slate-600">
-              Volle dansvloer of je geld terug. In 300+ bruiloften hebben we deze belofte altijd
-              waargemaakt.
+              We bespreken jullie muziek, planning en locatie zodat het voorstel aansluit op de grote dag.
             </p>
           </div>
         </div>
@@ -215,7 +214,7 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
                 number: 3,
                 title: 'De grote dag - Ceremonie tot afterparty',
                 description:
-                  'We zijn er ruim voor aanvang om alles op te bouwen. Van ceremoniemuziek tot borrel-achtergrondmuziek, van first dance tot late-night party - wij zorgen voor de perfecte soundtrack van jullie dag. Met backup apparatuur voor 100% zekerheid.',
+                  'We bereiden de technische planning en jullie muziek voor. Van ceremoniemuziek tot borrel-achtergrondmuziek, van first dance tot late-night party - met een soundtrack die past bij jullie dag.',
               },
               {
                 number: 4,
@@ -295,8 +294,7 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
         <div className="mx-auto max-w-4xl px-4 text-center lg:px-0">
           <h2 className="mb-4 text-3xl font-bold">Klaar om je bruiloft onvergetelijk te maken?</h2>
           <p className="mb-8 text-lg text-amber-50">
-            Ontvang binnen 24 uur een offerte op maat voor jullie trouwdag. Vrijblijvend kennismaken en
-            sparren over jullie wensen.
+            Plan een vrijblijvend kennismakingsgesprek en spar over jullie wensen voor de trouwdag.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
@@ -362,9 +360,8 @@ export default function BruiloftDJPage({ params: { locale } }: Props) {
                 Wat als de DJ ziek wordt op onze trouwdag?
               </summary>
               <p className="mt-3 text-sm text-slate-600">
-                We hebben een netwerk van ervaren backup DJ's. In het onverhoopte geval dat je DJ ziek wordt,
-                regelen we direct een vervanger met dezelfde kwaliteit. Dit is onderdeel van onze 100%
-                zekerheidsgarantie - jullie trouwdag gaat altijd door!
+                Bespreek deze vraag tijdens het kennismakingsgesprek. Afspraken over de uitvoering en eventuele
+                vervanging leggen we vast in het voorstel.
               </p>
             </details>
           </div>

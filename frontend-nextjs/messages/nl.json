@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Mister DJ – DJ + Sax met 100% dansgarantie",
+    "title": "Mister DJ – DJ + Sax voor jouw event",
     "subtitle": "Premium DJ + sax voor bruiloften, bedrijfsfeesten en private events in Brabant & Limburg.",
     "bookingSectionLabel": "Boekingsflow en status"
   },
@@ -28,24 +28,24 @@
     }
   },
   "hero": {
-    "badge": "✨ 4.9/5 op 180+ reviews",
-    "title": "DJ + Sax die je dansvloer binnen 2 tracks vult",
+    "badge": "✨ DJ + Live Sax voor jouw event",
+    "title": "DJ + Sax afgestemd op jullie feest",
     "subtitle": "Live mashups, saxofonist tussen je gasten en realtime setlists afgestemd op jouw publiek.",
-    "supportingCopy": "120+ evenementen per jaar, 4.9/5 beoordeling over 180+ reviews en een dedicated eventmanager die jouw intake voorbereidt.",
+    "supportingCopy": "We starten met een persoonlijk gesprek en werken een voorstel uit dat past bij jouw event.",
     "ctaPrimaryText": "Plan je intake",
     "ctaSecondaryText": "Vraag een mixdemo aan",
     "stats": [
       {
-        "label": "Gem. reviewscore",
-        "value": "4.9/5"
+        "label": "Persoonlijke intake",
+        "value": "Jouw wensen"
       },
       {
-        "label": "Evenementen per jaar",
-        "value": "120+"
+        "label": "Voorstel op maat",
+        "value": "Per event"
       },
       {
-        "label": "Dansvloeractivatie",
-        "value": "98%"
+        "label": "DJ + Live Sax",
+        "value": "Optioneel"
       }
     ],
     "testimonial": {
@@ -106,15 +106,15 @@
         "description": "Upgrade elk pakket met een live saxofonist. Het verschil tussen leuk en legendarisch."
       },
       "guarantee": {
-        "icon": "💯",
-        "title": "100% Dansgarantie",
-        "description": "Volle dansvloer of je geld terug. In 500+ events hebben we deze belofte altijd waargemaakt."
+        "icon": "✨",
+        "title": "Persoonlijke afstemming",
+        "description": "We bespreken jullie wensen en werken een voorstel uit dat past bij het programma."
       }
     },
     "stats": {
-      "rating": "4.9/5 sterren",
-      "events": "500+ geslaagde events",
-      "guarantee": "100% dansgarantie",
+      "rating": "Persoonlijke intake",
+      "events": "Voorstel op maat",
+      "guarantee": "Muziek afgestemd op jullie wensen",
       "experience": "15+ jaar ervaring"
     },
     "packages": {
@@ -126,7 +126,7 @@
       },
       "zilver": {
         "name": "Zilver Pakket",
-        "subtitle": "Favoriet van 300+ bruidsparen",
+        "subtitle": "Voor bruiloften en middelgrote events",
         "description": "Meest gekozen voor bruiloften en middelgrote events"
       },
       "goud": {
@@ -268,10 +268,10 @@
     ]
   },
   "cities": {
-    "eyebrow": "Bereik",
-    "title": "We draaien in de Randstad en daarbuiten",
-    "subtitle": "Lokale crews, snelle load-ins en venue-vriendelijke planners zodat de locatie relaxed blijft.",
-    "badge": "12+ steden per week",
+    "eyebrow": "Lokale informatie",
+    "title": "DJ + Live Sax voor je event",
+    "subtitle": "Bespreek je locatie, wensen en planning in een persoonlijk gesprek.",
+    "badge": "Afgestemd per event",
     "list": [
       {
         "name": "Amsterdam",

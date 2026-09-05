@@ -40,8 +40,8 @@ export function HomeSocialProof() {
           <h2 className="heading-2 text-neutral-dark">{t('title')}</h2>
           <p className="body-lg text-neutral-600">
             {locale === 'nl'
-              ? `4.9/5 gemiddeld • ${brandPartners.length}+ vaste partners • 500+ succesvolle events`
-              : `4.9/5 average • ${brandPartners.length}+ recurring partners • 500+ successful events`}
+              ? 'Persoonlijke afstemming • DJ + Live Sax • muziek voor jouw event'
+              : 'Personal alignment • DJ + Live Sax • music for your event'}
           </p>
         </div>
 

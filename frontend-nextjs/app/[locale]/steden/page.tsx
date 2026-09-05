@@ -14,11 +14,11 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: CitiesOverviewProps): Promise<Metadata> {
   const isNL = params.locale === 'nl';
   const title = isNL
-    ? 'DJ in Alle Steden | Mister DJ'
-    : 'DJ in All Cities | Mister DJ';
+    ? 'DJ per Plaats | Mister DJ'
+    : 'DJ by Location | Mister DJ';
   const description = isNL
-    ? 'Professionele DJ diensten in meer dan 100 Nederlandse steden. Vind uw lokale DJ specialist voor bruiloften, bedrijfsfeesten en events.'
-    : 'Professional DJ services in more than 100 Dutch cities. Find your local DJ specialist for weddings, corporate events and parties.';
+    ? 'Professionele DJ diensten voor bruiloften, bedrijfsfeesten en events. Bekijk lokale informatie voor uw event.'
+    : 'Professional DJ services for weddings, corporate events and parties. Explore local information for your event.';
 
   return {
     title,
@@ -34,9 +34,9 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
   const faqItems = isNL
     ? [
         {
-          question: 'Hoe snel horen we of onze stad beschikbaar is?',
+          question: 'Hoe bespreken we een event in onze stad?',
           answer:
-            'Binnen één werkdag. Populaire data krijgen meteen een backup-DJ + sax optie zodat je zeker bent van bezetting.',
+            'Deel je datum, locatie en wensen. In een persoonlijk gesprek bespreken we wat past bij jullie event.',
         },
         {
           question: 'Komen jullie in contact met onze locatie?',
@@ -51,9 +51,9 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
       ]
     : [
         {
-          question: 'How fast do we get city availability?',
+          question: 'How do we discuss an event in our city?',
           answer:
-            'Within one business day. For peak dates we include a backup DJ + sax option so you’re covered.',
+            'Share your date, venue and wishes. In a personal conversation, we discuss what fits your event.',
         },
         {
           question: 'Will you coordinate with our venue?',
@@ -86,33 +86,33 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              {isNL ? 'DJ in Elke Stad' : 'DJ in Every City'}
+              {isNL ? 'DJ per Plaats' : 'DJ by Location'}
             </h1>
             <p className="text-xl text-purple-100 mb-8">
               {isNL
-                ? 'Mister DJ is actief in meer dan 100 Nederlandse steden. Selecteer uw stad voor lokale informatie, venues en prijzen.'
-                : 'Mister DJ is active in more than 100 Dutch cities. Select your city for local information, venues and prices.'}
+                ? 'Selecteer uw stad voor lokale informatie, venues en prijzen.'
+                : 'Select your city for local information, venues and prices.'}
             </p>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 inline-block">
-              <div className="flex items-center justify-center space-x-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold">100+</div>
+            <div className="w-full max-w-md rounded-lg bg-white/10 p-6 backdrop-blur-sm sm:inline-block sm:w-auto sm:max-w-none">
+              <div className="flex flex-col items-center justify-center gap-6 text-center sm:flex-row sm:gap-8">
+                <div className="min-w-0">
+                  <div className="text-3xl font-bold">{cities.length}</div>
                   <div className="text-purple-200">
-                    {isNL ? 'Steden' : 'Cities'}
+                    {isNL ? 'Plaatsen met lokale informatie' : 'Places with local information'}
                   </div>
                 </div>
-                <div className="h-12 w-px bg-white/20" />
-                <div>
-                  <div className="text-3xl font-bold">12</div>
+                <div className="hidden h-12 w-px bg-white/20 sm:block" />
+                <div className="min-w-0">
+                  <div className="text-3xl font-bold">{provinces.length}</div>
                   <div className="text-purple-200">
-                    {isNL ? 'Provincies' : 'Provinces'}
+                    {isNL ? 'Provincies in selectie' : 'Provinces in selection'}
                   </div>
                 </div>
-                <div className="h-12 w-px bg-white/20" />
-                <div>
-                  <div className="text-3xl font-bold">500+</div>
+                <div className="hidden h-12 w-px bg-white/20 sm:block" />
+                <div className="min-w-0">
+                  <div className="text-3xl font-bold">{isNL ? 'Maatwerk' : 'Tailored'}</div>
                   <div className="text-purple-200">
-                    {isNL ? 'Events/jaar' : 'Events/year'}
+                    {isNL ? 'Voorstel per event' : 'Proposal per event'}
                   </div>
                 </div>
               </div>
@@ -241,19 +241,19 @@ export default function CitiesOverview({ params }: CitiesOverviewProps) {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             {isNL
-              ? 'Staat Uw Stad Er Niet Bij?'
-              : "Can't Find Your City?"}
+              ? 'Staat Uw Plaats Er Niet Bij?'
+              : "Can't Find Your Location?"}
           </h2>
           <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
             {isNL
-              ? 'We werken door heel Nederland! Neem contact op om te zien of we beschikbaar zijn in uw regio.'
-              : "We work throughout the Netherlands! Contact us to see if we're available in your region."}
+              ? 'Neem contact op om je locatie, datum en wensen te bespreken.'
+              : 'Contact us to discuss your venue, date and wishes.'}
           </p>
           <Link
             href={`/${params.locale}/contact`}
             className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            {isNL ? 'Plan een 10-min stadscheck' : 'Book a 10-min city check'}
+            {isNL ? 'Bespreek je locatie' : 'Discuss your location'}
             <svg
               className="w-5 h-5 ml-2"
               fill="none"

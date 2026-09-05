@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Diensten | Mister DJ - DJ voor elk event',
     description:
-      'Professionele DJ + Live Saxofoon voor bruiloften, bedrijfsfeesten en events in Brabant & Limburg. 15+ jaar ervaring, 500+ geslaagde events.',
+      'Professionele DJ + Live Saxofoon voor bruiloften, bedrijfsfeesten en events in Brabant & Limburg.',
     images: ['/assets/og-image-services.jpg'],
   },
 };
@@ -88,20 +88,20 @@ export default function DienstenPage({ params: { locale } }: Props) {
               </h3>
               <p className="text-sm text-slate-600">
                 {isNL
-                  ? 'Meer dan 500 geslaagde events voor particulieren en bedrijven zoals Philips, ASML en VDL. We weten precies hoe we elke dansvloer vol krijgen.'
-                  : 'Over 500 successful events for private clients and brands like Philips, ASML and VDL. We know exactly how to keep every dance floor full.'}
+                  ? 'Voor particulieren en bedrijven zoals Philips, ASML en VDL werken we met een voorstel dat past bij het programma en de muziekwensen.'
+                  : 'For private clients and brands like Philips, ASML and VDL, we shape a proposal around the programme and musical preferences.'}
               </p>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
-                <span className="text-2xl">💯</span>
-                {isNL ? '100% Dansgarantie' : '100% Dance floor guarantee'}
+                <span className="text-2xl">✨</span>
+                {isNL ? 'Persoonlijke afstemming' : 'Personal alignment'}
               </h3>
               <p className="text-sm text-slate-600">
                 {isNL
-                  ? 'We garanderen een volle dansvloer of je geld terug. In al die jaren hebben we deze belofte altijd waar kunnen maken. Dat is ons track record.'
-                  : 'We guarantee a packed dance floor or your money back. In all those years we have never had to break that promise.'}
+                  ? 'We bespreken je wensen, de planning en de technische randvoorwaarden voordat we een voorstel uitwerken.'
+                  : 'We discuss your wishes, planning and technical requirements before shaping a proposal.'}
               </p>
             </div>
 
@@ -139,8 +139,8 @@ export default function DienstenPage({ params: { locale } }: Props) {
           </h2>
           <p className="mb-8 text-lg text-amber-50">
             {isNL
-              ? 'Ontvang binnen 24 uur een offerte op maat. Vrijblijvend kennismaken en sparren over je event.'
-              : 'Get a tailored quote within 24 hours. No‑obligation intro call to shape the perfect night for your crowd.'}
+              ? 'Plan een vrijblijvend kennismakingsgesprek en spar over je event.'
+              : 'Plan a no-obligation introductory conversation and discuss your event.'}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
