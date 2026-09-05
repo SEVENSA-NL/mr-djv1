@@ -4,7 +4,19 @@ import AvailabilityForm from '@/components/booking/AvailabilityForm';
 
 type ContactPageProps = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ guests?: string | string[] }>;
 };
+
+const defaultGuests = 100;
+
+function parseInitialGuests(value: unknown): number {
+  if (typeof value !== 'string' || !/^\d+$/.test(value)) {
+    return defaultGuests;
+  }
+
+  const guests = Number(value);
+  return Number.isSafeInteger(guests) && guests >= 20 && guests <= 300 ? guests : defaultGuests;
+}
 
 const contactCopy = {
   nl: {
@@ -33,7 +45,7 @@ const contactCopy = {
   },
 } as const;
 
-export async function generateMetadata({ params }: ContactPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Pick<ContactPageProps, 'params'>): Promise<Metadata> {
   const { locale } = await params;
   const resolvedLocale = locale === 'en' ? 'en' : 'nl';
   const copy = contactCopy[resolvedLocale];
@@ -51,10 +63,11 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
   };
 }
 
-export default async function ContactPage({ params }: ContactPageProps) {
-  const { locale } = await params;
+export default async function ContactPage({ params, searchParams: rawSearchParams }: ContactPageProps) {
+  const [{ locale }, searchParams] = await Promise.all([params, rawSearchParams]);
   const resolvedLocale = locale === 'en' ? 'en' : 'nl';
   const copy = contactCopy[resolvedLocale];
+  const initialGuests = parseInitialGuests(searchParams.guests);
 
   return (
     <main className="min-h-screen bg-neutral-dark px-6 py-12 text-neutral-light sm:py-16">
@@ -76,7 +89,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
           <section className="rounded-2xl bg-white/10 p-6 ring-1 ring-white/10 backdrop-blur">
-            <AvailabilityForm locale={resolvedLocale} />
+            <AvailabilityForm locale={resolvedLocale} initialGuests={initialGuests} />
           </section>
           <aside className="rounded-2xl border border-white/10 p-6">
             <h2 className="text-lg font-semibold">{copy.directContact}</h2>

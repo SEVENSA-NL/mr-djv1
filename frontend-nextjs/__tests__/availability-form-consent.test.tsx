@@ -77,4 +77,15 @@ describe('AvailabilityForm analytics payload', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong. Please try again.');
   });
+
+  it('uses the supplied guest count only for initial state and preserves a user edit', () => {
+    const { rerender } = render(<AvailabilityForm locale="nl" initialGuests={150} />);
+    const guests = screen.getByLabelText('Aantal gasten');
+
+    expect(guests).toHaveValue(150);
+    fireEvent.change(guests, { target: { value: '180' } });
+    rerender(<AvailabilityForm locale="nl" initialGuests={200} />);
+
+    expect(guests).toHaveValue(180);
+  });
 });

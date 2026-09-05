@@ -278,10 +278,10 @@ export default function CityContact({ city, locale }: CityContactProps) {
                     <div>
                       <p className="font-semibold mb-1">Email</p>
                       <a
-                        href="mailto:info@misterdj.nl"
+                        href="mailto:info@mr-dj.nl"
                         className="text-purple-200 hover:text-white"
                       >
-                        info@misterdj.nl
+                        info@mr-dj.nl
                       </a>
                     </div>
                   </div>

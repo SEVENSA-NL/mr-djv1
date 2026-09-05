@@ -6,6 +6,7 @@ import { trackEvent } from '@/lib/analytics/trackEvent';
 
 type AvailabilityFormProps = {
   locale: string;
+  initialGuests?: number;
 };
 
 type FormState = {
@@ -26,10 +27,10 @@ const defaultState: FormState = {
   guests: 100,
 };
 
-export default function AvailabilityForm({ locale }: AvailabilityFormProps) {
+export default function AvailabilityForm({ locale, initialGuests = defaultState.guests }: AvailabilityFormProps) {
   const isNL = locale === 'nl';
   const formId = useId();
-  const [form, setForm] = useState<FormState>(defaultState);
+  const [form, setForm] = useState<FormState>(() => ({ ...defaultState, guests: initialGuests }));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 

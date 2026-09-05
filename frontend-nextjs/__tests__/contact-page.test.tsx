@@ -6,10 +6,18 @@ import { generateMetadata as generateAvailabilityMetadata } from '@/app/[locale]
 
 describe('localized contact page', () => {
   it('renders the existing availability journey and verified direct contact routes', async () => {
-    const { container } = render(await ContactPage({ params: Promise.resolve({ locale: 'nl' }) }));
+    const { container } = render(
+      await ContactPage({
+        params: Promise.resolve({ locale: 'nl' }),
+        searchParams: Promise.resolve({ guests: '150', package: 'Goud Pakket', total: '999999' }),
+      })
+    );
 
     expect(screen.getByRole('heading', { name: 'Vertel ons over je event' })).toBeVisible();
     expect(container.querySelector('form')).toBeVisible();
+    expect(container.querySelector('[name="guests"]')).toHaveValue(150);
+    expect(container).not.toHaveTextContent('Goud Pakket');
+    expect(container).not.toHaveTextContent('999999');
     expect(screen.getByRole('link', { name: 'Bel 040-8422594' })).toHaveAttribute('href', 'tel:+31408422594');
     expect(screen.getByRole('link', { name: 'Mail info@mr-dj.nl' })).toHaveAttribute('href', 'mailto:info@mr-dj.nl');
     expect(screen.getByRole('link', { name: 'Terug naar home' })).toHaveAttribute('href', '/nl');
@@ -41,5 +49,24 @@ describe('localized contact page', () => {
         languages: { nl: '/nl/beschikbaarheid', en: '/en/beschikbaarheid' },
       },
     });
+  });
+
+  it.each([
+    ['20', 20],
+    ['300', 300],
+    ['20.5', 100],
+    ['1e2', 100],
+    ['301', 100],
+    [['150'], 100],
+    [undefined, 100],
+  ])('accepts only one bounded decimal guest integer (%j)', async (value, expected) => {
+    const { container } = render(
+      await ContactPage({
+        params: Promise.resolve({ locale: 'nl' }),
+        searchParams: Promise.resolve({ guests: value }),
+      })
+    );
+
+    expect(container.querySelector('[name="guests"]')).toHaveValue(expected);
   });
 });
