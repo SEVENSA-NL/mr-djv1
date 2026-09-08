@@ -7,7 +7,8 @@ dated launch checklists are historical evidence, not a task assignment.
 ## Code map
 
 - `frontend-nextjs/app/` owns pages and server routes;
-  `app/api/contact/route.ts` and `app/api/availability/route.ts` forward leads.
+  `frontend-nextjs/app/api/contact/route.ts` and
+  `frontend-nextjs/app/api/availability/route.ts` forward leads.
 - `frontend-nextjs/lib/analytics/` owns consent-gated analytics;
   `frontend-nextjs/__tests__/lead-routes.test.ts` exercises backend delivery
   and sanitized failure responses. Other tests cover consent and form UI.
