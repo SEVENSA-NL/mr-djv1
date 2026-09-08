@@ -1,76 +1,50 @@
-# Openstaande taken tot volledig frontend-backend ready and prepared for full integration with RentGuy
+# Mister DJ agent contract
 
-- [x] Configureer en voeg Cypress toe als devDependency zodat `npm run test:e2e` lokaal en in CI kan draaien.
-- [x] Richt een testomgeving in of mock-services voor RentGuy API-calls om end-to-end integratie te valideren zonder productieafhankelijkheden.
-- [ ] Werk frontend data-fetching logica bij om RentGuy endpoints en authenticatie te gebruiken, inclusief foutafhandeling en loading states.
-- [ ] Implementeer backend proxy- of middleware-laag voor veilige communicatie met RentGuy, inclusief geheimbeheer en configuratie via omgevingsvariabelen.
-- [ ] Maak uitgebreide documentatie voor integratiestappen, configuratie en testscenario's, zodat teams de koppeling kunnen uitrollen.
-- [ ] Automatiseer prestatie- en regressietesten (k6) met gecontaineriseerde tooling of CI-scripts zodat `npm run test:perf` reproduceerbaar wordt.
+The Next.js marketing site helps visitors choose DJ services and submit
+contact/availability requests. Current code and tests define behavior;
+dated launch checklists are historical evidence, not a task assignment.
 
-## Launch blockers (Oktober 2025 review)
-- [ ] Provision backend runtime secrets (`backend/.env` + `backend/managed.env`) zodat de strikte validatie in `backend/src/config.js` niet faalt en RentGuy/Sevensa/N8N automatiseringen veilig kunnen draaien.
-- [ ] Vervang de placeholder Complianz configuratie (`data-site-id="YOUR_SITE_ID"`) en stel echte Facebook Pixel/GTM variabelen in de root `index.html` build in.
-- [ ] Vervang de placeholder Sevensa account- en formulier-ID's in `AvailabilityChecker.jsx` of koppel dit component definitief aan de backend lead flow.
-- [ ] Doorloop de pending staging-validaties (console errors, GA4 DebugView, GTM/GA4 ID-verificatie) zoals beschreven in `STAGING-VALIDATION-STATUS.md` en documenteer de resultaten.
+## Code map
 
-## Batch 1–3 backlog (synced met `BATCH_EXECUTION_READINESS.md` & `PRODUCTION_READY_REPORT.md`)
-### Batch A – Platform Foundation
-- [ ] Secrets provisioning afronden
-  - [ ] Vul `backend/.env` en `backend/managed.env` met productieklare waarden voor Postgres, Redis, RentGuy, Sevensa en automatiseringshooks.
-  - [ ] Verifieer dat `npm --prefix backend test` slaagt met Joi-validatie actief.
-- [ ] Consent & analytics IDs
-  - [ ] Zet Complianz site ID (`VITE_COMPLIANZ_SITE_ID`) en injecteer GTM `GTM-NST23HJX`, GA4 `G-TXJLD3H2C8`, Facebook Pixel en PostHog ID's via consentmanager/runtime-config.
-  - [ ] Bevestig dat marketing scripts alleen laden na verleende marketing consent.
-- [ ] Documentatie
-  - [ ] Update `PRODUCTION_READY_REPORT.md` met bewijslinks voor Batch A exit criteria.
+- `frontend-nextjs/app/` owns pages and server routes;
+  `app/api/contact/route.ts` and `app/api/availability/route.ts` forward leads.
+- `frontend-nextjs/lib/analytics/` owns consent-gated analytics;
+  `frontend-nextjs/__tests__/lead-routes.test.ts` exercises backend delivery
+  and sanitized failure responses. Other tests cover consent and form UI.
+- `backend/` contains the Express integration source and RentGuy mock;
+  `frontend/` contains the separate legacy Vite application. Inspect these
+  only when the requested feature crosses their contracts.
+- `docs/rentguy-integration-runbook.md` and
+  `docs/marketing-consent-tracking.md` provide integration-specific guidance.
 
-### Batch B – Experience Integration
-- [ ] Frontend data-fetching herwerken naar backend proxy endpoints met foutafhandeling en retries voor bookings/contact/pricing.
-- [ ] Sevensa availability flow naar backend migreren en GA4 event `availability_conversion` bevestigen.
-- [ ] Cypress/Playwright smoke-tests uitbreiden met boeking-, contact- en availability-scenario's.
-- [ ] Branding & testimonials centraliseren op gedeelde asset/data pipeline.
+## Engineering ownership
 
-### Batch C – Launch & Monitoring
-- [ ] Lighthouse ≥90 + geautomatiseerde pa11y/axe audits documenteren.
-- [ ] Monitoring/alerting activeren (UptimeRobot/Pingdom, Sentry/LogRocket) met secrets in managed env.
-- [ ] Deploy naar `https://www.mr-dj.nl`, staging-validatie afronden en `DEPLOYMENT_SUCCESS.md` ondertekenen.
+Inherit [Sevensa OS policy](../sevensa-os/AGENTS.md) and its
+[skill router](../sevensa-os/SKILLS.md). Apply the engineering-owner baseline
+to the requested change; load only the relevant local guidance below.
+For private remote work, use the canonical
+[remote-access policy](../sevensa-os/docs/SEVENSA_PRIVATE_REMOTE_ACCESS.md):
+`sevensa-admin` is normal management; `sevensa-vps-codex` is bounded Codex Remote.
+Source verification does not prove deployment or authorize a live action.
 
-## Backlog uit TODO.md (synchroniseren)
-### Prioriteit 1 - Kritieke configuratie
-- [ ] T1.1: Google Tag Manager ID configureren (vervang alle `GTM-PLACEHOLDER` vermeldingen en redeploy).
-- [ ] T1.2: Complianz cookie consent site ID invullen of alternatief implementeren.
+## Critical boundaries
 
-### Prioriteit 2 - Belangrijke features
-- [ ] T2.1: Backend API volledig integreren met de frontend (healthcheck + booking/contact endpoints).
-- [ ] T2.2: Branding & logo update voor favicon en headers.
-- [ ] T2.3: Contactformulier functioneel maken inclusief validatie, e-mailnotificaties en tracking.
-- [ ] T2.4: Schema.org structured data verifiëren en uitbreiden naar alle city pagina's.
-- [ ] T2.5: Testimonials data centraliseren via API/CMS met fallback en testdekking.
+Lead endpoints fail closed without a configured backend, and acknowledge
+delivery only after backend success. Keep API keys server-side and failure
+logs free of request bodies/PII. Preserve analytics consent independently
+from operational lead delivery. Use mock providers and synthetic requests
+for tests; live backend, CRM, RentGuy or email writes need task authority.
+Never provision or commit secrets merely because an old checklist requests it.
 
-### Prioriteit 3 - Nice to have
-- [ ] T3.1: Testimonials carousel implementeren volgens brand guidelines.
-- [ ] T3.2: Klantlogo's voor social proof toevoegen.
-- [ ] T3.3: "Over ons" sectie realiseren binnen DjSaxLanding.
-- [ ] T3.4: A/B testing configuratie afronden inclusief tracking en documentatie.
-- [ ] T3.5: Performance optimalisaties uitvoeren (Lighthouse doelen <2s FCP, >90 score).
-- [ ] T3.6: Social media integratie met echte URL's en metadata afronden.
+## Verify
 
-### Technisch onderhoud
-- [ ] T4.1: Git repository opschonen (stashes, docker-compose/nginx wijzigingen, .gitignore updates, tag `v1.0-react-spa`).
+Use the active frontend package: from `frontend-nextjs`, run
+`npm test -- --run __tests__/lead-routes.test.ts --maxWorkers=1` for lead-route changes,
+`npm test -- --run` for the frontend suite, and `npm run type-check` or
+`npm run build` when the affected surface warrants it. Root `npm test` targets
+the legacy frontend and does not validate Next.js behavior. UI changes also
+need the relevant browser/form journey; test success is not live delivery proof.
 
-## Normal private VPS access
-
-Use only the exact laptop alias `sevensa-vps-codex` for bounded read-only
-probes:
-
-```powershell
-ssh sevensa-vps-codex hostname -s
-ssh -o BatchMode=yes -o ConnectTimeout=15 sevensa-vps-codex uname -srm
-```
-
-Safe SSH options and read-only commands are allowlisted; concurrent callers
-queue behind the exclusive one-shot pipe for up to 30 seconds. Complex or
-privileged work requires an issue-bound typed runbook with `sudo -n`. Never use
-root/password/public/direct-IP/plaintext-key/generic-known-hosts/ambient-agent/
-`ProxyCommand` override/`sh -c` access. Route source: recovery-ops#43 at
-`c65f6f1`; propagation: sevensa-os#110.
+The former instruction backlog is preserved in
+[docs/archive/agents-backlog-2025.md](docs/archive/agents-backlog-2025.md).
+Current actionable task/review state belongs to GitHub Issues/PRs/CI.
