@@ -20,11 +20,11 @@ dated launch checklists are historical evidence, not a task assignment.
 
 ## Engineering ownership
 
-Inherit [Sevensa OS policy](../sevensa-os/AGENTS.md) and its
-[skill router](../sevensa-os/SKILLS.md). Apply the engineering-owner baseline
+Inherit [Sevensa OS policy](https://github.com/SEVENSA-NL/sevensa-os/blob/main/AGENTS.md) and its
+[skill router](https://github.com/SEVENSA-NL/sevensa-os/blob/main/SKILLS.md). Apply the engineering-owner baseline
 to the requested change; load only the relevant local guidance below.
 For private remote work, use the canonical
-[remote-access policy](../sevensa-os/docs/SEVENSA_PRIVATE_REMOTE_ACCESS.md):
+[remote-access policy](https://github.com/SEVENSA-NL/sevensa-os/blob/main/docs/SEVENSA_PRIVATE_REMOTE_ACCESS.md):
 `sevensa-admin` is normal management; `sevensa-vps-codex` is bounded Codex Remote.
 Source verification does not prove deployment or authorize a live action.
 

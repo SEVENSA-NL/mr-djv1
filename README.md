@@ -2,7 +2,24 @@
 
 This repository now centers on the Next.js 15 marketing frontend for Mister DJ. Legacy Vite + Express assets remain for reference but are not wired into the live flow.
 
-## Current reality (Dec 2025)
+## Current source map
+
+`frontend-nextjs` is the active frontend source. Its `/api/contact` and
+`/api/availability` server routes forward to `BACKEND_API_URL` and return
+`LEAD_DELIVERED` only after backend success; absent configuration and upstream
+failures fail closed. See `AGENTS.md`,
+`frontend-nextjs/app/api/contact/route.ts`,
+`frontend-nextjs/app/api/availability/route.ts` and
+`frontend-nextjs/__tests__/lead-routes.test.ts`. These source contracts do not
+prove live backend configuration, CRM/mail delivery or RentGuy integration.
+The legacy `/api/mr-dj/lead` stub described below is a separate route.
+
+## Historical source notes (Dec 2025)
+
+The following December notes describe that checkpoint. They are not current
+evidence that all lead routes are stubs or that contact/availability tests
+are absent.
+
 - **Active frontend:** `frontend-nextjs` with `next-intl` (nl/en) and the Z03–Z06 brochure kit (Hero, Services, Packages, Testimonials, Gallery, Contact + form components). NL brochure routes (`/`, `/bruiloften`, `/bedrijfsfeesten`, `/feesten-overig`, `/impressies`, `/mister-dj`, `/veelgestelde-vragen`, `/contact`) are served from `app/(nl)/*` and still contain placeholder copy/images; see `frontend-nextjs/docs/mr-dj-content-TODOs.md`.
 - **Forms:** Availability, IntroCall, WeddingIntake, FairOffer, OpeningDanceMix post via `src/forms/submitLead.ts` to the stub API at `app/api/mr-dj/lead/route.ts` (logs + 200). No mail/CRM/RentGuy integration yet; `app/[locale]/layout.tsx` guards `https://mr-dj.rentguy.nl/api/session` by stubbing fetch client-side.
 - **Locale site:** `app/[locale]` home/services/packages/city flows remain. City data currently covers 16 NL cities (`lib/cities.ts`) with partial content (`lib/cityContent.ts`, fallback to Eindhoven). UI copy still claims “100+ steden/500+ events”; align the messaging with the dataset when finalizing.
