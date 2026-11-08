@@ -8,7 +8,7 @@ Deze runbook bundelt alle stappen om de RentGuy-integratie van Mister DJ te conf
 | --- | --- | --- |
 | Backend API (`backend/`) | Levert bookings-, availability- en contactendpoints, verwerkt payloads en synchroniseert richting RentGuy via `rentGuyService`. | [`backend/src/services/rentGuyService.js`](../backend/src/services/rentGuyService.js) |
 | Config Dashboard | UI voor runtime configuratie (secrets, toggles) inclusief queue controls. | [`backend/src/routes/dashboard.js`](../backend/src/routes/dashboard.js) |
-| Frontend SPA | Stuurt leads naar `/availability/check` en toont status/fouten afhankelijk van RentGuy queue-responses. | [`AvailabilityChecker.jsx`](../AvailabilityChecker.jsx) |
+| Frontend SPA | Stuurt leads naar `/availability/check` en toont status/fouten afhankelijk van RentGuy queue-responses. | [`frontend/src/components/AvailabilityChecker.tsx`](../frontend/src/components/AvailabilityChecker.tsx) |
 | Durable Queue | Houdt RentGuy-jobs vast totdat levering slaagt; exposeert metrics via `/metrics/queues`. | [`backend/src/services/rentGuyService.js`](../backend/src/services/rentGuyService.js) |
 
 > ℹ️ Feature flags staan standaard aan, maar kunnen alsnog overschreven worden vanuit managed environments of de dashboard-UI (`rentguy-integration`).【F:config/feature-flags.json†L1-L14】
